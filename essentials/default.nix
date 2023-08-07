@@ -1,9 +1,8 @@
 # Essential modules: every machine should include this module.
 # Should covers everything from admin task to daily usages.
 # Other modules assumes this is included.
-{ catppuccinTheme }:
-{ ... }: {
-  xdg = { enable = true; };
+{catppuccinTheme}: {...}: {
+  xdg = {enable = true;};
 
   imports = [
     (
@@ -24,4 +23,3 @@
     ./zsh.nix
   ];
 }
-

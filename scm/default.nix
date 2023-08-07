@@ -2,7 +2,7 @@
 {
   username,
   email,
-}: { ... }: {
+}: {...}: {
   imports = [
     (
       import ./git.nix {
@@ -12,6 +12,3 @@
     ./fossil.nix
   ];
 }
-
-
-

@@ -1,8 +1,7 @@
 {
   username,
   email,
-}:
-{
+}: {
   config,
   pkgs,
   ...
@@ -58,4 +57,3 @@
     };
   };
 }
-

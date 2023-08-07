@@ -42,31 +42,37 @@
       # OS username
       username,
       # Modules to include
-      modules ? [ mods.essentials ],
+      modules ? [mods.essentials],
       # Timezone of the machine
       timezone ? "Asia/Tokyo",
     }: let
       isDarwin = (builtins.match "-darwin$" system) != null;
-      homeDir = if isDarwin then "/Users" else "/home";
-    in home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.${system};
+      homeDir =
+        if isDarwin
+        then "/Users"
+        else "/home";
+    in
+      home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.${system};
 
-      modules = [
-        {
-          home = rec {
-            inherit username;
-            homeDirectory = "${homeDir}/${username}";
-            stateVersion = "23.11";
-            sessionVariables = {
-              TZ = timezone;
-            };
-          };
+        modules =
+          [
+            {
+              home = rec {
+                inherit username;
+                homeDirectory = "${homeDir}/${username}";
+                stateVersion = "23.11";
+                sessionVariables = {
+                  TZ = timezone;
+                };
+              };
 
-          # Turn off Home Manager news bs
-          news.display = "silent";
-        }
-      ] ++ modules;
-    };
+              # Turn off Home Manager news bs
+              news.display = "silent";
+            }
+          ]
+          ++ modules;
+      };
 
     availableSystems = [
       "aarch64-darwin"
@@ -124,4 +130,3 @@
     );
   };
 }
-

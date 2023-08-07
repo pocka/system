@@ -1,7 +1,4 @@
-{
-  catppuccinTheme,
-}:
-{
+{catppuccinTheme}: {
   config,
   pkgs,
   ...
@@ -55,9 +52,9 @@
           repo = "foot";
           rev = "009cd57bd3491c65bb718a269951719f94224eb7";
           sha256 = "0f0r8d4rn54gibrzfhiy4yr8bi7c8j18ggp1y9lyidc1dmy9kvw0";
-        } + "/catppuccin-${catppuccinTheme}.conf"
+        }
+        + "/catppuccin-${catppuccinTheme}.conf"
       );
     };
   };
 }
-

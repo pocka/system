@@ -3,10 +3,5 @@
   pkgs,
   ...
 }: {
-  home.packages = with pkgs; [ fossil ];
+  home.packages = with pkgs; [fossil];
 }
-
-
-
-
-

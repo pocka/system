@@ -1,7 +1,4 @@
-{
-  catppuccinTheme,
-}:
-{
+{catppuccinTheme}: {
   config,
   pkgs,
   ...
@@ -68,5 +65,3 @@
     };
   };
 }
-
-

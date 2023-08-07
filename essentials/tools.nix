@@ -1,17 +1,12 @@
-{
-  catppuccinTheme,
-}:
-{
+{catppuccinTheme}: {
   config,
   pkgs,
   ...
-}:
-{
+}: {
   home.packages = [
     # Must-have networking CLI tool
     # https://curl.se/
     pkgs.curl
-
 
     # A generator for LS_COLORS with support for multiple color themes
     # https://github.com/sharkdp/vivid
@@ -44,7 +39,10 @@
     lf = let
       # Linux: xdg-open
       # macOS: open
-      openCommand = if pkgs.stdenv.isLinux then "xdg-open" else "open";
+      openCommand =
+        if pkgs.stdenv.isLinux
+        then "xdg-open"
+        else "open";
     in {
       enable = true;
 
@@ -79,7 +77,8 @@
             repo = "bat";
             rev = "ba4d16880d63e656acced2b7d4e034e4a93f74b1";
             sha256 = "1g2r6j33f4zys853i1c5gnwcdbwb6xv5w6pazfdslxf69904lrg9";
-          } + "/Catppuccin-${catppuccinTheme}.tmTheme"
+          }
+          + "/Catppuccin-${catppuccinTheme}.tmTheme"
         );
       };
 
@@ -95,8 +94,3 @@
     };
   };
 }
-
-
-
-
-
