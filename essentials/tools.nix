@@ -13,13 +13,17 @@
     pkgs.vivid
   ];
 
-  home.sessionVariables = {
-    # Colourise exa, ls, lf, etc...
-    LS_COLORS = "$(vivid generate catppuccin-${catppuccinTheme})";
-  };
-
   # Programs available via Home Manager
   programs = {
+    zsh = {
+      # Colourise exa, ls, lf, etc...
+      # This needs to be done in .zshrc: in Crostini, `home.sessionVariables`
+      # cannot invoke `vivid` binary. Probably evaluation timing?
+      initExtra = ''
+        export LS_COLORS="$(vivid generate catppuccin-${catppuccinTheme})"
+      '';
+    };
+
     # A modern replacement for ls.
     # https://the.exa.website/
     exa = {
