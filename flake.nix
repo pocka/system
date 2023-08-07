@@ -67,6 +67,11 @@
         }
       ] ++ modules;
     };
+
+    availableSystems = [
+      "aarch64-darwin"
+      "x86_64-linux"
+    ];
   in {
     homeConfigurations = {
       dev-linux = mkHomeConfiguration {
@@ -109,6 +114,14 @@
         ];
       };
     };
+
+    formatter = builtins.listToAttrs (
+      builtins.map (system: {
+        name = system;
+        value = nixpkgs.legacyPackages.${system}.alejandra;
+      })
+      availableSystems
+    );
   };
 }
 
