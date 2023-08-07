@@ -1,9 +1,11 @@
 {
   username,
   email,
+  gpgKeyId,
 }: {
   config,
   pkgs,
+  lib,
   ...
 }: {
   programs = {
@@ -13,13 +15,15 @@
       userName = username;
       userEmail = email;
 
+      # Enable signing when key ID is provided
+      signing = lib.mkIf (gpgKeyId != null) {
+        key = gpgKeyId;
+        signByDefault = true;
+      };
+
       extraConfig = {
         core = {
           editor = "nvim";
-        };
-
-        commit = {
-          gpgsign = true;
         };
 
         init = {

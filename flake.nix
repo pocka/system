@@ -27,6 +27,7 @@
       scm = import ./scm {
         username = "Shota FUJI";
         email = "pockawoooh@gmail.com";
+        gpgKeyId = "5E5148973E291363";
       };
 
       wayland-de = import ./wayland-de {

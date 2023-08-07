@@ -2,11 +2,12 @@
 {
   username,
   email,
+  gpgKeyId ? null,
 }: {...}: {
   imports = [
     (
       import ./git.nix {
-        inherit username email;
+        inherit username email gpgKeyId;
       }
     )
     ./fossil.nix
