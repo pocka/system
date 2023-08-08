@@ -46,7 +46,7 @@
   };
 
   services = {
-    gpg-agent = {
+    gpg-agent = lib.mkIf pkgs.stdenv.isLinux {
       enable = true;
 
       enableZshIntegration = true;
