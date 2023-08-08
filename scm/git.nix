@@ -9,6 +9,11 @@
   ...
 }: {
   programs = {
+    # Install GnuPG when key ID is provided
+    gpg = lib.mkIf (gpgKeyId != null) {
+      enable = true;
+    };
+
     git = {
       enable = true;
 
