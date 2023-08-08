@@ -35,6 +35,8 @@
       };
 
       webdev = ./webdev;
+
+      macos = ./macos;
     };
 
     mkHomeConfiguration = {
@@ -118,6 +120,7 @@
           mods.essentials
           mods.scm
           mods.webdev
+          mods.macos
         ];
       };
     };
