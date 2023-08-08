@@ -47,7 +47,7 @@
       # Timezone of the machine
       timezone ? "Asia/Tokyo",
     }: let
-      isDarwin = (builtins.match "-darwin$" system) != null;
+      isDarwin = (builtins.match ".*-darwin$" system) != null;
       homeDir =
         if isDarwin
         then "/Users"
