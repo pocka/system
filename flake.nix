@@ -36,7 +36,9 @@
 
       webdev = ./webdev;
 
-      macos = ./macos;
+      macos = import ./macos {
+        inherit catppuccinTheme;
+      };
     };
 
     mkHomeConfiguration = {
