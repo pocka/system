@@ -20,9 +20,14 @@
             -- Elm
             lspconfig.elmls.setup {}
             -- TypeScript
-            lspconfig.tsserver.setup {}
+            lspconfig.tsserver.setup {
+              root_dir = lspconfig.util.root_pattern("tsconfig.json"),
+              single_file_support = false,
+            }
             -- Deno
-            lspconfig.denols.setup {}
+            lspconfig.denols.setup {
+              root_dir = lspconfig.util.root_pattern("deno.json"),
+            }
             -- CSS
             lspconfig.cssls.setup {}
             -- HTML
