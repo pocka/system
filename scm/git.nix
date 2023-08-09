@@ -63,6 +63,8 @@
       # 30days
       maxCacheTtl = 2592000;
       maxCacheTtlSsh = 2592000;
+
+      pinentryFlavor = "curses";
     };
   };
 }
