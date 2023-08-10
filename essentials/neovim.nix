@@ -68,6 +68,7 @@
                   enabled = true,
                 },
                 cmp = true,
+                lsp_trouble = true,
               },
             })
 

@@ -102,6 +102,24 @@
             })
           '';
         }
+        {
+          plugin = trouble-nvim;
+          type = "lua";
+          config = ''
+            require("trouble").setup({
+              icons = false,
+              mode = "document_diagnostics",
+              auto_open = true,
+              auto_close = true,
+              signs = {
+                error = "error",
+                warning = "warn",
+                hint = "hint",
+                information = "info"
+              },
+            })
+          '';
+        }
       ];
     };
   };
