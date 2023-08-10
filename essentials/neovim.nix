@@ -67,6 +67,7 @@
                 indent_blankline = {
                   enabled = true,
                 },
+                cmp = true,
               },
             })
 

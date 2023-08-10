@@ -10,28 +10,40 @@
     neovim = {
       plugins = with pkgs.vimPlugins; [
         {
+          plugin = cmp-nvim-lsp;
+        }
+        {
           plugin = nvim-lspconfig;
           type = "lua";
           config = ''
             -- Based on https://github.com/neovim/nvim-lspconfig#suggested-configuration
 
+            local capabilities = require("cmp_nvim_lsp").default_capabilities()
             local lspconfig = require("lspconfig")
 
             -- Elm
-            lspconfig.elmls.setup {}
+            lspconfig.elmls.setup {
+              capabilities = capabilities,
+            }
             -- TypeScript
             lspconfig.tsserver.setup {
               root_dir = lspconfig.util.root_pattern("tsconfig.json"),
               single_file_support = false,
+              capabilities = capabilities,
             }
             -- Deno
             lspconfig.denols.setup {
               root_dir = lspconfig.util.root_pattern("deno.json"),
+              capabilities = capabilities,
             }
             -- CSS
-            lspconfig.cssls.setup {}
+            lspconfig.cssls.setup {
+              capabilities = capabilities,
+            }
             -- HTML
-            lspconfig.html.setup {}
+            lspconfig.html.setup {
+              capabilities = capabilities,
+            }
 
             -- LSP key mappings
             vim.api.nvim_create_autocmd("LspAttach", {
@@ -49,6 +61,45 @@
                 border = "single",
               }
             )
+          '';
+        }
+        {
+          plugin = nvim-cmp;
+          type = "lua";
+          config = ''
+            local cmp = require("cmp")
+
+            cmp.setup({
+              window = {
+                completion = cmp.config.window.bordered(),
+                documentation = cmp.config.window.bordered(),
+              },
+              mapping = cmp.mapping.preset.insert({
+                ["<CR>"] = cmp.mapping.confirm {
+                  behavior = cmp.ConfirmBehavior.Replace,
+                  select = true,
+                },
+                ["<Tab>"] = cmp.mapping(function(fallback)
+                  if cmp.visible() then
+                    cmp.select_next_item()
+                    return
+                  end
+
+                  fallback()
+                end, { "i", "s" }),
+                ["<S-Tab>"] = cmp.mapping(function(fallback)
+                  if cmp.visible() then
+                    cmp.select_prev_item()
+                    return
+                  end
+
+                  fallback()
+                end, { "i", "s" }),
+              }),
+              sources = {
+                { name = "nvim_lsp" }
+              },
+            })
           '';
         }
       ];
