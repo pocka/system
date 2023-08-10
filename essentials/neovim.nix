@@ -11,6 +11,9 @@
       extraLuaConfig = ''
         -- Display absolute line numbers
         vim.wo.number = true
+
+        -- Disable insane mouse hijacking
+        vim.opt.mouse = ""
       '';
 
       plugins = with pkgs.vimPlugins; [
