@@ -44,6 +44,17 @@
           '';
         }
         {
+          plugin = indent-blankline-nvim;
+          type = "lua";
+          config = ''
+            require("indent_blankline").setup({
+              -- Without those set, the plugin displays fake indentation
+              char_blankline = "",
+              space_char_blankline = "",
+            })
+          '';
+        }
+        {
           plugin = catppuccin-nvim;
           type = "lua";
           config = ''
@@ -52,6 +63,11 @@
             require("catppuccin").setup({
               flavour = "${catppuccinTheme}",
               transparent_background = true,
+              integrations = {
+                indent_blankline = {
+                  enabled = true,
+                },
+              },
             })
 
             vim.cmd.colorscheme "catppuccin"

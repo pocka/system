@@ -3,7 +3,24 @@
   pkgs,
   ...
 }: {
-  programs = {
+  programs = let
+    # Config file of catppuccin/foot is ini file: Nix can't parse that.
+    # To workaround, manually fetch palette JSON and use its token.
+    catppuccinPalette =
+      (builtins.fromJSON (builtins.readFile (
+        pkgs.fetchFromGitHub {
+          owner = "catppuccin";
+          repo = "palette";
+          rev = "205dd54c6158b7648621cf9fd00e91f03888ce7e";
+          sha256 = "y14fd8lvnG9hNY6CRU0JgxWouexEw91aIEMkr1NaM/4=";
+        }
+        + "/palette.json"
+      )))
+      ."${catppuccinTheme}";
+
+    fg = builtins.substring 1 6 catppuccinPalette.surface0.hex;
+    bg = builtins.substring 1 6 catppuccinPalette.text.hex;
+  in {
     zsh = {
       # Let Zsh tell Foot a current working directory
       # https://codeberg.org/dnkl/foot/wiki#user-content-spawning-new-terminal-instances-in-the-current-working-directory
@@ -35,6 +52,12 @@
           include = "${config.xdg.configHome}/foot/theme.conf";
 
           font = "monospace:size=10";
+        };
+
+        cursor = {
+          # Foot by default invert fg/bg for cursor. However, this makes
+          # cursor on indent_blankline's indent char/spaces barely visible.
+          color = "${fg} ${bg}";
         };
 
         colors = {
