@@ -41,6 +41,14 @@
                 vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
               end,
             })
+
+            -- Hover style
+            vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+              vim.lsp.handlers.hover,
+              {
+                border = "single",
+              }
+            )
           '';
         }
       ];
