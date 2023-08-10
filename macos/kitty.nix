@@ -44,6 +44,9 @@
         };
 
         settings = {
+          # Bell
+          enable_audio_bell = false;
+
           # Background
           background_opacity = "0.9";
 
