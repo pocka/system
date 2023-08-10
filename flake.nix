@@ -130,7 +130,7 @@
     formatter = builtins.listToAttrs (
       builtins.map (system: {
         name = system;
-        value = nixpkgs.legacyPackages.${system}.alejandra;
+        value = nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
       })
       availableSystems
     );
