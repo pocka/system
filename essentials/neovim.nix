@@ -1,8 +1,7 @@
-{catppuccinTheme}: {
-  config,
-  pkgs,
-  ...
-}: {
+{ catppuccinTheme }: { config
+                     , pkgs
+                     , ...
+                     }: {
   programs = {
     neovim = {
       enable = true;

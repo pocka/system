@@ -1,13 +1,12 @@
-{
-  username,
-  email,
-  gpgKeyId,
-}: {
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
+{ username
+, email
+, gpgKeyId
+,
+}: { config
+   , pkgs
+   , lib
+   , ...
+   }: {
   programs = {
     # Install GnuPG when key ID is provided
     gpg = lib.mkIf (gpgKeyId != null) {

@@ -1,9 +1,9 @@
 # SCM module: SCM/VCS tools and their configurations.
-{
-  username,
-  email,
-  gpgKeyId ? null,
-}: {...}: {
+{ username
+, email
+, gpgKeyId ? null
+,
+}: { ... }: {
   imports = [
     (
       import ./git.nix {

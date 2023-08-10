@@ -1,5 +1,5 @@
 # Wayland Desktop Environment
-{catppuccinTheme}: {...}: {
+{ catppuccinTheme }: { ... }: {
   # I'm not sure this changes behaviour in a meaningful way.
   targets.genericLinux = {
     enable = true;

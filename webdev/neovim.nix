@@ -1,10 +1,9 @@
 # Language specific tools are not configured in this file because
 # these tools are project specific. Each project should have Flake
 # file (provided by the project or manually created by a user).
-{
-  config,
-  pkgs,
-  ...
+{ config
+, pkgs
+, ...
 }: {
   programs = {
     neovim = {
