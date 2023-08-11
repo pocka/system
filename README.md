@@ -13,6 +13,8 @@ See `outputs.homeConfigurations` section in [`flake.nix`](./flake.nix) for avail
 3. Inside the spawned shell, run `home-manager switch --flake .#<name>`
 4. Exit the shell
 
+Without interactive Bash session: `nix-shell --run "home-manager switch --flake .#<name>"`.
+
 ### Remote install
 
 This is handy and useful especially for initial bootstrap, but less reproducible compared to local installation.
