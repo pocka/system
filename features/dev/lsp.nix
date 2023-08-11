@@ -34,7 +34,7 @@ let
     ''
       lspconfig.${c.name}.setup {
         ${rootDir}
-        single_file_support = ${if c.singleFileSupport then "true" else "false"},
+        single_file_support = ${lib.trivial.boolToString c.singleFileSupport},
         capabilities = capabilities,
       }
     '';

@@ -124,7 +124,7 @@ in
                 type = "lua";
                 config =
                   let
-                    lspIntegration = if config.features.dev.lsp.enable then "true" else "false";
+                    lspIntegration = lib.trivial.boolToString config.features.dev.lsp.enable;
                   in
                   ''
                     vim.o.termguicolors = true
