@@ -166,7 +166,7 @@ in
 
       programs.foot =
         let
-          toFootHex = hex: lib.strings.removePrefix "#" hex;
+          toFootHex = lib.strings.removePrefix "#";
           fg = toFootHex flavor.surface0.hex;
           bg = toFootHex flavor.text.hex;
         in
