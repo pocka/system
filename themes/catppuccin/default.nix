@@ -151,13 +151,12 @@ in
         {
           settings.main = {
             include = "${config.xdg.configHome}/foot/theme.conf";
+          };
 
-            cursor = {
-              # Foot by default invert fg/bg for cursor. However, this makes
-              # cursor on indent_blankline's indent char/spaces barely visible.
-              color = "${fg} ${bg}";
-            };
-
+          settings.cursor = {
+            # Foot by default invert fg/bg for cursor. However, this makes
+            # cursor on indent_blankline's indent char/spaces barely visible.
+            color = "${fg} ${bg}";
           };
         };
 
