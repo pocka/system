@@ -62,12 +62,6 @@
           };
         };
 
-      # JSON view/query tool
-      # https://github.com/jqlang/jq
-      jq = {
-        enable = true;
-      };
-
       # Colourful `cat`
       # https://github.com/sharkdp/bat
       bat = {

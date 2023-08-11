@@ -7,5 +7,6 @@
     ./gui
     ./wayland-de
     ./dev
+    ./data
   ];
 }

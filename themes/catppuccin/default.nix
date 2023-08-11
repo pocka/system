@@ -50,6 +50,28 @@ in
           symbol = zshFg flavor.overlay0.hex;
         };
 
+      # Only a subset of configurable knobs... Nushell's docs and API stability is unbelievably bad.
+      features.data.nushell = lib.mkIf (config.features.data.enable && config.programs.nushell.enable) {
+        colorConfig = {
+          separator = flavor.subtext1.hex;
+          leading_trailing_space_bg = flavor.mantle.hex;
+          header = flavor.green.hex;
+          row_index = flavor.pink.hex;
+          hints = flavor.subtext0.hex;
+
+          date = flavor.maroon.hex;
+          string = flavor.text.hex;
+          bool = flavor.peach.hex;
+          int = flavor.peach.hex;
+          float = flavor.peach.hex;
+
+          shape_bool = flavor.peach.hex;
+          shape_string = flavor.green.hex;
+          shape_int = flavor.peach.hex;
+          shape_float = flavor.peach.hex;
+        };
+      };
+
       home.packages = [
         # A generator for LS_COLORS with support for multiple color themes
         # https://github.com/sharkdp/vivid

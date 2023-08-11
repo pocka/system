@@ -48,6 +48,7 @@
                     gpgSigningKeyId = "5E5148973E291363";
                   };
 
+                  data.enable = true;
                   scm.enable = true;
 
                   home = {
