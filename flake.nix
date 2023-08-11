@@ -17,71 +17,64 @@
     ,
     }:
     let
-      # Catppuccin pallet, one of: "latte", "frappe", "macchiato", "mocha"
-      catppuccinTheme = "mocha";
-
-      # Pre-defined modules
-      mods = {
-        essentials = import ./essentials {
-          inherit catppuccinTheme;
-        };
-
-        scm = import ./scm {
-          username = "Shota FUJI";
-          email = "pockawoooh@gmail.com";
-          gpgKeyId = "5E5148973E291363";
-        };
-
-        wayland-de = import ./wayland-de {
-          inherit catppuccinTheme;
-        };
-
-        webdev = ./webdev;
-
-        macos = import ./macos {
-          inherit catppuccinTheme;
-        };
-      };
-
       mkHomeConfiguration =
         {
           # Platform (e.g. x86_64-linux)
           system
-        , # OS username
-          username
-        , # Modules to include
-          modules ? [ mods.essentials ]
-        , # Timezone of the machine
-          timezone ? "Asia/Tokyo"
-        ,
+        , # Machine specific module setting
+          module ? { }
+        , # Color theme
+          theme ? ./themes/catppuccin
         }:
-        let
-          isDarwin = (builtins.match ".*-darwin$" system) != null;
-          homeDir =
-            if isDarwin
-            then "/Users"
-            else "/home";
-        in
-        home-manager.lib.homeManagerConfiguration {
+        home-manager.lib.homeManagerConfiguration rec {
           pkgs = nixpkgs.legacyPackages.${system};
 
           modules =
             [
-              {
-                home = rec {
-                  inherit username;
-                  homeDirectory = "${homeDir}/${username}";
-                  stateVersion = "23.11";
-                  sessionVariables = {
-                    TZ = timezone;
-                  };
-                };
-
+              ./features
+              ({ config, ... }: {
                 # Turn off Home Manager news bs
                 news.display = "silent";
-              }
-            ]
-            ++ modules;
+
+                home.stateVersion = "23.11";
+
+                # One of: "latte", "frappe", "macchiato", "mocha"
+                themes.catppuccin.flavor = "mocha";
+
+                features = nixpkgs.lib.mkDefault {
+                  identity = {
+                    name = "Shota FUJI";
+                    email = "pockawoooh@gmail.com";
+                    gpgSigningKeyId = "5E5148973E291363";
+                  };
+
+                  scm.enable = true;
+
+                  home = {
+                    username = "pocka";
+                    timezone = "Asia/Tokyo";
+                  };
+
+                  dev = {
+                    enable = true;
+
+                    lsp = {
+                      enable = true;
+
+                      langs = with config.features.dev.lsp; [
+                        elm
+                        typescript
+                        deno
+                        css
+                        html
+                      ];
+                    };
+                  };
+                };
+              })
+              module
+              theme
+            ];
         };
 
       availableSystems = [
@@ -93,43 +86,36 @@
       homeConfigurations = {
         dev-linux = mkHomeConfiguration {
           system = "x86_64-linux";
-          username = "pocka";
-          modules = [
-            mods.essentials
-            mods.scm
-            mods.webdev
-            mods.wayland-de
-          ];
+          module = {
+            features.wayland-de.enable = true;
+          };
         };
 
         pixelbook = mkHomeConfiguration {
           system = "x86_64-linux";
-          username = "pockawoooh";
-          modules = [
-            mods.essentials
-            mods.scm
-            mods.webdev
-          ];
+          module = {
+            features.home.username = "pockawoooh";
+
+            # ChromeOS has neither tiling wm nor useful terminal emulator
+            programs.tmux.enable = true;
+          };
         };
 
         scm-server = mkHomeConfiguration {
           system = "x86_64-linux";
-          username = "pocka";
-          modules = [
-            mods.essentials
-            mods.scm
-          ];
+          module = {
+            # Basically controlled over SSH
+            programs.tmux.enable = true;
+
+            features.dev.enable = false;
+          };
         };
 
         mbp-m1 = mkHomeConfiguration {
           system = "aarch64-darwin";
-          username = "pocka";
-          modules = [
-            mods.essentials
-            mods.scm
-            mods.webdev
-            mods.macos
-          ];
+          module = {
+            features.gui.enable = true;
+          };
         };
       };
 

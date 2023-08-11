@@ -1,11 +1,6 @@
-{ catppuccinTheme }: { config
-                     , pkgs
-                     , ...
-                     }: {
+{ config, pkgs, ... }: {
   programs = {
     tmux = {
-      enable = true;
-
       keyMode = "vi";
 
       # Ctrl+t
@@ -25,17 +20,6 @@
       # NOTE: Without this, there will be a lag after hitting ESC (e.g. exiting insert mode)
       # https://github.com/neovim/neovim/wiki/FAQ#esc-in-tmux-or-gnu-screen-is-delayed
       escapeTime = 10;
-
-      plugins = [
-        {
-          plugin = pkgs.tmuxPlugins.catppuccin;
-          extraConfig = ''
-            set -g @plugin 'catppuccin/tmux'
-            set -g @catppuccin_flavour '${catppuccinTheme}'
-            set -g @catppuccin_no_patched_fonts_theme_enabled on
-          '';
-        }
-      ];
 
       # True Color options:
       # https://gist.github.com/andersevenrud/015e61af2fd264371032763d4ed965b6
@@ -64,3 +48,4 @@
     };
   };
 }
+
