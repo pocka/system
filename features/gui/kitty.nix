@@ -4,8 +4,6 @@
 {
   config = {
     programs =
-      let
-      in
       {
         kitty = lib.mkIf config.features.gui.enable {
           enable = lib.mkDefault true;
