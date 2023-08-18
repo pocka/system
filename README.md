@@ -2,6 +2,8 @@
 
 My systems configuration using Nix/Home Manager.
 
+![Screenshot of the configured Wayland desktop](./screenshot.png)
+
 ## Usage
 
 See `outputs.homeConfigurations` section in [`flake.nix`](./flake.nix) for available `<name>`s.
