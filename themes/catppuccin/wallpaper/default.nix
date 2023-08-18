@@ -25,35 +25,39 @@ pkgs.stdenv.mkDerivation rec {
   # ┌─▼───────────▼────────┐
   # │Render PNG using resvg│
   # └──────────────────────┘
-  buildPhase = let
-    # Replace mocha colors to specified flavor's colors.
-    replaceColors = pkgs.lib.trivial.pipe mocha
-      [ (pkgs.lib.attrsets.mapAttrsToList (
-          name: value:
-            let
-              old = value.hex;
-              new = colors.${name}.hex;
-            in
+  buildPhase =
+    let
+      # Replace mocha colors to specified flavor's colors.
+      replaceColors = pkgs.lib.trivial.pipe mocha
+        [
+          (pkgs.lib.attrsets.mapAttrsToList (
+            name: value:
+              let
+                old = value.hex;
+                new = colors.${name}.hex;
+              in
               # Skip the argument if same, otherwise replace-literal exits with an error
               if old == new then
                 null
               else
                 "\"${value.hex}\" \"${colors.${name}.hex}\""
-        ))
-        (builtins.filter builtins.isString)
-        (pkgs.lib.strings.concatStringsSep " -a ")
-      ];
+          ))
+          (builtins.filter builtins.isString)
+          (pkgs.lib.strings.concatStringsSep " -a ")
+        ];
 
-    # Skip replace-literal if there is no replace argument, otherwise it exits with an error
-    replaceStep = if replaceColors == "" then
-      "cp $src/source.svg wallpaper.svg"
-    else
-      "cat $src/source.svg | ${pkgs.replace}/bin/replace-literal ${replaceColors} > wallpaper.svg";
-  in with colors; ''
-    ${replaceStep}
+      # Skip replace-literal if there is no replace argument, otherwise it exits with an error
+      replaceStep =
+        if replaceColors == "" then
+          "cp $src/source.svg wallpaper.svg"
+        else
+          "cat $src/source.svg | ${pkgs.replace}/bin/replace-literal ${replaceColors} > wallpaper.svg";
+    in
+    with colors; ''
+      ${replaceStep}
 
-    ${pkgs.resvg}/bin/resvg -w ${builtins.toString width} -h ${builtins.toString height} --background "${base.hex}" wallpaper.svg out.png
-  '';
+      ${pkgs.resvg}/bin/resvg -w ${builtins.toString width} -h ${builtins.toString height} --background "${base.hex}" wallpaper.svg out.png
+    '';
 
   installPhase = ''
     mkdir -p $out/usr/share/backgrounds

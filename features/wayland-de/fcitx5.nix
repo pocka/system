@@ -1,6 +1,8 @@
-{ config, lib, pkgs, ... }: let
+{ config, lib, pkgs, ... }:
+let
   wayland-de = config.features.wayland-de;
-in {
+in
+{
   options = {
     features.wayland-de.ime = {
       enable = lib.mkEnableOption "Input method";

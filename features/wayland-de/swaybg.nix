@@ -1,7 +1,8 @@
 { config, lib, pkgs, ... }:
 let
   cfg = config.features.wayland-de.swaybg;
-in {
+in
+{
   options.features.wayland-de.swaybg = {
     background = lib.mkOption {
       type = lib.types.nonEmptyStr;
@@ -27,14 +28,17 @@ in {
       pkgs.swaybg
     ];
 
-    wayland.windowManager.sway.extraConfig = let
-      bg = "--color '${cfg.background}'";
-      image = if builtins.isNull cfg.image then
-        ""
-      else
-        "--image ${builtins.toString cfg.image}";
-    in ''
-      exec "${pkgs.swaybg}/bin/swaybg ${bg} ${image}"
-    '';
+    wayland.windowManager.sway.extraConfig =
+      let
+        bg = "--color '${cfg.background}'";
+        image =
+          if builtins.isNull cfg.image then
+            ""
+          else
+            "--image ${builtins.toString cfg.image}";
+      in
+      ''
+        exec "${pkgs.swaybg}/bin/swaybg ${bg} ${image}"
+      '';
   };
 }
