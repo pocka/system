@@ -4,19 +4,31 @@ let
 in
 {
   options = {
-    themes.catppuccin.flavor = lib.mkOption {
-      type = lib.types.enum [
-        "latte"
-        "frappe"
-        "macchiato"
-        "mocha"
-      ];
+    themes.catppuccin = {
+      flavor = lib.mkOption {
+        type = lib.types.enum [
+          "latte"
+          "frappe"
+          "macchiato"
+          "mocha"
+        ];
 
-      default = "mocha";
+        default = "mocha";
 
-      description = ''
-        Specify which Catppuccin _flavor_ (color palette) to use.
-      '';
+        description = ''
+          Specify which Catppuccin _flavor_ (color palette) to use.
+        '';
+      };
+
+      wallpaperWidth = lib.mkOption {
+        type = lib.types.ints.unsigned;
+        default = 3840;
+      };
+
+      wallpaperHeight = lib.mkOption {
+        type = lib.types.ints.unsigned;
+        default = 2160;
+      };
     };
   };
 
@@ -34,6 +46,15 @@ in
       ));
 
       flavor = json."${cfg.flavor}";
+
+      wallpaper = import ./wallpaper {
+        inherit pkgs;
+        flavor = cfg.flavor;
+        colors = flavor;
+        mocha = json.mocha;
+        width = cfg.wallpaperWidth;
+        height = cfg.wallpaperHeight;
+      };
     in
     {
       features.basics.zsh.theme =
@@ -72,11 +93,252 @@ in
         };
       };
 
+      features.wayland-de = lib.mkIf config.features.wayland-de.enable {
+        tofi = rec {
+          fuzzyMatch = false;
+
+          font = {
+            family = "Dank Mono";
+            size = 11;
+          };
+
+          scale = true;
+
+          anchor = "bottom";
+          horizontal = true;
+
+          # "100%" does not work on fractional scaling display
+          # https://github.com/philj56/tofi/issues/79
+          width = 0;
+
+          height = font.size + padding.top + padding.bottom + selection.backgroundPadding.top + selection.backgroundPadding.bottom + border.width * 2;
+          resultSpacing = 10 + selection.backgroundPadding.left + selection.backgroundPadding.right;
+
+          # Avoid unwanted clipping
+          # https://github.com/philj56/tofi/issues/65#issuecomment-1335556041
+          clipToPadding = false;
+
+          padding = {
+            top = 6;
+            right = 8;
+            # There is no way to specify line-height: need to adjust padding-bottom or something.
+            bottom = 5;
+            left = 8;
+          };
+
+          prompt = {
+            text = ">";
+            background = "#00000000";
+            color = flavor.teal.hex;
+            padding = 8;
+          };
+
+          input = {
+            color = flavor.subtext0.hex;
+            backgroundPadding = {
+              top = 0;
+              right = 32;
+              bottom = 0;
+              left = 0;
+            };
+          };
+
+          selection = {
+            background = flavor.surface2.hex + "66";
+            color = flavor.text.hex;
+            matchColor = flavor.peach.hex;
+
+            backgroundPadding = {
+              top = 4;
+              right = 8;
+              bottom = 4;
+              left = 8;
+            };
+            backgroundCornerRadius = 4;
+          };
+
+          textColor = flavor.text.hex;
+          backgroundColor = flavor.mantle.hex;
+
+          outline = {
+            width = 0;
+            color = "#00000000";
+          };
+
+          border = {
+            width = 0;
+            color = "#00000000";
+          };
+        };
+
+        swaybg = {
+          background = flavor.base.hex;
+          image = "${wallpaper}/usr/share/backgrounds/catppuccin-${cfg.flavor}.png";
+        };
+      };
+
+      services.dunst = lib.mkIf config.services.dunst.enable {
+        settings = {
+          global = {
+            width = 400;
+            height = 300;
+            offset = "4x4";
+            padding = 4;
+            horizontal_padding = 8;
+            frame_width = 2;
+            gap_size = 6;
+            font = "Monospace 10";
+            corner_radius = 2;
+          };
+
+          urgency_low = {
+            background = flavor.base.hex;
+            foreground = flavor.subtext0.hex;
+            frame_color = flavor.overlay1.hex;
+          };
+
+          urgency_normal = {
+            background = flavor.base.hex;
+            foreground = flavor.text.hex;
+            frame_color = flavor.blue.hex;
+          };
+
+          urgency_critical = {
+            background = flavor.base.hex;
+            foreground = flavor.text.hex;
+            frame_color = flavor.yellow.hex;
+          };
+        };
+      };
+
       home.packages = [
         # A generator for LS_COLORS with support for multiple color themes
         # https://github.com/sharkdp/vivid
         pkgs.vivid
+
+        (lib.mkIf config.features.wayland-de.enable wallpaper)
       ];
+
+      wayland.windowManager.sway = lib.mkIf config.wayland.windowManager.sway.enable {
+        config = {
+          colors = {
+            focused = {
+              childBorder = flavor.lavender.hex;
+              background = flavor.base.hex;
+              text = flavor.text.hex;
+              indicator = flavor.rosewater.hex;
+              border = flavor.lavender.hex;
+            };
+            focusedInactive = {
+              childBorder = flavor.overlay0.hex;
+              background = flavor.base.hex;
+              text = flavor.overlay1.hex;
+              indicator = flavor.rosewater.hex;
+              border = flavor.overlay0.hex;
+            };
+            unfocused = {
+              childBorder = flavor.overlay0.hex;
+              background = flavor.base.hex;
+              text = flavor.overlay1.hex;
+              indicator = flavor.rosewater.hex;
+              border = flavor.overlay0.hex;
+            };
+            urgent = {
+              childBorder = flavor.peach.hex;
+              background = flavor.base.hex;
+              text = flavor.peach.hex;
+              indicator = flavor.overlay0.hex;
+              border = flavor.peach.hex;
+            };
+            placeholder = {
+              childBorder = flavor.overlay0.hex;
+              background = flavor.base.hex;
+              text = flavor.text.hex;
+              indicator = flavor.overlay0.hex;
+              border = flavor.overlay0.hex;
+            };
+            background = flavor.base.hex;
+          };
+
+          gaps = {
+            outer = 6;
+            inner = 6;
+
+            smartBorders = "on";
+            smartGaps = true;
+          };
+
+          window = {
+            border = 1;
+            titlebar = false;
+
+            hideEdgeBorders = "smart";
+          };
+        };
+      };
+
+      programs.waybar = lib.mkIf config.programs.waybar.enable {
+        settings = {
+          main = {
+            position = "bottom";
+          };
+        };
+
+        style = ''
+          * {
+            font-family: "FontAwesome", Roboto, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+          }
+
+          window#waybar {
+            border-top: 1px solid ${flavor.overlay0.hex};
+
+            background-color: ${flavor.mantle.hex};
+            color: ${flavor.text.hex};
+          }
+
+          .modules-left,
+          .modules-right {
+            margin: 4px;
+          }
+
+          #workspaces button {
+            font-size: 12px;
+            padding: 0px 2px;
+
+            background-color: transparent;
+            border-radius: 2px;;
+            color: ${flavor.overlay1.hex};
+          }
+
+          #workspaces button:hover {
+            text-decoration: underline;
+          }
+
+          #workspaces button.focused {
+            font-weight: bold;
+            background-color: rgba(${flavor.surface2.raw}, 0.4);
+            color: ${flavor.text.hex};
+          }
+
+          #workspaces button.urgent {
+            color: ${flavor.yellow.hex};
+          }
+
+          #clock,
+          #network,
+          #pulseaudio,
+          #tray {
+            padding: 0px 6px;
+
+            color: inherit;
+          }
+
+          #pulseaudio:hover {
+            background-color: rgba(${flavor.surface2.raw}, 0.4);
+          }
+        '';
+      };
 
       # Colourise exa, ls, lf, etc...
       # This needs to be done in .zshrc: in Crostini, `home.sessionVariables`

@@ -27,6 +27,18 @@ in
         This is to make very sure everything works.
       '';
     };
+
+    locale = lib.mkOption {
+      type = lib.types.nullOr lib.types.nonEmptyStr;
+
+      default = null;
+
+      description = ''
+        Machine's locale (LC_ALL).
+
+        e.g. `en_US.UTF-8`
+      '';
+    };
   };
 
   config =
@@ -40,9 +52,14 @@ in
 
         homeDirectory = "${homeDir}/${username}";
 
-        sessionVariables = lib.mkIf (cfg.timezone != null) {
-          TZ = cfg.timezone;
-        };
+        # `sessionVariables` does not accept `null` as an attribute value.
+        # Need to manually filter out `null` values.
+        sessionVariables = lib.attrsets.filterAttrs
+          (name: value: value != null)
+          {
+            TZ = cfg.timezone;
+            LC_ALL = cfg.locale;
+          };
       };
     };
 }

@@ -22,6 +22,15 @@ This is handy and useful especially for initial bootstrap, but less reproducible
 1. Make sure Flakes is available on your system
 2. Run `nix run home-manager/master -- switch --flake github:pocka/system#<name>`
 
+## Requirements
+
+### `dev-linux`
+
+Due to each softwares' design limitation, the system needs to have these packages.
+
+- [`sway`](https://archlinux.org/packages/extra/x86_64/sway/) ... The one installed using Nix does not launch.
+- [`pantheon-polkit-agent`](https://archlinux.org/packages/extra/x86_64/pantheon-polkit-agent/) ... The one installed installed using Nix cannot lookup `polkit-agent-helper-1`.
+
 ## License
 
 [Apache-2.0](./LICENSE)

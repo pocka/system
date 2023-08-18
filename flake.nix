@@ -54,6 +54,7 @@
                   home = {
                     username = "pocka";
                     timezone = "Asia/Tokyo";
+                    locale = "en_US.UTF-8";
                   };
 
                   dev = {
@@ -70,6 +71,10 @@
                         html
                       ];
                     };
+                  };
+
+                  wayland-de = {
+                    ime.enable = true;
                   };
                 };
               })
@@ -89,6 +94,18 @@
           system = "x86_64-linux";
           module = {
             features.wayland-de.enable = true;
+
+            wayland.windowManager.sway.config = {
+              startup = [
+                { command = "/usr/lib/policykit-1-pantheon/io.elementary.desktop.agent-polkit"; }
+              ];
+
+              output = {
+                "HDMI-A-1" = {
+                  scale = "1.5";
+                };
+              };
+            };
           };
         };
 
