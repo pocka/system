@@ -125,6 +125,10 @@
             # Basically controlled over SSH
             programs.tmux.enable = true;
 
+            # This server acts as a remote and only occasion commits are made on the server
+            # is when fossil generates git repository on mirror (manual/automatic).
+            features.identity.gpgSigningKeyId = null;
+
             features.dev.enable = false;
           };
         };
