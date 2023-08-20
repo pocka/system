@@ -51,6 +51,27 @@ in
         nvim ++ darwin;
     };
 
-    home.packages = [ pkgs.fossil ];
+    home.packages = [
+      pkgs.fossil
+      (
+        # Fossil derivation in Nixpkgs install bash completion only, while Fossil provides zsh's one too.
+        # Creating a new derivation is so much effective compared to using `lib.overrideAttrs` because
+        # of build cache.
+        pkgs.stdenv.mkDerivation {
+          pname = "fossil-zsh-completion";
+          version = pkgs.fossil.version;
+
+          src = pkgs.fossil.src;
+
+          phases = [ "unpackPhase" "installPhase" ];
+
+          nativeBuildInputs = [ pkgs.installShellFiles ];
+
+          installPhase = ''
+            installShellCompletion --zsh --name _fossil tools/fossil-autocomplete.zsh
+          '';
+        }
+      )
+    ];
   };
 }
