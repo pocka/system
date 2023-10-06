@@ -21,9 +21,9 @@
         enable = true;
       };
 
-      # A modern replacement for ls.
-      # https://the.exa.website/
-      exa = {
+      # A modern replacement for ls (fork of exa).
+      # https://eza.rocks/
+      eza = {
         enable = true;
 
         # Whether to enable recommended exa aliases (ls, ll…).

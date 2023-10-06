@@ -340,7 +340,7 @@ in
         '';
       };
 
-      # Colourise exa, ls, lf, etc...
+      # Colourise eza, ls, lf, etc...
       # This needs to be done in .zshrc: in Crostini, `home.sessionVariables`
       # cannot invoke `vivid` binary. Probably evaluation timing?
       programs.zsh.initExtra = ''
