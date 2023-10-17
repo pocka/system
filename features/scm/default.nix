@@ -44,7 +44,6 @@ in
               ".DS_Store"
               ".AppleDouble"
               ".LSOverride"
-              "Icon"
             ]
             else [ ];
         in
