@@ -21,6 +21,12 @@ let
 
         default = false;
       };
+
+      initOptions = lib.mkOption {
+        type = lib.types.nullOr lib.types.nonEmptyStr;
+
+        default = null;
+      };
     };
   };
 
@@ -30,12 +36,17 @@ let
         if (c.rootDirPattern != null)
         then "root_dir = lspconfig.util.root_pattern('${c.rootDirPattern}'),"
         else "";
+      initOptions =
+        if (c.initOptions != null)
+        then "init_options = { ${c.initOptions} },"
+        else "";
     in
     ''
       lspconfig.${c.name}.setup {
         ${rootDir}
         single_file_support = ${lib.trivial.boolToString c.singleFileSupport},
         capabilities = capabilities,
+        ${initOptions}
       }
     '';
 in
@@ -64,6 +75,13 @@ in
         default = {
           name = "tsserver";
           rootDirPattern = "tsconfig.json";
+          initOptions = ''
+            preferences = {
+              includePackageJsonAutoImports = "off",
+              jsxAttributeCompletionStyle = "none",
+              autoImportFileExcludePatterns = { "**" },
+            }
+          '';
         };
       };
 
