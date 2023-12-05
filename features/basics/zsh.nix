@@ -71,6 +71,11 @@ in
           size = 1000;
         };
 
+        sessionVariables = {
+          # Insert space between completed string and ampersand or pipe
+          ZLE_SPACE_SUFFIX_CHARS = "&|";
+        };
+
         initExtra = with cfg.theme; ''
           # Activate colors module in order to colourise prompt
           autoload -Uz colors
