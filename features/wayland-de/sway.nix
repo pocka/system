@@ -20,6 +20,11 @@
           terminal = "${pkgs.foot}/bin/foot";
 
           input = {
+            "*" = {
+              repeat_delay = "150";
+              repeat_rate = "24";
+            };
+
             "type:touchpad" = {
               natural_scroll = "enabled";
             };
