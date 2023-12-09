@@ -39,6 +39,7 @@
                     -- Fossil checkout state file
                     "^\\.fslckout",
                   },
+                  git_ignored = false,
                 },
               })
             '';
