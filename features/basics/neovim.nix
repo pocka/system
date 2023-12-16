@@ -12,6 +12,15 @@
 
           -- Disable insane mouse hijacking
           vim.opt.mouse = ""
+
+          -- Prevent stupid CSS "defaults" from registering hyphen as a keyword
+          vim.api.nvim_create_autocmd(
+            "Filetype",
+            {
+              pattern = { "css" },
+              command = "setlocal iskeyword-=-",
+            }
+          )
         '';
 
         plugins = with pkgs.vimPlugins; [
