@@ -69,6 +69,9 @@ in
 
           # Number of history lines to keep.
           size = 1000;
+
+          # Share command history between zsh sessions.
+          share = false;
         };
 
         sessionVariables = {
