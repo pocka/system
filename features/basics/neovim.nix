@@ -21,6 +21,15 @@
               command = "setlocal iskeyword-=-",
             }
           )
+
+          -- Prevent stupid YAML "defaults" from increasing indent level on newline
+          vim.api.nvim_create_autocmd(
+            "Filetype",
+            {
+              pattern = { "yaml" },
+              command = "setlocal indentkeys=",
+            }
+          )
         '';
 
         plugins = with pkgs.vimPlugins; [
