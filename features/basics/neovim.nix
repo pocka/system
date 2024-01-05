@@ -84,6 +84,12 @@
               end)
             '';
           }
+          {
+            # TypeScript syntax highlighting for `import { type Foo }` is broken in Vim/Neovim.
+            # Source plugin (yats) have already fixed it but not updated on Vim side.
+            # https://github.com/donovanglover/nix-config/commit/5a08ca328c4714353fcdfed42b0c3bee122fdbd1
+            plugin = yats-vim;
+          }
         ];
       };
     };
