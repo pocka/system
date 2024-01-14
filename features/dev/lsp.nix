@@ -188,7 +188,7 @@ in
                 },
                 mapping = cmp.mapping.preset.insert({
                   ["<CR>"] = cmp.mapping.confirm {
-                    behavior = cmp.ConfirmBehavior.Replace,
+                    behavior = cmp.ConfirmBehavior.Insert,
                     select = true,
                   },
                   ["<Tab>"] = cmp.mapping(function(fallback)
