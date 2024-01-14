@@ -94,6 +94,14 @@ in
         };
       };
 
+      go = lib.mkOption {
+        type = ls;
+
+        default = {
+          name = "gopls";
+        };
+      };
+
       css = lib.mkOption {
         type = ls;
 

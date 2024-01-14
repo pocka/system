@@ -67,6 +67,7 @@
                         elm
                         typescript
                         deno
+                        go
                         css
                         html
                       ];
