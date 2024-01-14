@@ -10,7 +10,7 @@
 
           font = {
             name = "Dank Mono";
-            size = 16;
+            size = 15;
           };
 
           # Kitty's customisability is top-notch.
@@ -33,9 +33,6 @@
           settings = {
             # Bell
             enable_audio_bell = false;
-
-            # Background
-            background_opacity = "0.9";
 
             # Layouts
             enabled_layouts = "fat,tall,grid,horizontal,vertical,splits";

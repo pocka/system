@@ -424,6 +424,12 @@ in
         in
         {
           theme = "Catppuccin-${toCapital cfg.flavor}";
+
+          settings.background_opacity =
+            if cfg.flavor == "latte" then
+              "1.0"
+            else
+              "0.9";
         };
 
       programs.foot =
