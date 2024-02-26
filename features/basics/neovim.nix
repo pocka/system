@@ -66,7 +66,12 @@
             plugin = indent-blankline-nvim;
             type = "lua";
             config = ''
-              require("ibl").setup()
+              require("ibl").setup({
+                scope = {
+                  -- Turn off the fuckin' visual noise, level of bloat of this module is insane
+                  enabled = false,
+                },
+              })
 
               -- Disable stupid fake indentations
               local hooks = require "ibl.hooks"
@@ -83,12 +88,6 @@
                   return virt_text
               end)
             '';
-          }
-          {
-            # TypeScript syntax highlighting for `import { type Foo }` is broken in Vim/Neovim.
-            # Source plugin (yats) have already fixed it but not updated on Vim side.
-            # https://github.com/donovanglover/nix-config/commit/5a08ca328c4714353fcdfed42b0c3bee122fdbd1
-            plugin = yats-vim;
           }
         ];
       };
