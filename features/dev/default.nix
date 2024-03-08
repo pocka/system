@@ -14,9 +14,9 @@ in
 
   config = {
     programs = lib.mkIf cfg.enable {
-      #  Runtime Executor (asdf-plugin compatible)
-      # https://github.com/jdxcode/rtx
-      rtx.enable = true;
+      # dev tools, env vars, task runner (asdf-plugin compatible)
+      # https://github.com/jdx/mise
+      mise.enable = true;
 
       neovim = lib.mkIf config.programs.neovim.enable {
         plugins = with pkgs.vimPlugins; [
