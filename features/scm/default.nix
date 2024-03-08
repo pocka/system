@@ -34,6 +34,10 @@ in
 
       ignores =
         let
+          # # Ignore all bazel-* symlinks. There is no full list since this can change
+          # based on the name of the directory bazel is cloned into.
+          bazel = [ "/bazel-*" ];
+
           # Swap file
           nvim = if config.programs.neovim.enable then [ ".*.swp" ] else [ ];
 
@@ -47,7 +51,7 @@ in
             ]
             else [ ];
         in
-        nvim ++ darwin;
+        nvim ++ darwin ++ bazel;
     };
 
     home.packages = [
