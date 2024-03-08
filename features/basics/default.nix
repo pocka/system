@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 {
   imports = [
+    ./atuin.nix
     ./platform.nix
     ./neovim.nix
     ./tmux.nix
