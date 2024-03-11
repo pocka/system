@@ -54,6 +54,25 @@ in
         nvim ++ darwin ++ bazel;
     };
 
+    # https://github.com/martinvonz/jj
+    programs.jujutsu = {
+      enable = true;
+
+      settings = {
+        user = {
+          name = config.features.identity.name;
+          email = config.features.identity.email;
+        };
+
+        signing =
+          if (config.features.identity.gpgSigningKeyId != null) then {
+            sign-all = true;
+            backend = "gpg";
+            key = config.features.identity.gpgSigningKeyId;
+          } else null;
+      };
+    };
+
     home.packages = [
       pkgs.fossil
       (
