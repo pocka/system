@@ -24,6 +24,13 @@ This is handy and useful especially for initial bootstrap, but less reproducible
 1. Make sure Flakes is available on your system
 2. Run `nix run home-manager/master -- switch --flake github:pocka/system#<name>`
 
+### Display changes between Home Manager generations
+
+First, find the directory that contains Nix profiles.
+For defaults location, see this page: <https://nix.dev/manual/nix/2.18/command-ref/files/profiles>.
+
+Then, run `nix profile diff-closures --profile <profiles directory>/home-manager`.
+
 ## Requirements
 
 ### `dev-linux`
