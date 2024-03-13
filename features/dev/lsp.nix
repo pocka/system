@@ -119,6 +119,14 @@ in
           singleFileSupport = true;
         };
       };
+
+      zig = lib.mkOption {
+        type = ls;
+
+        default = {
+          name = "zls";
+        };
+      };
     };
   };
 
@@ -239,5 +247,9 @@ in
         ];
       };
     };
+
+    home.packages = lib.mkIf (builtins.elem cfg.zig cfg.langs) [
+      pkgs.zls
+    ];
   };
 }

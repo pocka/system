@@ -70,6 +70,7 @@
                         go
                         css
                         html
+                        zig
                       ];
                     };
                   };
