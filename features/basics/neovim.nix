@@ -30,6 +30,10 @@
               command = "setlocal indentkeys=",
             }
           )
+
+          -- Prevent default zig plugin from automatically format on save
+          -- https://github.com/ziglang/zig.vim/issues/51
+          vim.g.zig_fmt_autosave = 0
         '';
 
         plugins = with pkgs.vimPlugins; [
