@@ -4,6 +4,14 @@ let
 
   ls = lib.types.submodule {
     options = {
+      cmd = lib.mkOption {
+        type = lib.types.nullOr (lib.types.listOf lib.types.nonEmptyStr);
+
+        description = "Launch command";
+
+        default = null;
+      };
+
       name = lib.mkOption {
         type = lib.types.nonEmptyStr;
 
@@ -32,6 +40,10 @@ let
 
   lsToSetupStmt = c:
     let
+      cmd =
+        if (c.cmd != null)
+        then "cmd = { ${builtins.concatStringsSep ", " (builtins.map (x: "\"${x}\"") c.cmd)} },"
+        else "";
       rootDir =
         if (c.rootDirPattern != null)
         then "root_dir = lspconfig.util.root_pattern('${c.rootDirPattern}'),"
@@ -43,6 +55,7 @@ let
     in
     ''
       lspconfig.${c.name}.setup {
+        ${cmd}
         ${rootDir}
         single_file_support = ${lib.trivial.boolToString c.singleFileSupport},
         capabilities = capabilities,
@@ -124,6 +137,7 @@ in
         type = ls;
 
         default = {
+          cmd = [ "zls" "--config-path" "${config.xdg.configHome}/zls.json" ];
           name = "zls";
         };
       };
@@ -251,5 +265,16 @@ in
     home.packages = lib.mkIf (builtins.elem cfg.zig cfg.langs) [
       pkgs.zls
     ];
+
+    # zls, the Zig Language Server does not support LSP's initializationOptions
+    # but their own zig.json.
+    xdg.configFile."zls.json" = {
+      enable = builtins.elem cfg.zig cfg.langs;
+
+      text = builtins.toJSON {
+        enable_snippets = false;
+        enable_argument_placeholders = false;
+      };
+    };
   };
 }
