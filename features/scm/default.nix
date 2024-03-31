@@ -10,49 +10,74 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    programs.git = {
-      enable = true;
+    programs.git =
+      let
+        difftasticConfig =
+          if config.features.dev.enable then
+            {
+              # https://difftastic.wilfred.me.uk/git.html
+              diff = {
+                tool = "difftastic";
+              };
 
-      userName = config.features.identity.name;
-      userEmail = config.features.identity.email;
+              difftool = {
+                prompt = false;
+              };
 
-      signing =
-        if (config.features.identity.gpgSigningKeyId != null) then {
-          key = config.features.identity.gpgSigningKeyId;
-          signByDefault = true;
-        } else null;
+              "difftool \"difftastic\"" = {
+                cmd = ''difft "$LOCAL" "$REMOTE"'';
+              };
 
-      extraConfig = {
-        core = {
-          editor = if config.programs.neovim.enable then "nvim" else "vim";
-        };
+              pager = {
+                difftool = true;
+              };
+            }
+          else
+            { };
+      in
+      {
+        enable = true;
 
-        init = {
-          defaultBranch = "master";
-        };
+        userName = config.features.identity.name;
+        userEmail = config.features.identity.email;
+
+        signing =
+          if (config.features.identity.gpgSigningKeyId != null) then {
+            key = config.features.identity.gpgSigningKeyId;
+            signByDefault = true;
+          } else null;
+
+        extraConfig = {
+          core = {
+            editor = if config.programs.neovim.enable then "nvim" else "vim";
+          };
+
+          init = {
+            defaultBranch = "master";
+          };
+        } // difftasticConfig;
+
+        ignores =
+          let
+            # # Ignore all bazel-* symlinks. There is no full list since this can change
+            # based on the name of the directory bazel is cloned into.
+            bazel = [ "/bazel-*" ];
+
+            # Swap file
+            nvim = if config.programs.neovim.enable then [ ".*.swp" ] else [ ];
+
+            # https://github.com/github/gitignore/blob/main/Global/macOS.gitignore
+            darwin =
+              if pkgs.stdenv.isDarwin
+              then [
+                ".DS_Store"
+                ".AppleDouble"
+                ".LSOverride"
+              ]
+              else [ ];
+          in
+          nvim ++ darwin ++ bazel;
       };
-
-      ignores =
-        let
-          # # Ignore all bazel-* symlinks. There is no full list since this can change
-          # based on the name of the directory bazel is cloned into.
-          bazel = [ "/bazel-*" ];
-
-          # Swap file
-          nvim = if config.programs.neovim.enable then [ ".*.swp" ] else [ ];
-
-          # https://github.com/github/gitignore/blob/main/Global/macOS.gitignore
-          darwin =
-            if pkgs.stdenv.isDarwin
-            then [
-              ".DS_Store"
-              ".AppleDouble"
-              ".LSOverride"
-            ]
-            else [ ];
-        in
-        nvim ++ darwin ++ bazel;
-    };
 
     # https://github.com/martinvonz/jj
     programs.jujutsu = {
@@ -70,6 +95,12 @@ in
             backend = "gpg";
             key = config.features.identity.gpgSigningKeyId;
           } else null;
+
+        ui = lib.mkIf config.features.dev.enable {
+          diff = {
+            tool = [ "difft" "--color=always" "$left" "$right" ];
+          };
+        };
       };
     };
 

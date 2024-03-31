@@ -38,6 +38,12 @@ in
         ];
       };
     };
+
+    home.packages = lib.mkIf cfg.enable [
+      # a structural diff tool that understands syntax
+      # https://difftastic.wilfred.me.uk/
+      pkgs.difftastic
+    ];
   };
 
 }
