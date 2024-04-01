@@ -10,7 +10,7 @@
 
           font = {
             name = "Dank Mono";
-            size = 15;
+            size = 14;
           };
 
           # Kitty's customisability is top-notch.
@@ -35,7 +35,7 @@
             enable_audio_bell = false;
 
             # Layouts
-            enabled_layouts = "fat,tall,grid,horizontal,vertical,splits";
+            enabled_layouts = "fat,tall";
 
             # Tabs
             tab_bar_edge = "top";
