@@ -54,6 +54,7 @@
                 path = "%:p:h",
                 dir_icon = "+",
                 hijack_netrw = true,
+                display_stat = false,
               }
             }
           }
