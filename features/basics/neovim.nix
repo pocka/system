@@ -51,6 +51,7 @@
             extensions = {
               file_browser = {
                 theme = "dropdown",
+                path = "%:p:h",
                 dir_icon = "+",
                 hijack_netrw = true,
               }
