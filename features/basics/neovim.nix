@@ -34,36 +34,47 @@
           -- Prevent default zig plugin from automatically format on save
           -- https://github.com/ziglang/zig.vim/issues/51
           vim.g.zig_fmt_autosave = 0
+
+          -- Configure Telescope and its plugins
+          require("telescope").setup {
+            pickers = {
+              find_files = {
+                theme = "dropdown",
+              },
+              live_grep = {
+                theme = "dropdown",
+              },
+              buffers = {
+                theme = "dropdown",
+              },
+            },
+            extensions = {
+              file_browser = {
+                theme = "dropdown",
+                dir_icon = "+",
+                hijack_netrw = true,
+              }
+            }
+          }
         '';
 
         plugins = with pkgs.vimPlugins; [
+          plenary-nvim
           {
-            plugin = nvim-tree-lua;
+            plugin = telescope-nvim;
             type = "lua";
             config = ''
-              vim.g.loaded_netrw = 1
-              vim.g.loaded_netrwPlugin = 1
-
-              require("nvim-tree").setup({
-                renderer = {
-                  icons = {
-                    show = {
-                      file = false,
-                      folder = false,
-                      folder_arrow = false,
-                      git = false,
-                      modified = false,
-                    },
-                  },
-                },
-                filters = {
-                  custom = {
-                    -- Fossil checkout state file
-                    "^\\.fslckout",
-                  },
-                  git_ignored = false,
-                },
-              })
+              local builtin = require("telescope.builtin")
+              vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
+              vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
+              vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
+            '';
+          }
+          {
+            plugin = telescope-file-browser-nvim;
+            type = "lua";
+            config = ''
+              vim.keymap.set("n", "<leader>fs", ":Telescope file_browser<CR>");
             '';
           }
           {

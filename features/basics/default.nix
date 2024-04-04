@@ -87,6 +87,13 @@
       htop = {
         enable = true;
       };
+
+      # ripgrep recursively searches directories for a regex pattern while respecting your gitignore
+      # (this program is required for telescope-nvim's live_grep to work)
+      # https://github.com/BurntSushi/ripgrep
+      ripgrep = {
+        enable = true;
+      };
     };
   };
 }
