@@ -40,9 +40,11 @@
             pickers = {
               find_files = {
                 theme = "dropdown",
+                hidden = true,
               },
               live_grep = {
                 theme = "dropdown",
+                hidden = true,
               },
               buffers = {
                 theme = "dropdown",
@@ -55,6 +57,10 @@
                 dir_icon = "+",
                 hijack_netrw = true,
                 display_stat = false,
+                hidden = {
+                  file_browser = true,
+                  folder_browser = true,
+                },
               }
             }
           }
