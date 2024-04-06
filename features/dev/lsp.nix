@@ -35,6 +35,12 @@ let
 
         default = null;
       };
+
+      settings = lib.mkOption {
+        type = lib.types.nullOr lib.types.nonEmptyStr;
+
+        default = null;
+      };
     };
   };
 
@@ -52,6 +58,10 @@ let
         if (c.initOptions != null)
         then "init_options = { ${c.initOptions} },"
         else "";
+      settings =
+        if (c.settings != null)
+        then "settings = { ${c.settings} },"
+        else "";
     in
     ''
       lspconfig.${c.name}.setup {
@@ -60,6 +70,7 @@ let
         single_file_support = ${lib.trivial.boolToString c.singleFileSupport},
         capabilities = capabilities,
         ${initOptions}
+        ${settings}
       }
     '';
 in
@@ -104,6 +115,13 @@ in
         default = {
           name = "denols";
           rootDirPattern = "deno.json";
+          settings = ''
+            deno = {
+              suggest = {
+                autoImports = false,
+              }
+            }
+          '';
         };
       };
 
