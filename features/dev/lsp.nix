@@ -19,7 +19,7 @@ let
       };
 
       rootDirPattern = lib.mkOption {
-        type = lib.types.nullOr lib.types.nonEmptyStr;
+        type = lib.types.nullOr (lib.types.listOf lib.types.nonEmptyStr);
 
         default = null;
       };
@@ -52,7 +52,7 @@ let
         else "";
       rootDir =
         if (c.rootDirPattern != null)
-        then "root_dir = lspconfig.util.root_pattern('${c.rootDirPattern}'),"
+        then "root_dir = lspconfig.util.root_pattern(${builtins.concatStringsSep ", " (builtins.map (x: "'${x}'") c.rootDirPattern)}),"
         else "";
       initOptions =
         if (c.initOptions != null)
@@ -98,7 +98,7 @@ in
 
         default = {
           name = "tsserver";
-          rootDirPattern = "tsconfig.json";
+          rootDirPattern = [ "tsconfig.json" ];
           initOptions = ''
             preferences = {
               includePackageJsonAutoImports = "off",
@@ -114,7 +114,7 @@ in
 
         default = {
           name = "denols";
-          rootDirPattern = "deno.json";
+          rootDirPattern = [ "deno.json" "deno.jsonc" ];
           settings = ''
             deno = {
               suggest = {
