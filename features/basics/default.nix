@@ -13,6 +13,9 @@
       # Must-have networking CLI tool
       # https://curl.se/
       pkgs.curl
+
+      # Command to produce a depth indented directory listing
+      pkgs.tree
     ];
 
     home.file = {
