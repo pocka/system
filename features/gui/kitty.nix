@@ -31,6 +31,8 @@
           };
 
           settings = {
+            font_features = "DankMono-Regular -liga";
+
             # Bell
             enable_audio_bell = false;
 
