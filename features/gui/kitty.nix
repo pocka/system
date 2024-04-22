@@ -16,7 +16,8 @@
           # Kitty's customisability is top-notch.
           keybindings = {
             "kitty_mod+t" = "new_tab_with_cwd";
-            "kitty_mod+n" = "new_window_with_cwd";
+            "kitty_mod+n" = "launch --location=hsplit --cwd=current";
+            "kitty_mod+m" = "launch --location=vsplit --cwd=current";
 
             "kitty_mod+r" = "start_resizing_window";
             "kitty_mod+s" = "swap_with_window";
@@ -26,8 +27,6 @@
             "kitty_mod+h" = "neighboring_window left";
             "kitty_mod+j" = "neighboring_window down";
             "kitty_mod+l" = "neighboring_window right";
-
-            "kitty_mod+a" = "next_layout";
           };
 
           settings = {
@@ -37,7 +36,7 @@
             enable_audio_bell = false;
 
             # Layouts
-            enabled_layouts = "fat,tall";
+            enabled_layouts = "splits";
 
             # Tabs
             tab_bar_edge = "top";
