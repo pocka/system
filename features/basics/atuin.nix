@@ -17,7 +17,9 @@
 
         keymap_mode = "vim-normal";
 
-        filter_mode_shell_up_key_binding = "directory";
+        filter_mode = "directory";
+
+        filter_mode_shell_up_key_binding = "session";
 
         update_check = false;
       };
