@@ -49,6 +49,12 @@
                   };
                 };
 
+                home.packages = [
+                  (import ./programs/specialise {
+                    inherit pkgs;
+                  })
+                ];
+
                 features = nixpkgs.lib.mkDefault {
                   identity = {
                     name = "Shota FUJI";

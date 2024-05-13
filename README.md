@@ -40,6 +40,20 @@ Due to each softwares' design limitation, the system needs to have these package
 - [`sway`](https://archlinux.org/packages/extra/x86_64/sway/) ... The one installed using Nix does not launch.
 - [`pantheon-polkit-agent`](https://archlinux.org/packages/extra/x86_64/pantheon-polkit-agent/) ... The one installed installed using Nix cannot lookup `polkit-agent-helper-1`.
 
+## Programs
+
+### `specialisation`
+
+`specialisation` activates the given Home Manager specialisation.
+
+```sh
+# Switch to dark mode
+specialisation dark
+
+# Switch to light mode
+specialisation light
+```
+
 ## License
 
 [Apache-2.0](./LICENSE)
