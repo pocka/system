@@ -38,8 +38,16 @@
 
                 home.stateVersion = "23.11";
 
-                # One of: "latte", "frappe", "macchiato", "mocha"
-                themes.catppuccin.flavor = module.themes.catppuccin.flavor or "mocha";
+                specialisation = {
+                  dark.configuration = {
+                    # One of: "latte", "frappe", "macchiato", "mocha"
+                    themes.catppuccin.flavor = module.themes.catppuccin.flavor or "mocha";
+                  };
+
+                  light.configuration = {
+                    themes.catppuccin.flavor = "latte";
+                  };
+                };
 
                 features = nixpkgs.lib.mkDefault {
                   identity = {
@@ -146,8 +154,6 @@
           system = "aarch64-darwin";
           module = {
             features.gui.enable = true;
-
-            themes.catppuccin.flavor = "latte";
           };
         };
       };
