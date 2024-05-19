@@ -50,6 +50,7 @@
                 };
 
                 home.packages = [
+                  pkgs.home-manager
                   (import ./programs/specialise {
                     inherit pkgs;
                   })
