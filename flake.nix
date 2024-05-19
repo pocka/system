@@ -32,7 +32,7 @@
           modules =
             [
               ./features
-              ({ config, ... }: {
+              ({ config, ... }: rec {
                 # Turn off Home Manager news bs
                 news.display = "silent";
 
@@ -51,8 +51,10 @@
 
                 home.packages = [
                   pkgs.home-manager
-                  (import ./programs/specialise {
-                    inherit pkgs;
+                  (pkgs.callPackage ./programs/specialise {
+                    specialisations = pkgs.lib.attrsets.mapAttrsToList
+                      (name: _: name)
+                      specialisation;
                   })
                 ];
 

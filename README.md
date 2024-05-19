@@ -48,10 +48,16 @@ Due to each softwares' design limitation, the system needs to have these package
 
 ```sh
 # Switch to dark mode
-specialisation dark
+specialisation set dark
 
 # Switch to light mode
-specialisation light
+specialisation set light
+
+# Switch to non-specialised profile
+specialisation unset
+
+# Clean obsolete home-manager generations
+specialisation clean
 ```
 
 ## License
