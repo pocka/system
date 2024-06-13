@@ -14,29 +14,55 @@ buildGoModule rec {
 
   postInstall = ''
     installShellCompletion --zsh --cmd ${name} <(cat << "EOF"
-    #compdef _${name} ${name}
+    #compdef ${name}
 
     function _${name} {
-      local line
+      local line state
 
       _arguments -C \
         "--help[Output usage text to stdout]" \
         "--verbose[Enable verbose logging]" \
-        "1: :(set unset clean)" \
+        "1: :->cmds" \
         "*::arg:->args"
 
-      case $line[1] in
-        set)
-          _${name}_set
+      case "$state" in
+        (cmds)
+          _values "specialise command" \
+            "set[Switch to a specialisation]" \
+            "unset[Switch to a normal generation]" \
+            "clean[Delete obsolete generations]"
+        ;;
+        (args)
+          case $line[1] in
+            (set)
+              _${name}_set
+            ;;
+          esac
         ;;
       esac
     }
 
     function _${name}_set {
-      _arguments "1: :(${if specialisations == null then "" else
-        lib.strings.concatStringsSep " " specialisations
-      })"
+      local state
+
+      _arguments -C \
+        "1: :->cmds"
+
+      case "$state" in
+        (cmds)
+          _values "specialisations" \
+            ${if specialisations == null then "" else
+              lib.strings.concatStringsSep " " specialisations
+            }
+        ;;
+      esac
     }
+
+    if [ "$funcstack[1]" = "_${name}" ]; then
+      _${name} "$@"
+    else
+      compdef _${name} ${name}
+    fi
     EOF)
   '';
 }
