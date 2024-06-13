@@ -43,6 +43,10 @@ in
       # a structural diff tool that understands syntax
       # https://difftastic.wilfred.me.uk/
       pkgs.difftastic
+
+      # A tool for compliance with the REUSE Initiative recommendations
+      # https://reuse.software/tutorial/
+      pkgs.reuse
     ];
   };
 
