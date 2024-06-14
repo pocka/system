@@ -7,6 +7,9 @@
         defaultEditor = true;
 
         extraLuaConfig = ''
+          -- Set default tab size
+          vim.opt.tabstop = 2
+
           -- Display absolute line numbers
           vim.wo.number = true
 
