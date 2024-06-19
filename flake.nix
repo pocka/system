@@ -8,12 +8,17 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    mac-app-util = {
+      url = "github:hraban/mac-app-util";
+    };
   };
 
   outputs =
     { self
     , nixpkgs
     , home-manager
+    , mac-app-util
     ,
     }:
     let
@@ -31,6 +36,9 @@
 
           modules =
             [
+              # Fix Home-Manager on MacOS cannot register GUI applications and Spotlight
+              # won't find those applications.
+              mac-app-util.homeManagerModules.default
               ./features
               ({ config, ... }: rec {
                 # Turn off Home Manager news bs
