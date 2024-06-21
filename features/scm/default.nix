@@ -101,6 +101,10 @@ in
             tool = [ "difft" "--color=always" "$left" "$right" ];
           };
         };
+
+        revsets = {
+          log = "all()";
+        };
       };
     };
 
