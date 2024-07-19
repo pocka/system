@@ -419,8 +419,8 @@ in
             catppuccin = {
               "ui.linenr" = { fg = flavor.text.hex; bg = "none"; };
               "ui.linenr.selected" = { fg = flavor.mauve.hex; bg = "none"; modifiers = [ "bold" ]; };
-              "ui.selection" = { fg = flavor.base.hex; bg = flavor.blue.hex; };
-              "ui.selection.primary" = { modifiers = [ "reversed" ]; };
+              "ui.selection" = { bg = flavor.overlay1.hex; };
+              "ui.selection.primary" = { bg = flavor.overlay0.hex; };
               "ui.virtual.indent-guide" = { fg = flavor.surface1.hex; };
               "comment" = { fg = flavor.subtext0.hex; modifiers = [ "italic" ]; };
               "ui.statusline" = { fg = flavor.text.hex; bg = flavor.surface0.hex; };
@@ -428,6 +428,8 @@ in
               "ui.help" = { fg = flavor.text.hex; bg = flavor.surface1.hex; };
               "ui.cursor" = { modifiers = [ "reversed" ]; };
               "ui.popup" = { fg = flavor.text.hex; bg = flavor.surface1.hex; };
+              "ui.menu" = { fg = flavor.text.hex; bg = flavor.surface0.hex; };
+              "ui.menu.selected" = { underline = { style = "line"; }; modifiers = [ "bold" ]; };
               "ui.menu.scroll" = { fg = flavor.teal.hex; bg = flavor.overlay0.hex; };
               "variable" = flavor.rosewater.hex;
               "variable.builtin" = flavor.maroon.hex;
