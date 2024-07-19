@@ -60,6 +60,7 @@
                 dir_icon = "+",
                 hijack_netrw = true,
                 display_stat = false,
+                create_from_prompt = false,
                 hidden = {
                   file_browser = true,
                   folder_browser = true,
