@@ -38,6 +38,17 @@
         enable = true;
       };
 
+      # A modal text editor with insane selection -> action model.
+      helix = {
+        enable = true;
+
+        settings = {
+          editor = {
+            auto-pairs = false;
+          };
+        };
+      };
+
       # A modern replacement for ls (fork of exa).
       # https://eza.rocks/
       eza = {

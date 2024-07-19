@@ -409,6 +409,53 @@ in
             ];
         };
 
+      programs.helix =
+        {
+          settings = {
+            theme = "catppuccin";
+          };
+
+          themes = {
+            catppuccin = {
+              "ui.linenr" = { fg = flavor.text.hex; bg = "none"; };
+              "ui.linenr.selected" = { fg = flavor.mauve.hex; bg = "none"; modifiers = [ "bold" ]; };
+              "ui.selection" = { fg = flavor.base.hex; bg = flavor.blue.hex; };
+              "ui.selection.primary" = { modifiers = [ "reversed" ]; };
+              "comment" = { fg = flavor.subtext0.hex; modifiers = [ "italic" ]; };
+              "ui.statusline" = { fg = flavor.text.hex; bg = flavor.surface0.hex; };
+              "ui.statusline.inactive" = { fg = flavor.subtext0.hex; bg = flavor.surface0.hex; };
+              "ui.help" = { fg = flavor.text.hex; bg = flavor.surface1.hex; };
+              "ui.cursor" = { modifiers = [ "reversed" ]; };
+              "variable" = flavor.rosewater.hex;
+              "variable.builtin" = flavor.maroon.hex;
+              "variable.other.member" = flavor.rosewater.hex;
+              "constant" = flavor.maroon.hex;
+              "constant.character.escape" = flavor.sapphire.hex;
+              "constant.numeric" = flavor.mauve.hex;
+              "attributes" = flavor.flamingo.hex;
+              "type" = flavor.sapphire.hex;
+              "ui.cursor.match" = { fg = flavor.yellow.hex; modifiers = [ "underlined" ]; };
+              "string" = flavor.green.hex;
+              "function" = flavor.lavender.hex;
+              "constructor" = flavor.blue.hex;
+              "special" = flavor.blue.hex;
+              "keyword" = flavor.pink.hex;
+              "label" = flavor.pink.hex;
+              "namespace" = flavor.blue.hex;
+              "diff.plus" = flavor.green.hex;
+              "diff.delta" = flavor.yellow.hex;
+              "diff.minus" = flavor.red.hex;
+              "diagnostic" = { modifiers = [ "underlined" ]; };
+              "ui.gutter" = { bg = "none"; };
+              "info" = flavor.blue.hex;
+              "hint" = flavor.sky.hex;
+              "debug" = flavor.flamingo.hex;
+              "warning" = flavor.yellow.hex;
+              "error" = flavor.red.hex;
+            };
+          };
+        };
+
       programs.kitty =
         let
           # Convert the input string's first character to upper case.
