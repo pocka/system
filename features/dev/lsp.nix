@@ -265,13 +265,17 @@ in
                 fold_open = "-",
                 fold_closed = "+",
                 mode = "document_diagnostics",
-                auto_open = true,
                 auto_close = false,
                 signs = {
                   error = "error",
                   warning = "warn",
                   hint = "hint",
                   information = "info"
+                },
+                modes = {
+                  diagnostics = {
+                    auto_open = true,
+                  },
                 },
               })
             '';

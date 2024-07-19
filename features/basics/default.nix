@@ -43,8 +43,8 @@
       eza = {
         enable = true;
 
-        # Whether to enable recommended exa aliases (ls, ll…).
-        enableAliases = true;
+        # Enable recommended exa aliases (ls, ll…).
+        enableZshIntegration = true;
 
         extraOptions = [
           "--long"

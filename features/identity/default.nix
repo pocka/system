@@ -59,7 +59,7 @@ in
       maxCacheTtl = 2592000;
       maxCacheTtlSsh = 2592000;
 
-      pinentryFlavor = "curses";
+      pinentryPackage = pkgs.pinentry-curses;
     };
   };
 }
