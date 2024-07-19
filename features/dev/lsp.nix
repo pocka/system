@@ -281,6 +281,16 @@ in
           }
         ];
       };
+
+      helix = lib.mkIf config.programs.helix.enable {
+        settings = {
+          editor = {
+            lsp = {
+              snippets = false;
+            };
+          };
+        };
+      };
     };
 
     home.packages = lib.mkIf (builtins.elem cfg.zig cfg.langs) [

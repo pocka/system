@@ -55,6 +55,8 @@
               # Prevent file picker from ignoring dotfiles.
               hidden = false;
             };
+
+            auto-format = false;
           };
         };
       };
