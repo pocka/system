@@ -426,6 +426,8 @@ in
               "ui.statusline.inactive" = { fg = flavor.subtext0.hex; bg = flavor.surface0.hex; };
               "ui.help" = { fg = flavor.text.hex; bg = flavor.surface1.hex; };
               "ui.cursor" = { modifiers = [ "reversed" ]; };
+              "ui.popup" = { fg = flavor.text.hex; bg = flavor.surface1.hex; };
+              "ui.menu.scroll" = { fg = flavor.teal.hex; bg = flavor.overlay0.hex; };
               "variable" = flavor.rosewater.hex;
               "variable.builtin" = flavor.maroon.hex;
               "variable.other.member" = flavor.rosewater.hex;
