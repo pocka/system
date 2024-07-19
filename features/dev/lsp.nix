@@ -261,7 +261,6 @@ in
               require("trouble").setup({
                 position = "bottom",
                 height = 5,
-                icons = false,
                 fold_open = "-",
                 fold_closed = "+",
                 mode = "document_diagnostics",
