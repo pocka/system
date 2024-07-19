@@ -45,6 +45,11 @@
         settings = {
           editor = {
             auto-pairs = false;
+
+            indent-guides = {
+              render = true;
+              skip-levels = 1;
+            };
           };
         };
       };

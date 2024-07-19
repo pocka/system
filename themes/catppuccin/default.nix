@@ -421,6 +421,7 @@ in
               "ui.linenr.selected" = { fg = flavor.mauve.hex; bg = "none"; modifiers = [ "bold" ]; };
               "ui.selection" = { fg = flavor.base.hex; bg = flavor.blue.hex; };
               "ui.selection.primary" = { modifiers = [ "reversed" ]; };
+              "ui.virtual.indent-guide" = { fg = flavor.surface1.hex; };
               "comment" = { fg = flavor.subtext0.hex; modifiers = [ "italic" ]; };
               "ui.statusline" = { fg = flavor.text.hex; bg = flavor.surface0.hex; };
               "ui.statusline.inactive" = { fg = flavor.subtext0.hex; bg = flavor.surface0.hex; };
