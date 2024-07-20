@@ -50,6 +50,11 @@
               render = true;
               skip-levels = 1;
             };
+
+            file-picker = {
+              # Prevent file picker from ignoring dotfiles.
+              hidden = false;
+            };
           };
         };
       };
