@@ -290,6 +290,15 @@ in
             };
           };
         };
+
+        languages = {
+          language = [
+            {
+              name = "typescript";
+              roots = [ "tsconfig.json" ];
+            }
+          ];
+        };
       };
     };
 
