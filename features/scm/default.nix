@@ -108,6 +108,13 @@ in
       };
     };
 
+    # Home Manager writes Jujutsu config file to wrong location on macOS.
+    # This env var is workaround until a fix is landed.
+    # <https://github.com/nix-community/home-manager/pull/5416>
+    home.sessionVariables = lib.mkIf pkgs.stdenv.isDarwin {
+      JJ_CONFIG = "${config.xdg.configHome}/jj/config.toml";
+    };
+
     home.packages = [
       pkgs.fossil
       (
