@@ -254,31 +254,6 @@ in
               })
             '';
           }
-          {
-            plugin = trouble-nvim;
-            type = "lua";
-            config = ''
-              require("trouble").setup({
-                position = "bottom",
-                height = 5,
-                fold_open = "-",
-                fold_closed = "+",
-                mode = "document_diagnostics",
-                auto_close = false,
-                signs = {
-                  error = "error",
-                  warning = "warn",
-                  hint = "hint",
-                  information = "info"
-                },
-                modes = {
-                  diagnostics = {
-                    auto_open = true,
-                  },
-                },
-              })
-            '';
-          }
         ];
       };
 
