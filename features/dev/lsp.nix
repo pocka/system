@@ -159,6 +159,16 @@ in
           name = "zls";
         };
       };
+
+      gleam = lib.mkOption {
+        type = ls;
+
+        default = {
+          name = "gleam";
+          # nvim-lspconfig incorrectly have ".git" in the default root_dir.
+          rootDirPattern = [ "gleam.toml" ];
+        };
+      };
     };
   };
 

@@ -96,6 +96,7 @@
                         css
                         html
                         zig
+                        gleam
                       ];
                     };
                   };
