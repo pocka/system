@@ -21,6 +21,8 @@ func main() {
 
 	flag.Parse()
 
+	logger := log.New(os.Stderr, "", 0)
+
 	if *help {
 		fmt.Print(helpText())
 		os.Exit(0)
@@ -29,24 +31,24 @@ func main() {
 	args := flag.Args()
 	if len(args) < 1 {
 		fmt.Fprint(os.Stderr, helpText())
-		log.Fatal("No command provided.")
+		logger.Fatal("No command provided.")
 	}
 
 	switch args[0] {
 	case "set":
 		if len(args) != 2 {
 			fmt.Fprint(os.Stderr, helpText())
-			log.Fatal("`set` requires exact 1 argument")
+			logger.Fatal("`set` requires exact 1 argument")
 		}
 
-		setSpecialisation(args[1], *verbose)
+		setSpecialisation(args[1], *verbose, logger)
 	case "unset":
-		activateNonSpecialisedProfile()
+		activateNonSpecialisedProfile(logger)
 	case "clean":
-		clean()
+		clean(logger)
 	default:
 		fmt.Fprint(os.Stderr, helpText())
-		log.Fatalf("Unknown command: %s", args[0])
+		logger.Fatalf("Unknown command: %s", args[0])
 	}
 }
 
@@ -79,81 +81,81 @@ func helpText() string {
 `, binName, binName, binName)
 }
 
-func setSpecialisation(specialisation string, verbose bool) {
+func setSpecialisation(specialisation string, verbose bool, logger *log.Logger) {
 	if strings.Contains(specialisation, "/") {
-		log.Fatalf("specialisation cannot have slash (\"/\"): %s", specialisation)
+		logger.Fatalf("specialisation cannot have slash (\"/\"): %s", specialisation)
 	}
 
-	generations, err := Generations()
+	generations, err := Generations(logger)
 	if err != nil {
-		log.Fatalf("Failed to get generations: %s", err)
+		logger.Fatalf("Failed to get generations: %s", err)
 	}
 
 	for _, generation := range generations {
 		specialisations, err := generation.Specialisations()
 		if err != nil {
-			log.Fatalf("Failed to get specialisations for %s: %s", generation.ID, err)
+			logger.Fatalf("Failed to get specialisations for %s: %s", generation.ID, err)
 		}
 
 		if verbose {
-			log.Printf("Found generation with ID=%s", generation.ID)
+			logger.Printf("Found generation with ID=%s", generation.ID)
 		}
 
 		for _, s := range specialisations {
 			if verbose {
-				log.Printf("Found specialisation with Name=%s in generation ID=%s", s.Name, generation.ID)
+				logger.Printf("Found specialisation with Name=%s in generation ID=%s", s.Name, generation.ID)
 			}
 
 			if s.Name != specialisation {
 				continue
 			}
 
-			log.Printf("Activate %s from ID=%s", specialisation, generation.ID)
+			logger.Printf("Activate %s from ID=%s", specialisation, generation.ID)
 
 			if err := s.Profile.Activate(); err != nil {
-				log.Fatalf("Failed to activate %s: %s", specialisation, err)
+				logger.Fatalf("Failed to activate %s: %s", specialisation, err)
 			}
 
-			log.Printf("Activated %s", specialisation)
+			logger.Printf("Activated %s", specialisation)
 			os.Exit(0)
 		}
 	}
 
-	log.Fatalf("No specialisation named \"%s\" found", specialisation)
+	logger.Fatalf("No specialisation named \"%s\" found", specialisation)
 }
 
-func activateNonSpecialisedProfile() {
-	generations, err := Generations()
+func activateNonSpecialisedProfile(logger *log.Logger) {
+	generations, err := Generations(logger)
 	if err != nil {
-		log.Fatalf("Failed to get generations: %s", err)
+		logger.Fatalf("Failed to get generations: %s", err)
 	}
 
 	for _, generation := range generations {
 		specialisations, err := generation.Specialisations()
 		if err != nil {
-			log.Fatalf("Failed to check specialisations (ID=%s): %s", generation.ID, err)
+			logger.Fatalf("Failed to check specialisations (ID=%s): %s", generation.ID, err)
 		}
 
 		if len(specialisations) == 0 {
 			continue
 		}
 
-		log.Printf("Activate generation (ID=%s)", generation.ID)
+		logger.Printf("Activate generation (ID=%s)", generation.ID)
 
 		if err := generation.Profile.Activate(); err != nil {
-			log.Fatalf("Failed to activate: %s", err)
+			logger.Fatalf("Failed to activate: %s", err)
 		}
 
 		os.Exit(0)
 	}
 
-	log.Fatal("No generation having specialisations found: Manually switch to a profile using home-manager.")
+	logger.Fatal("No generation having specialisations found: Manually switch to a profile using home-manager.")
 }
 
-func clean() {
-	generations, err := Generations()
+func clean(logger *log.Logger) {
+	generations, err := Generations(logger)
 	if err != nil {
-		log.Fatalf("Failed to get generations: %s", err)
+		logger.Fatalf("Failed to get generations: %s", err)
 	}
 
 	foundGenerationHavingSpecialisation := false
@@ -164,7 +166,7 @@ func clean() {
 		if !foundGenerationHavingSpecialisation {
 			specialisations, err := generation.Specialisations()
 			if err != nil {
-				log.Fatalf("Failed to get specialisations for ID=%s: %s", generation.ID, err)
+				logger.Fatalf("Failed to get specialisations for ID=%s: %s", generation.ID, err)
 			}
 
 			if len(specialisations) > 0 {
@@ -177,13 +179,13 @@ func clean() {
 			continue
 		}
 
-		log.Printf("Removing generation ID=%s", generation.ID)
+		logger.Printf("Removing generation ID=%s", generation.ID)
 
 		args = append(args, generation.ID)
 	}
 
 	if len(args) == 1 {
-		log.Print("Nothing to clean.")
+		logger.Print("Nothing to clean.")
 		os.Exit(0)
 	}
 
@@ -193,7 +195,7 @@ func clean() {
 	cmd.Stdout = &out
 
 	if err := cmd.Run(); err != nil {
-		log.Fatalf("Failed to remove generations: %s", err)
+		logger.Fatalf("Failed to remove generations: %s", err)
 	}
 
 }
@@ -279,7 +281,7 @@ func ParseGeneration(line string) (*Generation, error) {
 	}, nil
 }
 
-func Generations() ([]Generation, error) {
+func Generations(logger *log.Logger) ([]Generation, error) {
 	cmd := exec.Command(homeManagerPath, "generations")
 
 	var out strings.Builder
@@ -306,7 +308,7 @@ func Generations() ([]Generation, error) {
 
 		generation, err := ParseGeneration(line)
 		if err != nil {
-			log.Printf("Failed to parse generation output: %s", err.Error())
+			logger.Printf("Failed to parse generation output: %s", err.Error())
 			continue
 		}
 
