@@ -7,6 +7,9 @@
         defaultEditor = true;
 
         extraLuaConfig = ''
+          -- Enable fast Lua module loader
+          vim.loader.enable()
+
           -- Set default tab size
           vim.opt.tabstop = 2
 
