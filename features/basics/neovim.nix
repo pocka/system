@@ -100,6 +100,15 @@
             type = "lua";
             config = ''
               vim.keymap.set("n", "<leader>fs", ":Telescope file_browser<CR>");
+
+              -- Open file browser on startup if no arguments provided
+              vim.api.nvim_create_autocmd("VimEnter", {
+                callback = function()
+                  if vim.fn.argv(0) == "" then
+                    require("telescope").extensions.file_browser.file_browser()
+                  end
+                end,
+              })
             '';
           }
           {
