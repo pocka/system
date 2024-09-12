@@ -10,7 +10,7 @@
 
           font = {
             name = "Dank Mono";
-            size = 15;
+            size = 14;
           };
 
           # Kitty's customisability is top-notch.
