@@ -9,7 +9,7 @@
           enable = lib.mkDefault true;
 
           font = {
-            name = "Dank Mono";
+            name = "Monaspace Neon Var";
             size = 14;
           };
 
