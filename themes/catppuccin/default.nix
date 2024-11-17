@@ -475,9 +475,9 @@ in
             head + tail;
         in
         {
-          theme = "Catppuccin-${toCapital cfg.flavor}";
+          themeFile = "Catppuccin-${toCapital cfg.flavor}";
 
-          settings.background_opacity = "1.0";
+          settings.background_opacity = 1.0;
         };
 
       programs.foot =
