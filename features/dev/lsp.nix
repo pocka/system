@@ -97,7 +97,7 @@ in
         type = ls;
 
         default = {
-          name = "tsserver";
+          name = "ts_ls";
           rootDirPattern = [ "tsconfig.json" ];
           initOptions = ''
             preferences = {
