@@ -50,12 +50,6 @@
             enableBashIntegration = true;
             enableZshIntegration = true;
           };
-
-          extraConfig = ''
-            font_features DankMono-Regular -liga
-            font_features DankMono-Italic -liga
-            font_features DankMono-Bold -liga
-          '';
         };
       };
   };
