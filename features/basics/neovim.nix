@@ -41,6 +41,14 @@
           -- https://github.com/ziglang/zig.vim/issues/51
           vim.g.zig_fmt_autosave = 0
 
+          -- Disable extremely ridiculous "recommended style" for Markdown files,
+          -- which comes from upstream (Vim). This fucking opt-out option automatically
+          -- sets indentation related properties, such as tabstop and expandtab, ignoring
+          -- user provided values and editorconfig. This anti-accessibility option should
+          -- be disabled, of course. Neovim update introduced this monster and I found this
+          -- solution in: <https://github.com/neovim/neovim/issues/23011>
+          vim.g.markdown_recommended_style = 0
+
           -- Configure Telescope and its plugins
           require("telescope").setup {
             pickers = {
