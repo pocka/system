@@ -196,7 +196,8 @@ in
               (builtins.map lsToSetupStmt cfg.langs) ++
               [
                 ''
-                  -- LSP key mappings
+                  -- [LSP]
+
                   vim.api.nvim_create_autocmd("LspAttach", {
                     group = vim.api.nvim_create_augroup("UserLspConfig", {}),
                     callback = function(ev)
@@ -212,6 +213,26 @@ in
                       border = "single",
                     }
                   )
+
+                  -- Rename
+                  -- <https://neovim.io/doc/user/lsp.html#vim.lsp.buf.rename()>
+                  vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, {})
+
+                  -- Highlight a token under a cursor
+                  -- <https://neovim.io/doc/user/lsp.html#vim.lsp.buf.document_highlight()>
+                  vim.keymap.set("n", "<leader>lh", function()
+                    -- Previous highlights need to be manually cleared.
+                    vim.lsp.buf.clear_references()
+                    vim.lsp.buf.document_highlight()
+                  end, {})
+
+                  -- Go to definition
+                  -- <https://neovim.io/doc/user/lsp.html#vim.lsp.buf.definition()>
+                  vim.keymap.set("n", "<leader>ld", vim.lsp.buf.definition, {})
+
+                  -- Clear LSP highlights
+                  -- <https://neovim.io/doc/user/lsp.html#vim.lsp.buf.clear_references()>
+                  vim.keymap.set("n", "<leader>lc", vim.lsp.buf.clear_references, {})
                 ''
               ]
             );
