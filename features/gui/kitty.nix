@@ -41,7 +41,6 @@
             tab_bar_style = "powerline";
 
             # Windows
-            hide_window_decorations = true;
             window_padding_width = 5;
             inactive_text_alpha = 0.8;
           };
