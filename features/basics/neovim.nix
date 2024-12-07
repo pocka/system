@@ -23,7 +23,7 @@
           vim.api.nvim_create_autocmd(
             "Filetype",
             {
-              pattern = { "css" },
+              pattern = { "css", "astro" },
               command = "setlocal iskeyword-=-",
             }
           )
