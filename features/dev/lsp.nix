@@ -139,6 +139,14 @@ in
         default = {
           name = "cssls";
           singleFileSupport = true;
+          initOptions = ''
+            provideFormatter = false
+          '';
+          settings = ''
+            css = {
+              validate = false
+            }
+          '';
         };
       };
 
