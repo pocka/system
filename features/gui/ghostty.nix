@@ -13,7 +13,13 @@
         font-style-bold = "Bold";
         font-style-italic = "Medium Italic";
         font-style-bold-italic = "Bold Italic";
-        font-feature = "calt";
+
+        # * "calt" ... Contextual Alternates
+        #              This feature enables Monaspace's Texture healing.
+        # * "dlig" ... Discretionary Ligatures
+        #              This feature fucks up Japanese text rendering.
+        #              Enabled by default.
+        font-feature = [ "calt" "-dlig" ];
 
         copy-on-select = false;
       };
