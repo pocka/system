@@ -26,8 +26,8 @@
 
       keybindings = {
         "ctrl+shift+t" = "new_tab";
-        "ctrl+shift+n" = "new_split:right";
-        "ctrl+shift+m" = "new_split:down";
+        "ctrl+shift+n" = "new_split:down";
+        "ctrl+shift+m" = "new_split:right";
 
         "super+shift+k" = "resize_split:up,10";
         "super+shift+h" = "resize_split:left,10";
