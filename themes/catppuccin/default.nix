@@ -57,42 +57,6 @@ in
       };
     in
     {
-      features.basics.zsh.theme =
-        let
-          zshFg = hex: "%F{${hex}}";
-        in
-        {
-          text = zshFg flavor.text.hex;
-          vi.insert = zshFg flavor.blue.hex;
-          vi.normal = zshFg flavor.green.hex;
-          vcs.info = zshFg flavor.subtext0.hex;
-          vcs.staged = zshFg flavor.green.hex;
-          vcs.unstaged = zshFg flavor.red.hex;
-          symbol = zshFg flavor.overlay0.hex;
-        };
-
-      # Only a subset of configurable knobs... Nushell's docs and API stability is unbelievably bad.
-      features.data.nushell = lib.mkIf (config.features.data.enable && config.programs.nushell.enable) {
-        colorConfig = {
-          separator = flavor.subtext1.hex;
-          leading_trailing_space_bg = flavor.mantle.hex;
-          header = flavor.green.hex;
-          row_index = flavor.pink.hex;
-          hints = flavor.subtext0.hex;
-
-          date = flavor.maroon.hex;
-          string = flavor.text.hex;
-          bool = flavor.peach.hex;
-          int = flavor.peach.hex;
-          float = flavor.peach.hex;
-
-          shape_bool = flavor.peach.hex;
-          shape_string = flavor.green.hex;
-          shape_int = flavor.peach.hex;
-          shape_float = flavor.peach.hex;
-        };
-      };
-
       features.wayland-de = lib.mkIf config.features.wayland-de.enable {
         tofi = rec {
           fuzzyMatch = false;
@@ -212,10 +176,6 @@ in
       };
 
       home.packages = [
-        # A generator for LS_COLORS with support for multiple color themes
-        # https://github.com/sharkdp/vivid
-        pkgs.vivid
-
         (lib.mkIf config.features.wayland-de.enable wallpaper)
       ];
 
@@ -340,125 +300,50 @@ in
         '';
       };
 
-      # Colourise eza, ls, lf, etc...
-      # This needs to be done in .zshrc: in Crostini, `home.sessionVariables`
-      # cannot invoke `vivid` binary. Probably evaluation timing?
-      programs.zsh.initExtra = ''
-        export LS_COLORS="$(vivid generate catppuccin-${cfg.flavor})"
-      '';
-
-      programs.bat = lib.mkIf config.programs.bat.enable {
-        themes = {
-          "catppuccin-${cfg.flavor}" = {
-            src = pkgs.fetchFromGitHub {
-              owner = "catppuccin";
-              repo = "bat";
-              rev = "ba4d16880d63e656acced2b7d4e034e4a93f74b1";
-              sha256 = "1g2r6j33f4zys853i1c5gnwcdbwb6xv5w6pazfdslxf69904lrg9";
-            };
-
-            file = "Catppuccin-${cfg.flavor}.tmTheme";
-          };
-        };
-
-        config = {
-          theme = "catppuccin-${cfg.flavor}";
-        };
-      };
-
-      programs.tmux.plugins = [
-        {
-          plugin = pkgs.tmuxPlugins.catppuccin;
-          extraConfig = ''
-            set -g @plugin 'catppuccin/tmux'
-            set -g @catppuccin_flavour '${cfg.flavor}'
-            set -g @catppuccin_no_patched_fonts_theme_enabled on
-          '';
-        }
-      ];
-
-      programs.neovim =
-        {
-          plugins =
-            [
-              {
-                plugin = pkgs.vimPlugins.catppuccin-nvim;
-                type = "lua";
-                config =
-                  let
-                    lspIntegration = lib.trivial.boolToString config.features.dev.lsp.enable;
-                  in
-                  ''
-                    vim.o.termguicolors = true
-
-                    require("catppuccin").setup({
-                      flavour = "${cfg.flavor}",
-                      transparent_background = true,
-                      integrations = {
-                        indent_blankline = {
-                          enabled = true,
-                        },
-                        cmp = ${lspIntegration},
-                        lsp_trouble = ${lspIntegration},
-                      },
-                    })
-
-                    vim.cmd.colorscheme "catppuccin"
-                  '';
-              }
-            ];
-        };
-
-      programs.helix =
+      programs.ghostty =
+        let
+          darkFlavor =
+            if cfg.flavor == "latte" then
+              "mocha"
+            else
+              cfg.flavor;
+        in
         {
           settings = {
-            theme = "catppuccin";
+            theme = "light:catppuccin-latte-corrected,dark:catppuccin-${darkFlavor}";
           };
+        };
 
-          themes = {
-            catppuccin = {
-              "ui.linenr" = { fg = flavor.text.hex; bg = "none"; };
-              "ui.linenr.selected" = { fg = flavor.mauve.hex; bg = "none"; modifiers = [ "bold" ]; };
-              "ui.selection" = { bg = flavor.overlay1.hex; };
-              "ui.selection.primary" = { bg = flavor.overlay0.hex; };
-              "ui.virtual.indent-guide" = { fg = flavor.surface1.hex; };
-              "comment" = { fg = flavor.subtext0.hex; modifiers = [ "italic" ]; };
-              "ui.statusline" = { fg = flavor.text.hex; bg = flavor.surface0.hex; };
-              "ui.statusline.inactive" = { fg = flavor.subtext0.hex; bg = flavor.surface0.hex; };
-              "ui.help" = { fg = flavor.text.hex; bg = flavor.surface1.hex; };
-              "ui.cursor" = { modifiers = [ "reversed" ]; };
-              "ui.popup" = { fg = flavor.text.hex; bg = flavor.surface1.hex; };
-              "ui.menu" = { fg = flavor.text.hex; bg = flavor.surface0.hex; };
-              "ui.menu.selected" = { underline = { style = "line"; }; modifiers = [ "bold" ]; };
-              "ui.menu.scroll" = { fg = flavor.teal.hex; bg = flavor.overlay0.hex; };
-              "variable" = flavor.rosewater.hex;
-              "variable.builtin" = flavor.maroon.hex;
-              "variable.other.member" = flavor.rosewater.hex;
-              "constant" = flavor.maroon.hex;
-              "constant.character.escape" = flavor.sapphire.hex;
-              "constant.numeric" = flavor.mauve.hex;
-              "attributes" = flavor.flamingo.hex;
-              "type" = flavor.sapphire.hex;
-              "ui.cursor.match" = { fg = flavor.yellow.hex; modifiers = [ "underlined" ]; };
-              "string" = flavor.green.hex;
-              "function" = flavor.lavender.hex;
-              "constructor" = flavor.blue.hex;
-              "special" = flavor.blue.hex;
-              "keyword" = flavor.pink.hex;
-              "label" = flavor.pink.hex;
-              "namespace" = flavor.blue.hex;
-              "diff.plus" = flavor.green.hex;
-              "diff.delta" = flavor.yellow.hex;
-              "diff.minus" = flavor.red.hex;
-              "diagnostic" = { modifiers = [ "underlined" ]; };
-              "ui.gutter" = { bg = "none"; };
-              "info" = flavor.blue.hex;
-              "hint" = flavor.sky.hex;
-              "debug" = flavor.flamingo.hex;
-              "warning" = flavor.yellow.hex;
-              "error" = flavor.red.hex;
-            };
-          };
+      # The default palette is not correctly inverted.
+      xdg.configFile."ghostty/themes/catppuccin-latte-corrected" =
+        let
+          latte = json.latte;
+          hex = color: lib.strings.removePrefix "#" color.hex;
+        in
+        lib.mkIf config.programs.ghostty.enable {
+          text = ''
+            palette = 0=${latte.crust.hex}
+            palette = 1=${latte.red.hex}
+            palette = 2=${latte.green.hex}
+            palette = 3=${latte.yellow.hex}
+            palette = 4=${latte.blue.hex}
+            palette = 5=${latte.pink.hex}
+            palette = 6=${latte.teal.hex}
+            palette = 7=${latte.subtext0.hex}
+            palette = 8=${latte.surface2.hex}
+            palette = 9=#de293e
+            palette = 10=#49af3d
+            palette = 11=#eea02d
+            palette = 12=#456eff
+            palette = 13=#fe85d8
+            palette = 14=#2d9fa8
+            palette = 15=${latte.text.hex}
+            background = ${hex latte.base}
+            foreground = ${hex latte.text}
+            cursor-color = ${hex latte.rosewater}
+            selection-background = ${hex latte.surface2}
+            selection-foreground = ${hex latte.text}
+          '';
         };
 
       programs.kitty =

@@ -43,6 +43,8 @@
         enable = true;
 
         settings = {
+          theme = "base16_default";
+
           editor = {
             auto-pairs = false;
 
@@ -106,6 +108,11 @@
       # https://github.com/sharkdp/bat
       bat = {
         enable = true;
+
+        config = {
+          # Use ANSI colors
+          theme = "ansi";
+        };
       };
 
       # `top` alternative

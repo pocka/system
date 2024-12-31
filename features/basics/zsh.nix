@@ -11,7 +11,7 @@ in
     features.basics.zsh.theme = {
       text = lib.mkOption {
         type = lib.types.nonEmptyStr;
-        default = "%{$fg[white]%}";
+        default = "%f";
       };
 
       vi.insert = lib.mkOption {
@@ -43,7 +43,7 @@ in
 
       symbol = lib.mkOption {
         type = lib.types.nonEmptyStr;
-        default = "%{$fg[black]%}";
+        default = "%F{8}";
       };
     };
   };

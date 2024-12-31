@@ -19,6 +19,29 @@
           -- Disable insane mouse hijacking
           vim.opt.mouse = ""
 
+          -- Use ANSI colors
+          vim.o.termguicolors = false
+
+          -- Highlight current cursor line
+          vim.o.cursorline = true
+
+          -- Theme
+          vim.cmd[[highlight! Comment ctermfg=7 cterm=italic]]
+          vim.cmd[[highlight! Constant ctermfg=1 cterm=NONE]]
+          vim.cmd[[highlight! Statement ctermfg=1]]
+          vim.cmd[[highlight! Special ctermfg=3]]
+          vim.cmd[[highlight! Function ctermfg=NONE cterm=bold]]
+          vim.cmd[[highlight! NonText ctermfg=0]]
+          vim.cmd[[highlight! LineNr ctermfg=8]]
+          vim.cmd[[highlight! CursorLineNr ctermfg=7 cterm=bold]]
+          vim.cmd[[highlight! Directory ctermfg=4]]
+          vim.cmd[[highlight! Type ctermfg=6]]
+          vim.cmd[[highlight! Operator ctermfg=7]]
+          vim.cmd[[highlight! Identifier ctermfg=NONE]]
+          vim.cmd[[highlight! Delimiter ctermfg=7]]
+          vim.cmd[[highlight! @tag ctermfg=NONE cterm=italic]]
+          vim.cmd[[highlight! @tag.builtin ctermfg=7 cterm=bold]]
+
           -- Prevent stupid CSS "defaults" from registering hyphen as a keyword
           vim.api.nvim_create_autocmd(
             "Filetype",
@@ -150,8 +173,46 @@
             plugin = lualine-nvim;
             type = "lua";
             config = ''
+              local lualine_colors = {
+                active_bg = 0,
+                inactive_bg = 0,
+                inactive_fg = 8,
+              }
+
               require("lualine").setup({
                 options = {
+                  theme = {
+                    normal = {
+                      a = { bg = lualine_colors.active_bg, gui = "bold" },
+                      b = { bg = lualine_colors.active_bg },
+                      c = { bg = lualine_colors.active_bg },
+                    },
+                    insert = {
+                      a = { bg = lualine_colors.active_bg, gui = "bold" },
+                      b = { bg = lualine_colors.active_bg },
+                      c = { bg = lualine_colors.active_bg },
+                    },
+                    visual = {
+                      a = { bg = lualine_colors.active_bg, gui = "bold" },
+                      b = { bg = lualine_colors.active_bg },
+                      c = { bg = lualine_colors.active_bg },
+                    },
+                    replace = {
+                      a = { bg = lualine_colors.active_bg, gui = "bold" },
+                      b = { bg = lualine_colors.active_bg },
+                      c = { bg = lualine_colors.active_bg },
+                    },
+                    command = {
+                      a = { bg = lualine_colors.active_bg, gui = "bold" },
+                      b = { bg = lualine_colors.active_bg },
+                      c = { bg = lualine_colors.active_bg },
+                    },
+                    inactive = {
+                      a = { fg = lualine_colors.inactive_fg, bg = lualine_colors.inactive_bg, gui = "bold" },
+                      b = { fg = lualine_colors.inactive_fg, bg = lualine_colors.inactive_bg },
+                      c = { fg = lualine_colors.inactive_fg, bg = lualine_colors.inactive_bg },
+                    },
+                  },
                   icons_enabled = false,
                   section_separators = "",
                   component_separators = "",

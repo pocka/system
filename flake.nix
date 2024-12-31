@@ -12,6 +12,10 @@
     mac-app-util = {
       url = "github:hraban/mac-app-util";
     };
+
+    hm-ghostty = {
+      url = "github:clo4/ghostty-hm-module";
+    };
   };
 
   outputs =
@@ -19,6 +23,7 @@
     , nixpkgs
     , home-manager
     , mac-app-util
+    , hm-ghostty
     ,
     }:
     let
@@ -39,6 +44,7 @@
               # Fix Home-Manager on MacOS cannot register GUI applications and Spotlight
               # won't find those applications.
               mac-app-util.homeManagerModules.default
+              hm-ghostty.homeModules.default
               ./features
               ({ config, ... }: rec {
                 # Turn off Home Manager news bs

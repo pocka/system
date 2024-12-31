@@ -52,6 +52,21 @@
         "type": "indirect"
       }
     },
+    "hm-ghostty": {
+      "locked": {
+        "lastModified": 1702368251,
+        "narHash": "sha256-hafrDmzGplzm+vdIo+LkOjRfA4qRcy5JmpGGksnht5c=",
+        "owner": "clo4",
+        "repo": "ghostty-hm-module",
+        "rev": "887e13a6e7acf5ffaab0119d96e476d84db90904",
+        "type": "github"
+      },
+      "original": {
+        "owner": "clo4",
+        "repo": "ghostty-hm-module",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -128,6 +143,7 @@
     },
     "root": {
       "inputs": {
+        "hm-ghostty": "hm-ghostty",
         "home-manager": "home-manager",
         "mac-app-util": "mac-app-util",
         "nixpkgs": "nixpkgs_2"
