@@ -126,6 +126,10 @@
       # https://github.com/BurntSushi/ripgrep
       ripgrep = {
         enable = true;
+
+        arguments = [
+          "--sort=path"
+        ];
       };
     };
   };
