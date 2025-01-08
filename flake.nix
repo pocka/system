@@ -52,24 +52,12 @@
 
                 home.stateVersion = "23.11";
 
-                specialisation = {
-                  dark.configuration = {
-                    # One of: "latte", "frappe", "macchiato", "mocha"
-                    themes.catppuccin.flavor = module.themes.catppuccin.flavor or "mocha";
-                  };
-
-                  light.configuration = {
-                    themes.catppuccin.flavor = "latte";
-                  };
-                };
+                # One of: "latte", "frappe", "macchiato", "mocha"
+                themes.catppuccin.flavor = module.themes.catppuccin.flavor or "mocha";
 
                 home.packages = [
                   pkgs.home-manager
-                  (pkgs.callPackage ./programs/specialise {
-                    specialisations = pkgs.lib.attrsets.mapAttrsToList
-                      (name: _: name)
-                      specialisation;
-                  })
+                  (pkgs.callPackage ./programs/hm-clean { })
                 ];
 
                 features = nixpkgs.lib.mkDefault {

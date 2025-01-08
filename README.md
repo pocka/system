@@ -42,22 +42,16 @@ Due to each softwares' design limitation, the system needs to have these package
 
 ## Programs
 
-### `specialisation`
+### `hm-clean`
 
-`specialisation` activates the given Home Manager specialisation.
+`hm-clean` removes obsolete Home Manager generations.
 
 ```sh
-# Switch to dark mode
-specialisation set dark
+# Clean obsolete home-manager generations.
+hm-clean
 
-# Switch to light mode
-specialisation set light
-
-# Switch to non-specialised profile
-specialisation unset
-
-# Clean obsolete home-manager generations
-specialisation clean
+# with verbose logging.
+hm-clean --verbose
 ```
 
 ## License
