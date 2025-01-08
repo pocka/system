@@ -29,10 +29,10 @@
         "ctrl+shift+n" = "new_split:down";
         "ctrl+shift+m" = "new_split:right";
 
-        "super+shift+k" = "resize_split:up,10";
-        "super+shift+h" = "resize_split:left,10";
-        "super+shift+j" = "resize_split:down,10";
-        "super+shift+l" = "resize_split:right,10";
+        "super+shift+k" = "resize_split:up,20";
+        "super+shift+h" = "resize_split:left,20";
+        "super+shift+j" = "resize_split:down,20";
+        "super+shift+l" = "resize_split:right,20";
 
         "ctrl+shift+k" = "goto_split:top";
         "ctrl+shift+h" = "goto_split:left";
