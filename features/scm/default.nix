@@ -105,6 +105,10 @@ in
         revsets = {
           log = "all()";
         };
+
+        git = {
+          private-commits = "description(regex:'\\[WIP\\]')";
+        };
       };
     };
 
