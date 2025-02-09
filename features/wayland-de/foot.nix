@@ -29,7 +29,10 @@
 
         settings = {
           main = {
-            font = "monospace:size=10";
+            # While "calt" is specified, Foot does not support ligatures
+            # so this OpenType feature is no-op.
+            # <https://codeberg.org/dnkl/foot/issues/57>
+            font = "Monaspace Neon Var:size=11:fontfeatures=calt";
           };
 
           colors = {

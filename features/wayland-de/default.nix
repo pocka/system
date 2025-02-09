@@ -16,6 +16,11 @@
   ];
 
   config = lib.mkIf config.features.wayland-de.enable {
+    home.packages = [
+      # https://monaspace.githubnext.com/
+      pkgs.monaspace
+    ];
+
     home.sessionVariables = {
       # By default, Firefox and Thunderbird uses X11.
       # Users need to explicitly set the env (it sucks).
