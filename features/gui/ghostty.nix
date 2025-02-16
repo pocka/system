@@ -4,7 +4,7 @@
     programs.ghostty = {
       enable = true;
 
-      package = pkgs.ghostty;
+      package = if pkgs.stdenv.isDarwin then pkgs.nur.repos.DimitarNestorov.ghostty else pkgs.ghostty;
 
       settings = {
         font-size = 14;

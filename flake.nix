@@ -9,6 +9,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     mac-app-util = {
       url = "github:hraban/mac-app-util";
     };
@@ -22,6 +27,7 @@
     { self
     , nixpkgs
     , home-manager
+    , nur
     , mac-app-util
     , hm-ghostty
     ,
@@ -37,7 +43,10 @@
           theme ? ./themes/catppuccin
         }:
         home-manager.lib.homeManagerConfiguration rec {
-          pkgs = nixpkgs.legacyPackages.${system};
+          pkgs = import nixpkgs {
+            inherit system;
+            overlays = [ nur.overlays.default ];
+          };
 
           modules =
             [
