@@ -89,12 +89,11 @@ in
           email = config.features.identity.email;
         };
 
-        signing =
-          if (config.features.identity.gpgSigningKeyId != null) then {
-            sign-all = true;
-            backend = "gpg";
-            key = config.features.identity.gpgSigningKeyId;
-          } else null;
+        signing = lib.mkIf (config.features.identity.gpgSigningKeyId != null) {
+          sign-all = true;
+          backend = "gpg";
+          key = config.features.identity.gpgSigningKeyId;
+        };
 
         ui = lib.mkIf config.features.dev.enable {
           diff = {
