@@ -161,6 +161,8 @@
             features.identity.gpgSigningKeyId = null;
 
             features.dev.enable = false;
+
+            features.scm-server.enable = true;
           };
         };
 
