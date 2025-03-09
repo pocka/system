@@ -12,6 +12,7 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = [
       pkgs.soft-serve
+      pkgs.legit-web
     ];
 
     xdg.dataFile."soft-serve/config.yaml" =
@@ -64,6 +65,56 @@ in
         ExecStart = "${pkgs.soft-serve}/bin/soft serve";
         Environment = "SOFT_SERVE_DATA_PATH=${config.xdg.dataHome}/soft-serve";
         WorkingDirectory = "${config.xdg.dataHome}/soft-serve";
+      };
+
+      Install = {
+        WantedBy = [ "default.target" ];
+      };
+    };
+
+    xdg.configFile."legit/config.yaml" = {
+      text = ''
+        repo:
+          scanPath: "${config.xdg.dataHome}/soft-serve/repos/x"
+          readme:
+            - "README"
+            - "README.md"
+            - "README.adoc"
+            - "README.txt"
+            - "ABOUT"
+            - "ABOUT.md"
+            - "ABOUT.adoc"
+            - "ABOUT.txt"
+          mainBranch:
+            - "master"
+            - "main"
+
+        dirs:
+          templates: "${pkgs.legit-web}/lib/legit/templates"
+          static: "${pkgs.legit-web}/lib/legit/static"
+
+        meta:
+          title: "git.pocka.jp"
+          description: "My personal projects"
+
+        server:
+          name: "git.pocka.jp"
+          host: "127.0.0.1"
+          port: 5555
+      '';
+    };
+
+    systemd.user.services.legit = {
+      Unit = {
+        Description = "legit, web frontend for git repositories.";
+      };
+
+      Service = {
+        Type = "simple";
+        Restart = "always";
+        RestartSec = 1;
+        ExecStart = "${pkgs.legit-web}/bin/legit --config=${config.xdg.configHome}/legit/config.yaml";
+        Environment = "PATH=$PATH:${lib.makeBinPath [pkgs.git] }";
       };
 
       Install = {
