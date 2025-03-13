@@ -90,7 +90,7 @@ in
         };
 
         signing = lib.mkIf (config.features.identity.gpgSigningKeyId != null) {
-          sign-all = true;
+          behavior = "own";
           backend = "gpg";
           key = config.features.identity.gpgSigningKeyId;
         };
