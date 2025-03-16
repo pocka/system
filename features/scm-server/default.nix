@@ -73,10 +73,12 @@ in
     };
 
     xdg.configFile."legit/config.yaml" = {
+      # TODO: Remove `readme` once created `README.md` in forked legit.
       text = ''
         repo:
           scanPath: "${config.xdg.dataHome}/soft-serve/repos/x"
           readme:
+            - "readme"
             - "README"
             - "README.md"
             - "README.adoc"
