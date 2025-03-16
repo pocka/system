@@ -45,7 +45,10 @@
         home-manager.lib.homeManagerConfiguration rec {
           pkgs = import nixpkgs {
             inherit system;
-            overlays = [ nur.overlays.default ];
+            overlays = [
+              nur.overlays.default
+              (import ./overlays/legit.nix)
+            ];
           };
 
           modules =
