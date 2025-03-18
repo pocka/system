@@ -346,25 +346,6 @@ in
           '';
         };
 
-      programs.kitty =
-        let
-          # Convert the input string's first character to upper case.
-          # Example: "foo" -> "Foo"
-          toCapital = with lib;
-            str:
-            let
-              len = builtins.stringLength str;
-              head = strings.toUpper (builtins.substring 0 1 str);
-              tail = builtins.substring 1 (len - 1) str;
-            in
-            head + tail;
-        in
-        {
-          themeFile = "Catppuccin-${toCapital cfg.flavor}";
-
-          settings.background_opacity = 1.0;
-        };
-
       programs.foot =
         let
           toFootHex = lib.strings.removePrefix "#";
