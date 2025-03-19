@@ -128,6 +128,7 @@
           system = "x86_64-linux";
           module = {
             features.wayland-de.enable = true;
+            features.gui.enable = true;
 
             wayland.windowManager.sway.config = {
               startup = [

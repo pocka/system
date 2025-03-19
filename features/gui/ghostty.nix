@@ -7,7 +7,8 @@
       package = if pkgs.stdenv.isDarwin then pkgs.nur.repos.DimitarNestorov.ghostty else pkgs.ghostty;
 
       settings = {
-        font-size = 14;
+        # Somehow Ghostty renders Monaspace in incorrect size at either of platform.
+        font-size = if pkgs.stdenv.isDarwin then 14 else 11;
         font-family = "Monaspace Neon Var";
         font-style = "Medium";
         font-style-bold = "Bold";
