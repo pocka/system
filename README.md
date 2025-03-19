@@ -37,8 +37,9 @@ Then, run `nix profile diff-closures --profile <profiles directory>/home-manager
 
 Due to each softwares' design limitation, the system needs to have these packages.
 
-- [`sway`](https://archlinux.org/packages/extra/x86_64/sway/) ... The one installed using Nix does not launch.
+- [niri](https://github.com/YaLTeR/niri)
 - [`pantheon-polkit-agent`](https://archlinux.org/packages/extra/x86_64/pantheon-polkit-agent/) ... The one installed installed using Nix cannot lookup `polkit-agent-helper-1`.
+- [swaylock](https://github.com/swaywm/swaylock) ... access to PAM required, which is not possible with regular user Nix installation.
 
 ## Programs
 

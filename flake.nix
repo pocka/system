@@ -139,17 +139,9 @@
             nixGL.defaultWrapper = "mesa";
             nixGL.installScripts = [ "mesa" ];
 
-            wayland.windowManager.sway.config = {
-              startup = [
-                { command = "/usr/lib/policykit-1-pantheon/io.elementary.desktop.agent-polkit"; }
-              ];
-
-              output = {
-                "HDMI-A-1" = {
-                  scale = "1.5";
-                };
-              };
-            };
+            features.wayland-de.niri.outputs = [
+              { name = "HDMI-A-1"; scale = 1.4; }
+            ];
           };
         };
 

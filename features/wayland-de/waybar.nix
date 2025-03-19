@@ -8,14 +8,8 @@
           main = {
             layer = "top";
 
-            modules-left = [ "sway/workspaces" "sway/mode" ];
-            modules-right = [ "clock" "network" "pulseaudio" "tray" ];
-
-            "sway/workspaces" = {
-              disable-scroll = true;
-              all-outputs = true;
-              format = "{name}";
-            };
+            modules-left = [ ];
+            modules-right = [ "clock" "pulseaudio" "tray" ];
 
             clock = {
               # waybar can't read $TZ. Maybe a bug with Nix environment?

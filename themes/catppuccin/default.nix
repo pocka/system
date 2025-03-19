@@ -1,6 +1,10 @@
 { config, lib, pkgs, ... }:
 let
   cfg = config.themes.catppuccin;
+
+  radius = 6;
+
+  gap = 16;
 in
 {
   options = {
@@ -18,16 +22,6 @@ in
         description = ''
           Specify which Catppuccin _flavor_ (color palette) to use.
         '';
-      };
-
-      wallpaperWidth = lib.mkOption {
-        type = lib.types.ints.unsigned;
-        default = 3840;
-      };
-
-      wallpaperHeight = lib.mkOption {
-        type = lib.types.ints.unsigned;
-        default = 2160;
       };
     };
   };
@@ -47,17 +41,55 @@ in
 
       flavor = json."${cfg.flavor}";
 
-      wallpaper = import ./wallpaper {
-        inherit pkgs;
-        flavor = cfg.flavor;
-        colors = flavor;
-        mocha = json.mocha;
-        width = cfg.wallpaperWidth;
-        height = cfg.wallpaperHeight;
-      };
+      stripSharp = hex: lib.strings.removePrefix "#" hex;
     in
     {
       features.wayland-de = lib.mkIf config.features.wayland-de.enable {
+        niri = {
+          background-color = flavor.base.hex;
+
+          layout = {
+            focus-ring = {
+              width = gap / 4;
+              active-color = flavor.peach.hex;
+              inactive-color = flavor.surface0.hex;
+            };
+
+            gaps = gap;
+
+            struts.bottom = gap / -2;
+          };
+
+          window-rule-all = {
+            corner-radius = radius;
+          };
+        };
+
+        swaylock = {
+          flags = [
+            "color=${stripSharp flavor.base.hex}"
+            "indicator-thickness=8"
+            "indicator-idle-visible"
+            "inside-color=${stripSharp flavor.base.hex}"
+            "inside-clear-color=${stripSharp flavor.base.hex}"
+            "inside-ver-color=${stripSharp flavor.base.hex}"
+            "inside-wrong-color=${stripSharp flavor.base.hex}"
+            "key-hl-color=${stripSharp flavor.mauve.hex}"
+            "line-color=${stripSharp flavor.surface0.hex}"
+            "line-clear-color=${stripSharp flavor.surface0.hex}"
+            "line-ver-color=${stripSharp flavor.overlay2.hex}"
+            "line-wrong-color=${stripSharp flavor.red.hex}"
+            "ring-color=${stripSharp flavor.base.hex}"
+            "ring-clear-color=${stripSharp flavor.base.hex}"
+            "ring-ver-color=${stripSharp flavor.overlay0.hex}"
+            "ring-wrong-color=${stripSharp flavor.maroon.hex}"
+            "text-color=${stripSharp flavor.text.hex}"
+            "text-clear-color=${stripSharp flavor.text.hex}"
+            "text-ver-color=${stripSharp flavor.subtext1.hex}"
+            "text-wrong-color=${stripSharp flavor.red.hex}"
+          ];
+        };
+
         tofi = rec {
           fuzzyMatch = false;
 
@@ -134,11 +166,6 @@ in
             color = "#00000000";
           };
         };
-
-        swaybg = {
-          background = flavor.base.hex;
-          image = "${wallpaper}/usr/share/backgrounds/catppuccin-${cfg.flavor}.png";
-        };
       };
 
       services.dunst = lib.mkIf config.services.dunst.enable {
@@ -175,68 +202,6 @@ in
         };
       };
 
-      home.packages = [
-        (lib.mkIf config.features.wayland-de.enable wallpaper)
-      ];
-
-      wayland.windowManager.sway = lib.mkIf config.wayland.windowManager.sway.enable {
-        config = {
-          colors = {
-            focused = {
-              childBorder = flavor.lavender.hex;
-              background = flavor.base.hex;
-              text = flavor.text.hex;
-              indicator = flavor.rosewater.hex;
-              border = flavor.lavender.hex;
-            };
-            focusedInactive = {
-              childBorder = flavor.overlay0.hex;
-              background = flavor.base.hex;
-              text = flavor.overlay1.hex;
-              indicator = flavor.rosewater.hex;
-              border = flavor.overlay0.hex;
-            };
-            unfocused = {
-              childBorder = flavor.overlay0.hex;
-              background = flavor.base.hex;
-              text = flavor.overlay1.hex;
-              indicator = flavor.rosewater.hex;
-              border = flavor.overlay0.hex;
-            };
-            urgent = {
-              childBorder = flavor.peach.hex;
-              background = flavor.base.hex;
-              text = flavor.peach.hex;
-              indicator = flavor.overlay0.hex;
-              border = flavor.peach.hex;
-            };
-            placeholder = {
-              childBorder = flavor.overlay0.hex;
-              background = flavor.base.hex;
-              text = flavor.text.hex;
-              indicator = flavor.overlay0.hex;
-              border = flavor.overlay0.hex;
-            };
-            background = flavor.base.hex;
-          };
-
-          gaps = {
-            outer = 6;
-            inner = 6;
-
-            smartBorders = "on";
-            smartGaps = true;
-          };
-
-          window = {
-            border = 1;
-            titlebar = false;
-
-            hideEdgeBorders = "smart";
-          };
-        };
-      };
-
       programs.waybar = lib.mkIf config.programs.waybar.enable {
         settings = {
           main = {
@@ -247,13 +212,13 @@ in
         style = ''
           * {
             font-family: "FontAwesome", Roboto, Helvetica, Arial, sans-serif;
-            font-size: 14px;
+            font-size: 16px;
           }
 
           window#waybar {
-            border-top: 1px solid ${flavor.overlay0.hex};
+            padding: ${builtins.toString gap}px;
 
-            background-color: ${flavor.mantle.hex};
+            background-color: transparent;
             color: ${flavor.text.hex};
           }
 
@@ -318,7 +283,6 @@ in
       xdg.configFile."ghostty/themes/catppuccin-latte-corrected" =
         let
           latte = json.latte;
-          hex = color: lib.strings.removePrefix "#" color.hex;
         in
         lib.mkIf config.programs.ghostty.enable {
           text = ''
@@ -338,43 +302,12 @@ in
             palette = 13=#fe85d8
             palette = 14=#2d9fa8
             palette = 15=${latte.text.hex}
-            background = ${hex latte.base}
-            foreground = ${hex latte.text}
-            cursor-color = ${hex latte.rosewater}
-            selection-background = ${hex latte.surface2}
-            selection-foreground = ${hex latte.text}
+            background = ${stripSharp latte.base.hex}
+            foreground = ${stripSharp latte.text.hex}
+            cursor-color = ${stripSharp latte.rosewater.hex}
+            selection-background = ${stripSharp latte.surface2.hex}
+            selection-foreground = ${stripSharp latte.text.hex}
           '';
         };
-
-      programs.foot =
-        let
-          toFootHex = lib.strings.removePrefix "#";
-          fg = toFootHex flavor.surface0.hex;
-          bg = toFootHex flavor.text.hex;
-        in
-        {
-          settings.main = {
-            include = "${config.xdg.configHome}/foot/theme.conf";
-          };
-
-          settings.cursor = {
-            # Foot by default invert fg/bg for cursor. However, this makes
-            # cursor on indent_blankline's indent char/spaces barely visible.
-            color = "${fg} ${bg}";
-          };
-        };
-
-      xdg.configFile."foot/theme.conf" = lib.mkIf config.programs.foot.enable {
-        text = builtins.readFile (
-          pkgs.fetchFromGitHub
-            {
-              owner = "catppuccin";
-              repo = "foot";
-              rev = "009cd57bd3491c65bb718a269951719f94224eb7";
-              sha256 = "0f0r8d4rn54gibrzfhiy4yr8bi7c8j18ggp1y9lyidc1dmy9kvw0";
-            }
-          + "/catppuccin-${cfg.flavor}.conf"
-        );
-      };
     };
 }

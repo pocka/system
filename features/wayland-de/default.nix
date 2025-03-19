@@ -6,9 +6,8 @@
   };
 
   imports = [
-    ./foot.nix
-    ./sway.nix
-    ./swaybg.nix
+    ./niri.nix
+    ./swaylock.nix
     ./tofi.nix
     ./fcitx5.nix
     ./dunst.nix
@@ -26,5 +25,9 @@
       # Users need to explicitly set the env (it sucks).
       MOZ_ENABLE_WAYLAND = "1";
     };
+
+    features.wayland-de.niri.spawn-at-startup = [
+      [ "${pkgs.waybar}/bin/waybar" ]
+    ];
   };
 }
