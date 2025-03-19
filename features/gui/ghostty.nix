@@ -39,9 +39,9 @@
         "super+shift+j" = "resize_split:down,20";
         "super+shift+l" = "resize_split:right,20";
 
-        "ctrl+shift+k" = "goto_split:top";
+        "ctrl+shift+k" = "goto_split:up";
         "ctrl+shift+h" = "goto_split:left";
-        "ctrl+shift+j" = "goto_split:bottom";
+        "ctrl+shift+j" = "goto_split:down";
         "ctrl+shift+l" = "goto_split:right";
       };
     };
