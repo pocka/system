@@ -4,7 +4,11 @@
     programs.ghostty = {
       enable = true;
 
-      package = if pkgs.stdenv.isDarwin then pkgs.nur.repos.DimitarNestorov.ghostty else pkgs.ghostty;
+      package =
+        if pkgs.stdenv.isDarwin then
+          pkgs.nur.repos.DimitarNestorov.ghostty
+        else
+          config.lib.nixGL.wrap pkgs.ghostty;
 
       settings = {
         # Somehow Ghostty renders Monaspace in incorrect size at either of platform.

@@ -21,6 +21,10 @@
     hm-ghostty = {
       url = "github:clo4/ghostty-hm-module";
     };
+
+    nixgl = {
+      url = "github:nix-community/nixGL";
+    };
   };
 
   outputs =
@@ -30,6 +34,7 @@
     , nur
     , mac-app-util
     , hm-ghostty
+    , nixgl
     ,
     }:
     let
@@ -129,6 +134,10 @@
           module = {
             features.wayland-de.enable = true;
             features.gui.enable = true;
+
+            nixGL.packages = nixgl.packages;
+            nixGL.defaultWrapper = "mesa";
+            nixGL.installScripts = [ "mesa" ];
 
             wayland.windowManager.sway.config = {
               startup = [
