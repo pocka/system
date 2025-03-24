@@ -98,6 +98,7 @@ in
         meta:
           title: "git.pocka.jp"
           description: "My personal projects"
+          syntaxHighlight: true
 
         server:
           name: "git.pocka.jp"
