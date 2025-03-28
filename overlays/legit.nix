@@ -4,8 +4,8 @@ final: prev:
     src = prev.fetchFromGitHub {
       owner = "pocka";
       repo = "legit";
-      rev = "5e6eb22bac88b3cc074da553b9ab181f5f06ee3b";
-      hash = "sha256-zR/FhaLlfWwWDc1mAFhxj3nz1QnXfUvyx3y/fo9Esws=";
+      rev = "d38d10b2cc8867e68b08d2ad19aabcbfabe9df74";
+      hash = "sha256-13rv3rPr10OYmBePTu5V1499lF8r1/6NTEC02o7Tc2k=";
     };
 
     vendorHash = "sha256-QxkMxO8uzBCC3oMSWjdVsbR2cluYMx5OOKTgaNOLHxc=";
