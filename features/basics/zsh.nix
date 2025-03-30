@@ -105,6 +105,8 @@ in
           zstyle ":vcs_info:*" formats "${vcs.info}''${CH_BRANCH} %b%c%u${text}"
           zstyle ":vcs_info:*" actionformats "[%b|%a]"
 
+          zstyle ":completion:*" ignored-patterns "dpipe"
+
           function zle-line-init zle-keymap-select {
             case $KEYMAP in
               vicmd)
