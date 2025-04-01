@@ -31,7 +31,11 @@
         copy-on-select = false;
 
         keybind = [
-          "ctrl+shift+t=new_tab"
+          (if pkgs.stdenv.isDarwin then
+            "ctrl+shift+t=new_tab"
+          else
+            "ctrl+shift+t=new_window"
+          )
           "ctrl+shift+n=new_split:down"
           "ctrl+shift+m=new_split:right"
 
