@@ -6,7 +6,7 @@ in
   options = {
     features.wayland-de.swaylock = {
       flags = lib.mkOption {
-        type = lib.types.listOf lib.types.string;
+        type = lib.types.listOf lib.types.str;
         default = [ ];
       };
     };

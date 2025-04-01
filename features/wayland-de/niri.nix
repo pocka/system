@@ -39,7 +39,7 @@ in
       };
 
       background-color = lib.mkOption {
-        type = lib.types.nullOr lib.types.string;
+        type = lib.types.nullOr lib.types.str;
         default = null;
       };
 
