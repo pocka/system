@@ -4,6 +4,8 @@
     programs.ghostty = {
       enable = true;
 
+      enableZshIntegration = true;
+
       package =
         if pkgs.stdenv.isDarwin then
           pkgs.nur.repos.DimitarNestorov.ghostty
@@ -27,22 +29,22 @@
         font-feature = [ "calt" "-dlig" ];
 
         copy-on-select = false;
-      };
 
-      keybindings = {
-        "ctrl+shift+t" = "new_tab";
-        "ctrl+shift+n" = "new_split:down";
-        "ctrl+shift+m" = "new_split:right";
+        keybind = [
+          "ctrl+shift+t=new_tab"
+          "ctrl+shift+n=new_split:down"
+          "ctrl+shift+m=new_split:right"
 
-        "super+shift+k" = "resize_split:up,20";
-        "super+shift+h" = "resize_split:left,20";
-        "super+shift+j" = "resize_split:down,20";
-        "super+shift+l" = "resize_split:right,20";
+          "super+shift+k=resize_split:up,20"
+          "super+shift+h=resize_split:left,20"
+          "super+shift+j=resize_split:down,20"
+          "super+shift+l=resize_split:right,20"
 
-        "ctrl+shift+k" = "goto_split:up";
-        "ctrl+shift+h" = "goto_split:left";
-        "ctrl+shift+j" = "goto_split:down";
-        "ctrl+shift+l" = "goto_split:right";
+          "ctrl+shift+k=goto_split:up"
+          "ctrl+shift+h=goto_split:left"
+          "ctrl+shift+j=goto_split:down"
+          "ctrl+shift+l=goto_split:right"
+        ];
       };
     };
   };

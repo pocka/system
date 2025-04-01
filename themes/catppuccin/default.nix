@@ -277,37 +277,32 @@ in
           settings = {
             theme = "light:catppuccin-latte-corrected,dark:catppuccin-${darkFlavor}";
           };
-        };
 
-      # The default palette is not correctly inverted.
-      xdg.configFile."ghostty/themes/catppuccin-latte-corrected" =
-        let
-          latte = json.latte;
-        in
-        lib.mkIf config.programs.ghostty.enable {
-          text = ''
-            palette = 0=${latte.crust.hex}
-            palette = 1=${latte.red.hex}
-            palette = 2=${latte.green.hex}
-            palette = 3=${latte.yellow.hex}
-            palette = 4=${latte.blue.hex}
-            palette = 5=${latte.pink.hex}
-            palette = 6=${latte.teal.hex}
-            palette = 7=${latte.subtext0.hex}
-            palette = 8=${latte.surface2.hex}
-            palette = 9=#de293e
-            palette = 10=#49af3d
-            palette = 11=#eea02d
-            palette = 12=#456eff
-            palette = 13=#fe85d8
-            palette = 14=#2d9fa8
-            palette = 15=${latte.text.hex}
-            background = ${stripSharp latte.base.hex}
-            foreground = ${stripSharp latte.text.hex}
-            cursor-color = ${stripSharp latte.rosewater.hex}
-            selection-background = ${stripSharp latte.surface2.hex}
-            selection-foreground = ${stripSharp latte.text.hex}
-          '';
+          themes.catppuccin-latte-corrected = {
+            palette = [
+              "0=${json.latte.crust.hex}"
+              "1=${json.latte.red.hex}"
+              "2=${json.latte.green.hex}"
+              "3=${json.latte.yellow.hex}"
+              "4=${json.latte.blue.hex}"
+              "5=${json.latte.pink.hex}"
+              "6=${json.latte.teal.hex}"
+              "7=${json.latte.subtext0.hex}"
+              "8=${json.latte.surface2.hex}"
+              "9=#de293e"
+              "10=#49af3d"
+              "11=#eea02d"
+              "12=#456eff"
+              "13=#fe85d8"
+              "14=#2d9fa8"
+              "15=${json.latte.text.hex}"
+            ];
+            background = stripSharp json.latte.base.hex;
+            foreground = stripSharp json.latte.text.hex;
+            cursor-color = stripSharp json.latte.rosewater.hex;
+            selection-background = stripSharp json.latte.surface2.hex;
+            selection-foreground = stripSharp json.latte.text.hex;
+          };
         };
     };
 }
