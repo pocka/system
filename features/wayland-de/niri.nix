@@ -47,7 +47,7 @@ in
         keyboard = {
           repeat-delay = lib.mkOption {
             type = lib.types.ints.unsigned;
-            default = 150;
+            default = 200;
           };
           repeat-rate = lib.mkOption {
             type = lib.types.ints.unsigned;
