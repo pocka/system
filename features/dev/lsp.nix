@@ -210,7 +210,7 @@ in
                     group = vim.api.nvim_create_augroup("UserLspConfig", {}),
                     callback = function(ev)
                       vim.keymap.set("n", "K", function()
-                        vim.lsp.buf.hover({ border = "single" })
+                        vim.lsp.buf.hover({ border = "rounded" })
                       end, { buffer = ev.buf })
                     end,
                   })
