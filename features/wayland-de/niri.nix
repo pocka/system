@@ -265,9 +265,18 @@ in
             // Proportion sets the width as a fraction of the output width, taking gaps into account.
             // For example, you can perfectly fit four windows sized "proportion 0.25" on an output.
             // The default preset widths are 1/3, 1/2 and 2/3 of the output.
+            proportion 0.2
             proportion 0.33333
             proportion 0.5
-            proportion 0.66667
+            proportion 0.666
+            proportion 0.8
+          }
+
+          preset-window-heights {
+            proportion 0.25
+            proportion 0.5
+            proportion 0.75
+            proportion 0.9
           }
 
           // You can change the default width of the new windows.
