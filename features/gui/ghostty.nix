@@ -30,25 +30,28 @@
 
         copy-on-select = false;
 
-        keybind = [
-          (if pkgs.stdenv.isDarwin then
+        keybind =
+          if pkgs.stdenv.isDarwin then [
             "ctrl+shift+t=new_tab"
-          else
+            "ctrl+shift+n=new_split:down"
+            "ctrl+shift+m=new_split:right"
+
+            "super+shift+k=resize_split:up,20"
+            "super+shift+h=resize_split:left,20"
+            "super+shift+j=resize_split:down,20"
+            "super+shift+l=resize_split:right,20"
+
+            "ctrl+shift+k=goto_split:up"
+            "ctrl+shift+h=goto_split:left"
+            "ctrl+shift+j=goto_split:down"
+            "ctrl+shift+l=goto_split:right"
+          ]
+          else [
             "ctrl+shift+t=new_window"
-          )
-          "ctrl+shift+n=new_split:down"
-          "ctrl+shift+m=new_split:right"
+            "ctrl+shift+n=new_window"
+            "ctrl+shift+m=new_window"
+          ];
 
-          "super+shift+k=resize_split:up,20"
-          "super+shift+h=resize_split:left,20"
-          "super+shift+j=resize_split:down,20"
-          "super+shift+l=resize_split:right,20"
-
-          "ctrl+shift+k=goto_split:up"
-          "ctrl+shift+h=goto_split:left"
-          "ctrl+shift+j=goto_split:down"
-          "ctrl+shift+l=goto_split:right"
-        ];
       };
     };
   };
