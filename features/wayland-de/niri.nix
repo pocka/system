@@ -334,8 +334,8 @@ in
           Mod+L     { focus-column-right; }
 
           Mod+Ctrl+H     { move-column-left; }
-          Mod+Ctrl+J     { move-window-down; }
-          Mod+Ctrl+K     { move-window-up; }
+          Mod+Ctrl+J     { consume-or-expel-window-left; }
+          Mod+Ctrl+K     { consume-or-expel-window-right; }
           Mod+Ctrl+L     { move-column-right; }
 
           Mod+U              { focus-workspace-down; }
