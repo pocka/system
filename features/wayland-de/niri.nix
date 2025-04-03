@@ -338,8 +338,8 @@ in
           Mod+Q { close-window; }
 
           Mod+H     { focus-column-left; }
-          Mod+J     { focus-window-down; }
-          Mod+K     { focus-window-up; }
+          Mod+J     { focus-window-down-or-column-right; }
+          Mod+K     { focus-window-up-or-column-left; }
           Mod+L     { focus-column-right; }
 
           Mod+Ctrl+H     { move-column-left; }
