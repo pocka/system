@@ -209,18 +209,11 @@ in
                   vim.api.nvim_create_autocmd("LspAttach", {
                     group = vim.api.nvim_create_augroup("UserLspConfig", {}),
                     callback = function(ev)
-                      local opts = { buffer = ev.buf }
-                      vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+                      vim.keymap.set("n", "K", function()
+                        vim.lsp.buf.hover({ border = "single" })
+                      end, { buffer = ev.buf })
                     end,
                   })
-
-                  -- Hover style
-                  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-                    vim.lsp.handlers.hover,
-                    {
-                      border = "single",
-                    }
-                  )
 
                   -- Rename
                   -- <https://neovim.io/doc/user/lsp.html#vim.lsp.buf.rename()>
