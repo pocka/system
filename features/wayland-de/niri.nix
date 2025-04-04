@@ -265,23 +265,22 @@ in
             // Proportion sets the width as a fraction of the output width, taking gaps into account.
             // For example, you can perfectly fit four windows sized "proportion 0.25" on an output.
             // The default preset widths are 1/3, 1/2 and 2/3 of the output.
-            proportion 0.2
-            proportion 0.33333
+            proportion 0.25
             proportion 0.5
-            proportion 0.666
-            proportion 0.8
+            proportion 0.75
           }
 
           preset-window-heights {
             proportion 0.25
             proportion 0.5
             proportion 0.75
-            proportion 0.9
           }
 
           // You can change the default width of the new windows.
           // If you leave the brackets empty, the windows themselves will decide their initial width.
-          default-column-width {}
+          default-column-width {
+            proportion 0.5
+          }
 
           focus-ring {
             width ${builtins.toString cfg.layout.focus-ring.width}
@@ -316,6 +315,14 @@ in
           // - Flatpak Firefox (app-id is "org.mozilla.firefox")
           match app-id=r#"firefox$"# title="^Picture-in-Picture$"
           open-floating true
+        }
+
+        window-rule {
+          match app-id="^com\\.mitchellh\\.ghostty$"
+
+          default-column-width {
+            proportion 0.25
+          }
         }
 
         // Enable rounded corners for all windows.
