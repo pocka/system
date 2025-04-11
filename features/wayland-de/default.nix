@@ -28,6 +28,7 @@
     ./tofi.nix
     ./fcitx5.nix
     ./dunst.nix
+    ./swaybg.nix
     ./waybar.nix
   ];
 

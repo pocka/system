@@ -79,4 +79,5 @@ Commentable files have copyright and license header and uncommentable files (e.g
 
 - Files under `programs/` are licensed under [Apache-2.0](./LICENSES/Apache-2.0.txt).
 - Media files are licensed under [CC BY-ND 4.0](./LICENSES/CC-BY-ND-4.0.txt).
+- Files under `vendor/` are licensed differently: see each files' license header or adjacent `.license` file.
 - Other files, including Nix config files, are licensed under [Zero-Clause BSD](./LICENSES/0BSD.txt).
