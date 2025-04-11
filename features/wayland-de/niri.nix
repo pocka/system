@@ -165,6 +165,70 @@ in
           };
         };
 
+        border = {
+          width = lib.mkOption {
+            type = lib.types.ints.unsigned;
+            description = "How many logical pixels the ring extends out from the windows.";
+            default = 3;
+          };
+
+          active-color = lib.mkOption {
+            type = lib.types.nonEmptyStr;
+            description = ''
+              Color of the border on the active monitor.
+
+              Colors can be set in a variety of ways:
+              - CSS named colors: "red"
+              - RGB hex: "#rgb", "#rgba", "#rrggbb", "#rrggbbaa"
+              - CSS-like notation: "rgb(255, 127, 0)", rgba(), hsl() and a few others.
+
+              You can also use gradients. They take precedence over solid colors.
+              Gradients are rendered the same as CSS linear-gradient(angle, from, to).
+              The angle is the same as in linear-gradient, and is optional,
+              defaulting to 180 (top-to-bottom gradient).
+              You can use any CSS linear-gradient tool on the web to set these up.
+              Changing the color space is also supported, check the wiki for more info.
+
+              active-gradient from="#80c8ff" to="#bbddff" angle=45
+
+              You can also color the gradient relative to the entire view
+              of the workspace, rather than relative to just the window itself.
+              To do that, set relative-to="workspace-view".
+
+              inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
+            '';
+            default = "#7fc8ff";
+          };
+
+          inactive-color = lib.mkOption {
+            type = lib.types.nonEmptyStr;
+            description = ''
+              Color of the border on inactive monitors.
+
+              Colors can be set in a variety of ways:
+              - CSS named colors: "red"
+              - RGB hex: "#rgb", "#rgba", "#rrggbb", "#rrggbbaa"
+              - CSS-like notation: "rgb(255, 127, 0)", rgba(), hsl() and a few others.
+
+              You can also use gradients. They take precedence over solid colors.
+              Gradients are rendered the same as CSS linear-gradient(angle, from, to).
+              The angle is the same as in linear-gradient, and is optional,
+              defaulting to 180 (top-to-bottom gradient).
+              You can use any CSS linear-gradient tool on the web to set these up.
+              Changing the color space is also supported, check the wiki for more info.
+
+              active-gradient from="#80c8ff" to="#bbddff" angle=45
+
+              You can also color the gradient relative to the entire view
+              of the workspace, rather than relative to just the window itself.
+              To do that, set relative-to="workspace-view".
+
+              inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
+            '';
+            default = "#505050";
+          };
+        };
+
         struts = {
           left = lib.mkOption {
             type = lib.types.int;
@@ -306,7 +370,17 @@ in
           }
 
           border {
-            off
+            width ${builtins.toString cfg.layout.border.width}
+
+            active-color "${cfg.layout.border.active-color}"
+
+            inactive-color "${cfg.layout.border.inactive-color}"
+          }
+
+          shadow {
+            on
+            softness 40
+            spread 5
           }
 
           struts {

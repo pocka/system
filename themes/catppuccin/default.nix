@@ -17,7 +17,7 @@
 let
   cfg = config.themes.catppuccin;
 
-  radius = 6;
+  radius = 2;
 
   gap = 16;
 in
@@ -65,8 +65,14 @@ in
 
           layout = {
             focus-ring = {
-              width = gap / 4;
-              active-color = flavor.peach.hex;
+              width = 1;
+              active-color = flavor.overlay1.hex;
+              inactive-color = flavor.surface1.hex;
+            };
+
+            border = {
+              width = gap / 5;
+              active-color = flavor.overlay2.hex;
               inactive-color = flavor.surface0.hex;
             };
 
