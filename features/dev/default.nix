@@ -64,7 +64,9 @@ in
       # A tool for compliance with the REUSE Initiative recommendations
       # https://reuse.software/tutorial/
       pkgs.reuse
+
+      # https://jetify-com.vercel.app/docs/devbox/
+      pkgs.devbox
     ];
   };
-
 }
