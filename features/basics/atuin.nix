@@ -37,6 +37,8 @@
         filter_mode_shell_up_key_binding = "session";
 
         update_check = false;
+
+        inline_height = 0;
       };
     };
   };
