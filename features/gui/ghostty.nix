@@ -27,6 +27,8 @@
         else
           config.lib.nixGL.wrap pkgs.ghostty;
 
+      installBatSyntax = !pkgs.stdenv.isDarwin;
+
       settings = {
         # Somehow Ghostty renders Monaspace in incorrect size at either of platform.
         font-size = if pkgs.stdenv.isDarwin then 14 else 11;
