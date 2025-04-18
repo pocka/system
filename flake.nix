@@ -31,10 +31,12 @@
 
     mac-app-util = {
       url = "github:hraban/mac-app-util";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nixgl = {
       url = "github:nix-community/nixGL";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
