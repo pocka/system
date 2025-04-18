@@ -83,7 +83,6 @@ let
         ${cmd}
         ${rootDir}
         single_file_support = ${lib.trivial.boolToString c.singleFileSupport},
-        capabilities = capabilities,
         ${initOptions}
         ${settings}
       }
@@ -200,7 +199,50 @@ in
       neovim = lib.mkIf config.programs.neovim.enable {
         plugins = with pkgs.vimPlugins; [
           {
-            plugin = cmp-nvim-lsp;
+            plugin = mini-completion;
+            type = "lua";
+            config = ''
+              require("mini.completion").setup({
+                window = {
+                  info = { border = "single" },
+                  signature = { border = "single" },
+                },
+                lsp_completion = {
+                  snippet_insert  = vim.snippet.expand,
+                }
+              })
+
+              -- from :h mini-completion
+              local imap_expr = function(lhs, rhs)
+                vim.keymap.set("i", lhs, rhs, { expr = true })
+              end
+              imap_expr("<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]])
+              imap_expr("<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
+
+              local keycode = vim.keycode or function(x)
+                return vim.api.nvim_replace_termcodes(x, true, true, true)
+              end
+              local keys = {
+                ['cr']        = keycode('<CR>'),
+                ['ctrl-y']    = keycode('<C-y>'),
+                ['ctrl-y_cr'] = keycode('<C-y><CR>'),
+              }
+
+              _G.cr_action = function()
+                if vim.fn.pumvisible() ~= 0 then
+                  -- If popup is visible, confirm selected item or add new line otherwise
+                  local item_selected = vim.fn.complete_info()['selected'] ~= -1
+                  return item_selected and keys['ctrl-y'] or keys['ctrl-y_cr']
+                else
+                  -- If popup is not visible, use plain `<CR>`. You might want to customize
+                  -- according to other plugins. For example, to use 'mini.pairs', replace
+                  -- next line with `return require('mini.pairs').cr()`
+                  return keys['cr']
+                end
+              end
+
+              vim.keymap.set('i', '<CR>', 'v:lua._G.cr_action()', { expr = true })
+            '';
           }
           {
             plugin = nvim-lspconfig;
@@ -211,7 +253,6 @@ in
                 ''
                   -- Based on https://github.com/neovim/nvim-lspconfig#suggested-configuration
 
-                  local capabilities = require("cmp_nvim_lsp").default_capabilities()
                   local lspconfig = require("lspconfig")
 
                 ''
@@ -255,51 +296,6 @@ in
           }
           {
             plugin = luasnip;
-          }
-          {
-            plugin = nvim-cmp;
-            type = "lua";
-            config = ''
-              local cmp = require("cmp")
-
-              cmp.setup({
-                -- cmp requires snippet engine, without the engine it crashes occasionally
-                snippet = {
-                  expand = function(args)
-                    require("luasnip").lsp_expand(args.body)
-                  end,
-                },
-                window = {
-                  completion = cmp.config.window.bordered(),
-                  documentation = cmp.config.window.bordered(),
-                },
-                mapping = cmp.mapping.preset.insert({
-                  ["<CR>"] = cmp.mapping.confirm {
-                    behavior = cmp.ConfirmBehavior.Insert,
-                    select = true,
-                  },
-                  ["<Tab>"] = cmp.mapping(function(fallback)
-                    if cmp.visible() then
-                      cmp.select_next_item()
-                      return
-                    end
-
-                    fallback()
-                  end, { "i", "s" }),
-                  ["<S-Tab>"] = cmp.mapping(function(fallback)
-                    if cmp.visible() then
-                      cmp.select_prev_item()
-                      return
-                    end
-
-                    fallback()
-                  end, { "i", "s" }),
-                }),
-                sources = {
-                  { name = "nvim_lsp" }
-                },
-              })
-            '';
           }
         ];
       };

@@ -56,6 +56,10 @@
           vim.cmd[[highlight! Delimiter ctermfg=7]]
           vim.cmd[[highlight! @tag ctermfg=NONE cterm=italic]]
           vim.cmd[[highlight! @tag.builtin ctermfg=7 cterm=bold]]
+          vim.cmd[[highlight! Pmenu ctermfg=15 ctermbg=NONE cterm=reverse]]
+          vim.cmd[[highlight! PmenuSel ctermfg=0 ctermbg=15 cterm=bold]]
+          vim.cmd[[highlight! PmenuSbar ctermfg=NONE ctermbg=7 cterm=NONE]]
+          vim.cmd[[highlight! PmenuThumb ctermfg=NONE ctermbg=8 cterm=NONE]]
 
           -- Prevent stupid CSS "defaults" from registering hyphen as a keyword
           vim.api.nvim_create_autocmd(
