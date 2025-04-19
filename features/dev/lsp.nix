@@ -85,6 +85,15 @@ let
         single_file_support = ${lib.trivial.boolToString c.singleFileSupport},
         ${initOptions}
         ${settings}
+        capabilities = {
+          textDocument = {
+            completion = {
+              completionItem = {
+                snippetSupport = false,
+              }
+            }
+          }
+        }
       }
     '';
 in
