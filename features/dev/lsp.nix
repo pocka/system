@@ -218,7 +218,9 @@ in
                 },
                 lsp_completion = {
                   snippet_insert  = vim.snippet.expand,
-                }
+                },
+                fallback_action = function()
+                end,
               })
 
               -- from :h mini-completion
