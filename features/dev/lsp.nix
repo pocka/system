@@ -200,6 +200,14 @@ in
           rootDirPattern = [ "gleam.toml" ];
         };
       };
+
+      swift = lib.mkOption {
+        type = ls;
+
+        default = {
+          name = "sourcekit";
+        };
+      };
     };
   };
 

@@ -119,6 +119,7 @@
                         html
                         zig
                         gleam
+                        swift
                       ];
                     };
                   };
