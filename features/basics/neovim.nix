@@ -87,6 +87,12 @@
             }
           )
 
+          vim.filetype.add({
+            extension = {
+              vapi = "vala",
+            },
+          })
+
           -- Prevent default zig plugin from automatically format on save
           -- https://github.com/ziglang/zig.vim/issues/51
           vim.g.zig_fmt_autosave = 0
