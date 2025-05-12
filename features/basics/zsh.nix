@@ -103,9 +103,23 @@ in
           CH_BRANCH=$'\ue0a0'
 
           function custom-prompt() {
+            PROMPT_PREFIX=""
+
+            if [[ -n $SSH_CLIENT ]] || [[ -n $SSH_TTY ]]; then
+              PROMPT_PREFIX="''${PROMPT_PREFIX}[SSH]"
+            fi
+
+            if [[ -n $IN_NIX_SHELL ]]; then
+              PROMPT_PREFIX="''${PROMPT_PREFIX}[Nix]"
+            fi
+
+            if [[ -n $PROMPT_PREFIX ]]; then
+              PROMPT_PREFIX="''${PROMPT_PREFIX} "
+            fi
+
             echo -e "
 
-          %f%k%b''${1}%1d ''${vcs_info_msg_0_}%k%f%b
+          %f%k%b%F{cyan}''${PROMPT_PREFIX}%f''${1}%1d ''${vcs_info_msg_0_}%k%f%b
           ${symbol}%# ${text}"
           }
 
