@@ -339,8 +339,9 @@ in
       };
     };
 
-    home.packages = lib.mkIf (builtins.elem cfg.zig cfg.langs) [
-      pkgs.zls
+    home.packages = [
+      (lib.mkIf (builtins.elem cfg.zig cfg.langs) pkgs.zls)
+      (lib.mkIf (!pkgs.stdenv.isDarwin) pkgs.sourcekit-lsp)
     ];
 
     # zls, the Zig Language Server does not support LSP's initializationOptions
