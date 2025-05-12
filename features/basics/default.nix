@@ -31,6 +31,10 @@
 
       # Command to produce a depth indented directory listing
       pkgs.tree
+
+      # A tool to fix `nix-shell` and `nix develop` forcibly use bash
+      # https://github.com/MercuryTechnologies/nix-your-shell
+      pkgs.nix-your-shell
     ];
 
     home.file = {
