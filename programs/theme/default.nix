@@ -14,14 +14,13 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-{ pkgs, stdenvNoCC, installShellFiles, zig }:
+{ glib, pkg-config, stdenvNoCC, installShellFiles, zig }:
 stdenvNoCC.mkDerivation rec {
   pname = "my-theme";
   version = "1.0.0";
 
-  runtimeInputs = [ pkgs.glib ];
-
-  nativeBuildInputs = [ zig.hook installShellFiles ];
+  buildInputs = [ glib ];
+  nativeBuildInputs = [ pkg-config zig.hook installShellFiles ];
 
   src = ./.;
 

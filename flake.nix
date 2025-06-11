@@ -219,6 +219,7 @@
               value =
                 pkgs.mkShell {
                   packages = with pkgs; [
+                    glib
                     zig
                     go
                   ];

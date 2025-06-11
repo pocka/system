@@ -27,6 +27,10 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
 
+    exe.linkLibC();
+    exe.linkSystemLibrary2("gobject-2.0", .{});
+    exe.linkSystemLibrary2("gio-2.0", .{});
+
     b.installArtifact(exe);
 
     // zig build run

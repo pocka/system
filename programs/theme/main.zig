@@ -18,6 +18,14 @@
 
 const std = @import("std");
 
+const gio = @cImport({
+    @cInclude("gio/gio.h");
+});
+
+const gobject = @cImport({
+    @cInclude("glib-object.h");
+});
+
 const ExitCode = enum(u8) {
     ok = 0,
     generic_error = 1,
@@ -28,10 +36,10 @@ const ExitCode = enum(u8) {
     }
 };
 
-const GnomeColorScheme = enum {
-    default,
-    @"prefer-dark",
-    @"prefer-light",
+const GnomeColorScheme = enum(c_int) {
+    default = 0,
+    @"prefer-dark" = 1,
+    @"prefer-light" = 2,
 
     pub fn from_variant(variant: Variant) @This() {
         return switch (variant) {
@@ -85,34 +93,30 @@ pub fn main() !u8 {
         return ExitCode.incorrect_usage.to_u8();
     }
 
-    const gnome_color_scheme = GnomeColorScheme.from_variant(variant);
+    gnome: {
+        const gnome_color_scheme = GnomeColorScheme.from_variant(variant);
 
-    {
-        const result = try std.process.Child.run(.{
-            .allocator = allocator,
-            .argv = &.{
-                "gsettings",
-                "set",
-                "org.gnome.desktop.interface",
-                "color-scheme",
-                @tagName(gnome_color_scheme),
-            },
-        });
-        defer allocator.free(result.stdout);
-        defer allocator.free(result.stderr);
+        const gsettings = gio.g_settings_new("org.gnome.desktop.interface");
+        defer gobject.g_object_unref(gsettings);
 
-        switch (result.term) {
-            .Exited => |code| {
-                if (code != 0) {
-                    std.log.err("gsettings command exited with non-zero code: {d}", .{code});
-                    return ExitCode.generic_error.to_u8();
-                }
-            },
-            else => {
-                std.log.err("gsettings command terminated unexpectedly.", .{});
-                return ExitCode.generic_error.to_u8();
-            },
+        const gsettings_wrote = gio.g_settings_set_enum(
+            gsettings,
+            "color-scheme",
+            @intFromEnum(gnome_color_scheme),
+        );
+
+        if (gsettings_wrote == 0) {
+            std.log.warn(
+                "Unable to set GNOME color scheme to {s}",
+                .{@tagName(gnome_color_scheme)},
+            );
+            break :gnome;
         }
+
+        // https://docs.gtk.org/gio/class.Settings.html#delay-apply-mode
+        // > ...these writes may not complete by the time that g_settings_set()
+        // > returns; see g_settings_sync()).
+        gio.g_settings_sync();
 
         std.log.info("Set GNOME color scheme to {s}", .{@tagName(gnome_color_scheme)});
     }
