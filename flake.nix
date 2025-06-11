@@ -86,7 +86,7 @@
                 home.packages = [
                   pkgs.home-manager
                   (pkgs.callPackage ./programs/hm-clean { })
-                  (pkgs.callPackage ./programs/theme { })
+                  (nixpkgs.lib.mkIf config.features.wayland-de.enable (pkgs.callPackage ./programs/theme { }))
                 ];
 
                 features = nixpkgs.lib.mkDefault {
