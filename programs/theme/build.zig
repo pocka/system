@@ -28,4 +28,16 @@ pub fn build(b: *std.Build) void {
     });
 
     b.installArtifact(exe);
+
+    // zig build run
+    {
+        const step = b.step("run", "Compile and Run program");
+
+        const run = b.addRunArtifact(exe);
+        if (b.args) |args| {
+            run.addArgs(args);
+        }
+
+        step.dependOn(&run.step);
+    }
 }
