@@ -26,3 +26,8 @@ indent_style = tab
 # stripped (dedent does not work with tab indentation)
 # https://github.com/NixOS/nix/issues/3759
 indent_style = space
+
+[*.zig]
+# Zig compiler rejects tabs.
+indent_style = space
+indent_size = 4

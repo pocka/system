@@ -86,6 +86,7 @@
                 home.packages = [
                   pkgs.home-manager
                   (pkgs.callPackage ./programs/hm-clean { })
+                  (pkgs.callPackage ./programs/theme { })
                 ];
 
                 features = nixpkgs.lib.mkDefault {
@@ -204,6 +205,26 @@
             name = system;
             value = nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
           })
+          availableSystems
+      );
+
+      devShell = builtins.listToAttrs (
+        builtins.map
+          (system:
+            let
+              pkgs = nixpkgs.legacyPackages.${system};
+            in
+            {
+              name = system;
+              value =
+                pkgs.mkShell {
+                  packages = with pkgs; [
+                    zig
+                    go
+                  ];
+                };
+            }
+          )
           availableSystems
       );
     };
