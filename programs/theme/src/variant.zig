@@ -16,32 +16,22 @@
 
 const std = @import("std");
 
-pub fn build(b: *std.Build) void {
-    const target = b.standardTargetOptions(.{});
-    const optimize = b.standardOptimizeOption(.{});
+pub const Variant = enum {
+    system,
+    dark,
+    light,
 
-    const exe = b.addExecutable(.{
-        .name = ",theme",
-        .root_source_file = b.path("src/main.zig"),
-        .target = target,
-        .optimize = optimize,
-    });
+    pub const FromStringError = error{
+        UnknownVariant,
+    };
 
-    exe.linkLibC();
-    exe.linkSystemLibrary2("gobject-2.0", .{});
-    exe.linkSystemLibrary2("gio-2.0", .{});
-
-    b.installArtifact(exe);
-
-    // zig build run
-    {
-        const step = b.step("run", "Compile and Run program");
-
-        const run = b.addRunArtifact(exe);
-        if (b.args) |args| {
-            run.addArgs(args);
+    pub fn from_string(str: []const u8) FromStringError!@This() {
+        inline for (@typeInfo(Variant).@"enum".fields) |field| {
+            if (std.mem.eql(u8, field.name, str)) {
+                return @enumFromInt(field.value);
+            }
         }
 
-        step.dependOn(&run.step);
+        return FromStringError.UnknownVariant;
     }
-}
+};
