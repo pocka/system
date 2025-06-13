@@ -65,6 +65,10 @@
             overlays = [
               nur.overlays.default
               (import ./overlays/legit.nix)
+              # Local packages
+              (final: prev: {
+                my-theme = prev.callPackage ./programs/theme { };
+              })
             ];
           };
 
@@ -86,7 +90,6 @@
                 home.packages = [
                   pkgs.home-manager
                   (pkgs.callPackage ./programs/hm-clean { })
-                  (nixpkgs.lib.mkIf config.features.wayland-de.enable (pkgs.callPackage ./programs/theme { }))
                 ];
 
                 features = nixpkgs.lib.mkDefault {

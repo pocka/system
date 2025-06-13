@@ -36,6 +36,8 @@
     home.packages = [
       # https://monaspace.githubnext.com/
       pkgs.monaspace
+
+      pkgs.my-theme
     ];
 
     home.sessionVariables = {
