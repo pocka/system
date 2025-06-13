@@ -1,4 +1,4 @@
-# Copyright 2023 Shota FUJI <pockawoooh@gmail.com>
+# Copyright 2025 Shota FUJI <pockawoooh@gmail.com>
 #
 # Permission to use, copy, modify, and/or distribute this software for any
 # purpose with or without fee is hereby granted.
@@ -12,41 +12,39 @@
 # PERFORMANCE OF THIS SOFTWARE.
 #
 # SPDX-License-Identifier: 0BSD
-#
-# ===
-# Wayland Desktop Environment
 
 { config, lib, pkgs, ... }:
 {
-  options.features.wayland-de = {
-    enable = lib.mkEnableOption "WaylandDE";
-  };
-
-  imports = [
-    ./niri.nix
-    ./swaylock.nix
-    ./tofi.nix
-    ./fcitx5.nix
-    ./my-theme.nix
-    ./dunst.nix
-    ./swaybg.nix
-    ./waybar.nix
-  ];
-
   config = lib.mkIf config.features.wayland-de.enable {
     home.packages = [
-      # https://monaspace.githubnext.com/
-      pkgs.monaspace
+      # /programs/theme
+      pkgs.my-theme
     ];
 
-    home.sessionVariables = {
-      # By default, Firefox and Thunderbird uses X11.
-      # Users need to explicitly set the env (it sucks).
-      MOZ_ENABLE_WAYLAND = "1";
+    systemd.user.services.my-theme = {
+      Unit = {
+        Description = "Apply appearance theme based on time";
+      };
+
+      Service = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.my-theme}/bin/,theme auto";
+      };
     };
 
-    features.wayland-de.niri.spawn-at-startup = [
-      [ "${pkgs.waybar}/bin/waybar" ]
-    ];
+    systemd.user.timers.my-theme = {
+      Unit = {
+        Description = "Apply appearance theme periodically and at start up";
+      };
+
+      Install = {
+        WantedBy = [ "timers.target" ];
+      };
+
+      Timer = {
+        OnCalendar = "hourly";
+        Persistent = true;
+      };
+    };
   };
 }
