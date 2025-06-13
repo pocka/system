@@ -57,8 +57,6 @@ pub fn build(b: *std.Build) !void {
     exe.root_module.addOptions("config", config);
 
     exe.linkLibC();
-    exe.linkSystemLibrary2("gobject-2.0", .{});
-    exe.linkSystemLibrary2("gio-2.0", .{});
 
     b.installArtifact(exe);
 

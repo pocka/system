@@ -85,7 +85,7 @@ pub fn main() !u8 {
         return ExitCode.incorrect_usage.to_u8();
     }
 
-    gnome.apply(variant) catch {};
+    gnome.apply(allocator, variant) catch {};
 
     return ExitCode.ok.to_u8();
 }
