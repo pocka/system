@@ -14,19 +14,25 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-{ glib, pkg-config, stdenvNoCC, installShellFiles, zig }:
+{ glib, tzdata, pkg-config, stdenvNoCC, installShellFiles, zig }:
 stdenvNoCC.mkDerivation rec {
   pname = "my-theme";
   version = "1.0.0";
 
-  buildInputs = [ glib ];
+  buildInputs = [ glib tzdata ];
   nativeBuildInputs = [ pkg-config zig.hook installShellFiles ];
+
+  zigBuildFlags = [
+    "-Dtzdir=${tzdata}/share/zoneinfo"
+  ];
 
   src = ./.;
 
   meta = {
     mainProgram = ",theme";
   };
+
+  dontConfigure = true;
 
   postInstall = ''
     installShellCompletion --zsh --cmd ${pname} <(cat << "EOF"
@@ -41,6 +47,7 @@ stdenvNoCC.mkDerivation rec {
       case "$state" in
         (variant)
           _values "variant" \
+            "auto" \
             "system" \
             "dark" \
             "light"

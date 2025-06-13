@@ -16,9 +16,36 @@
 
 const std = @import("std");
 
-pub fn build(b: *std.Build) void {
+pub fn build(b: *std.Build) !void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
+
+    const dark_mode_start = b.option(
+        []const u8,
+        "dark-mode-start",
+        "Wall clock time dark mode starts at (hh:mm).",
+    ) orelse "18:00";
+
+    const dark_mode_end = b.option(
+        []const u8,
+        "dark-mode-end",
+        "Wall clock time dark mode ends at (hh:mm).",
+    ) orelse "08:00";
+
+    const tzdir = b.option(
+        []const u8,
+        "tzdir",
+        "Path to a zoneinfo directory, used when $TZDIR is not set.",
+    );
+
+    const config = b.addOptions();
+    config.addOption([]const u8, "dark_mode_start", dark_mode_start);
+    config.addOption([]const u8, "dark_mode_end", dark_mode_end);
+    config.addOption(
+        ?[:0]const u8,
+        "tzdir",
+        if (tzdir) |slice| try b.allocator.dupeZ(u8, slice) else null,
+    );
 
     const exe = b.addExecutable(.{
         .name = ",theme",
@@ -26,6 +53,8 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
+
+    exe.root_module.addOptions("config", config);
 
     exe.linkLibC();
     exe.linkSystemLibrary2("gobject-2.0", .{});
@@ -41,6 +70,23 @@ pub fn build(b: *std.Build) void {
         if (b.args) |args| {
             run.addArgs(args);
         }
+
+        step.dependOn(&run.step);
+    }
+
+    // zig build test
+    {
+        const step = b.step("test", "Run unit tests");
+
+        const t = b.addTest(.{
+            .root_source_file = b.path("src/main.zig"),
+            .target = target,
+            .optimize = optimize,
+        });
+
+        t.linkLibC();
+
+        const run = b.addRunArtifact(t);
 
         step.dependOn(&run.step);
     }

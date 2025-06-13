@@ -31,6 +31,25 @@ const ExitCode = enum(u8) {
     }
 };
 
+const UnresolvedVariant = union(enum) {
+    auto,
+    manual: Variant,
+
+    pub const FromStringError = error{
+        UnknownType,
+    };
+
+    pub fn fromString(str: []const u8) FromStringError!@This() {
+        if (std.mem.eql(u8, str, "auto")) {
+            return .auto;
+        }
+
+        return .{
+            .manual = Variant.fromString(str) catch return FromStringError.UnknownType,
+        };
+    }
+};
+
 pub fn main() !u8 {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
     defer arena.deinit();
@@ -48,9 +67,17 @@ pub fn main() !u8 {
         return ExitCode.incorrect_usage.to_u8();
     };
 
-    const variant: Variant = Variant.from_string(initial_arg) catch {
+    const variant_unresolved = UnresolvedVariant.fromString(initial_arg) catch {
         std.log.err("Unknown variant \"{s}\".", .{initial_arg});
         return ExitCode.incorrect_usage.to_u8();
+    };
+
+    const variant: Variant = switch (variant_unresolved) {
+        .auto => Variant.fromTime() catch |err| {
+            std.log.err("Unable to resolve variant: {s}", .{@errorName(err)});
+            return ExitCode.generic_error.to_u8();
+        },
+        .manual => |v| v,
     };
 
     if (iter.next()) |_| {
@@ -61,4 +88,8 @@ pub fn main() !u8 {
     gnome.apply(variant) catch {};
 
     return ExitCode.ok.to_u8();
+}
+
+comptime {
+    _ = @import("./variant.zig");
 }
