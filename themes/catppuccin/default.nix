@@ -61,7 +61,11 @@ in
     {
       features.wayland-de = lib.mkIf config.features.wayland-de.enable {
         niri = {
-          background-color = flavor.mantle.hex;
+          background-color = flavor.surface0.hex;
+
+          overview = {
+            backdrop-color = flavor.base.hex;
+          };
 
           layout = {
             focus-ring = {

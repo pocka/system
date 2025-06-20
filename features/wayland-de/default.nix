@@ -29,7 +29,6 @@
     ./fcitx5.nix
     ./my-theme.nix
     ./dunst.nix
-    ./swaybg.nix
     ./waybar.nix
   ];
 

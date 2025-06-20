@@ -81,6 +81,13 @@ in
         default = [ ];
       };
 
+      overview = {
+        backdrop-color = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          default = null;
+        };
+      };
+
       layout = {
         gaps = lib.mkOption {
           type = lib.types.ints.unsigned;
@@ -335,6 +342,13 @@ in
         }
 
         ${lib.strings.concatStringsSep "\n" (builtins.map (serializeOutput cfg.background-color) cfg.outputs)}
+
+        overview {
+          ${if cfg.overview.backdrop-color != null
+            then "backdrop-color \"${cfg.overview.backdrop-color}\""
+            else "// No backdrop-color"
+          }
+        }
 
         layout {
           gaps ${builtins.toString cfg.layout.gaps}
