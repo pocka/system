@@ -61,7 +61,7 @@ in
     {
       features.wayland-de = lib.mkIf config.features.wayland-de.enable {
         niri = {
-          background-color = flavor.surface0.hex;
+          background-color = "transparent";
 
           overview = {
             backdrop-color = flavor.base.hex;

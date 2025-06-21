@@ -348,6 +348,10 @@ in
             then "backdrop-color \"${cfg.overview.backdrop-color}\""
             else "// No backdrop-color"
           }
+
+          workspace-shadow {
+            off
+          }
         }
 
         layout {
