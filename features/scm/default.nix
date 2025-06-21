@@ -123,6 +123,14 @@ in
         git = {
           private-commits = "description(regex:'\\[WIP\\]')";
         };
+
+        aliases = {
+          # JJ by default sets incorrect author date (when "a work started" instead of "authored",)
+          # because how it works internally (updating a git commit.) This command is to workaround
+          # that design flaw by manually mark author date, like "git commit".
+          author = [ "desc" "--no-edit" "--reset-author" ];
+          au = [ "author" ];
+        };
       };
     };
 
