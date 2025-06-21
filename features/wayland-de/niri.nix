@@ -443,9 +443,9 @@ in
         binds {
           Mod+Shift+Slash { show-hotkey-overlay; }
           Mod+T { spawn "${config.lib.nixGL.wrap pkgs.ghostty}/bin/ghostty"; }
-          Mod+D { spawn "${pkgs.tofi}/bin/tofi-drun" "--drun-launch=true"; }
           Mod+X { spawn "swaylock"; }
           Mod+Q { close-window; }
+          Mod+Space { spawn "${pkgs.walker}/bin/walker" "--modules" "applications,commands,calc,power"; }
 
           Mod+H     { focus-column-left; }
           Mod+J     { focus-window-down-or-column-right; }

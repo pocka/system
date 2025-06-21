@@ -90,6 +90,26 @@ in
           };
         };
 
+        walker = {
+          css = ''
+            #window.dark {
+              --background-color: ${flavor.base.hex};
+              --surface-background-color: ${flavor.surface0.hex};
+              --border-color: ${flavor.lavender.hex};
+              --foreground-color: ${flavor.text.hex};
+              --dimmed-foreground-color: ${flavor.subtext0.hex};
+            }
+
+            #window.light {
+              --background-color: ${json.latte.base.hex};
+              --surface-background-color: ${json.latte.surface0.hex};
+              --border-color: ${json.latte.lavender.hex};
+              --foreground-color: ${json.latte.text.hex};
+              --dimmed-foreground-color: ${json.latte.subtext0.hex};
+            }
+          '';
+        };
+
         swaylock = {
           flags = [
             "color=${stripSharp flavor.base.hex}"
@@ -113,83 +133,6 @@ in
             "text-ver-color=${stripSharp flavor.subtext1.hex}"
             "text-wrong-color=${stripSharp flavor.red.hex}"
           ];
-        };
-
-        tofi = rec {
-          fuzzyMatch = false;
-
-          font = {
-            family = "Dank Mono";
-            size = 11;
-          };
-
-          scale = true;
-
-          anchor = "bottom";
-          horizontal = true;
-
-          # "100%" does not work on fractional scaling display
-          # https://github.com/philj56/tofi/issues/79
-          width = 0;
-
-          height = font.size + padding.top + padding.bottom + selection.backgroundPadding.top + selection.backgroundPadding.bottom + border.width * 2;
-          resultSpacing = 10 + selection.backgroundPadding.left + selection.backgroundPadding.right;
-
-          # Avoid unwanted clipping
-          # https://github.com/philj56/tofi/issues/65#issuecomment-1335556041
-          clipToPadding = false;
-
-          padding = {
-            top = 6;
-            right = 8;
-            # There is no way to specify line-height: need to adjust padding-bottom or something.
-            bottom = 5;
-            left = 8;
-          };
-
-          prompt = {
-            text = ">";
-            background = "#00000000";
-            color = flavor.teal.hex;
-            padding = 8;
-          };
-
-          input = {
-            color = flavor.subtext0.hex;
-            backgroundPadding = {
-              top = 0;
-              right = 32;
-              bottom = 0;
-              left = 0;
-            };
-          };
-
-          selection = {
-            background = flavor.surface2.hex + "66";
-            color = flavor.text.hex;
-            matchColor = flavor.peach.hex;
-
-            backgroundPadding = {
-              top = 4;
-              right = 8;
-              bottom = 4;
-              left = 8;
-            };
-            backgroundCornerRadius = 4;
-          };
-
-          textColor = flavor.text.hex;
-          backgroundColor = flavor.mantle.hex;
-
-          outline = {
-            width = 0;
-            color = "#00000000";
-          };
-
-          border = {
-            width = 0;
-            color = "#00000000";
-          };
         };
       };
 

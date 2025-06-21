@@ -1,4 +1,4 @@
-# Copyright 2023 Shota FUJI <pockawoooh@gmail.com>
+# Copyright 2025 Shota FUJI <pockawoooh@gmail.com>
 #
 # Permission to use, copy, modify, and/or distribute this software for any
 # purpose with or without fee is hereby granted.
@@ -12,40 +12,30 @@
 # PERFORMANCE OF THIS SOFTWARE.
 #
 # SPDX-License-Identifier: 0BSD
-#
-# ===
-# Wayland Desktop Environment
 
 { config, lib, pkgs, ... }:
 {
-  options.features.wayland-de = {
-    enable = lib.mkEnableOption "WaylandDE";
+  options = {
+    features.wayland-de.walker = {
+      css = lib.mkOption {
+        type = lib.types.lines;
+        default = "";
+      };
+    };
   };
-
-  imports = [
-    ./niri.nix
-    ./swaylock.nix
-    ./fcitx5.nix
-    ./my-theme.nix
-    ./dunst.nix
-    ./walker.nix
-    ./waybar.nix
-  ];
 
   config = lib.mkIf config.features.wayland-de.enable {
     home.packages = [
-      # https://monaspace.githubnext.com/
-      pkgs.monaspace
+      # Multi-Purpose Launcher with a lot of features.
+      # https://github.com/abenz1267/walker
+      pkgs.walker
     ];
 
-    home.sessionVariables = {
-      # By default, Firefox and Thunderbird uses X11.
-      # Users need to explicitly set the env (it sucks).
-      MOZ_ENABLE_WAYLAND = "1";
-    };
-
-    features.wayland-de.niri.spawn-at-startup = [
-      [ "${pkgs.waybar}/bin/waybar" ]
-    ];
+    xdg.configFile."walker/config.toml".source = ./walker/config.toml;
+    xdg.configFile."walker/themes/nix.toml".source = ./walker/theme.toml;
+    xdg.configFile."walker/themes/nix.css".text = ''
+      ${builtins.readFile ./walker/theme.css}
+      ${config.features.wayland-de.walker.css}
+    '';
   };
 }

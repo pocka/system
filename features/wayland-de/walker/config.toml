@@ -1,0 +1,103 @@
+# Copyright 2025 Shota FUJI <pockawoooh@gmail.com>
+#
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+# REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+# AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+# INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+# LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+# OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+# PERFORMANCE OF THIS SOFTWARE.
+#
+# SPDX-License-Identifier: 0BSD
+
+close_when_open = true
+theme = "nix"
+as_window = false
+disable_click_to_close = false
+force_keyboard_focus = true
+
+[keys]
+accept_typeahead = ["tab"]
+trigger_labels = "ralt"
+next = ["down"]
+prev = ["up"]
+close = ["esc"]
+remove_from_history = ["shift backspace"]
+
+[list]
+dynamic_sub = true
+max_entries = 50
+show_initial_entries = true
+single_click = true
+visibility_threshold = 20
+placeholder = "No Results"
+
+[search]
+argument_delimiter = "#"
+placeholder = "Search..."
+delay = 0
+
+[activation_mode]
+disabled = true
+
+[builtins.applications]
+weight = 5
+name = "applications"
+placeholder = "Applications"
+prioritize_new = true
+hide_actions_with_empty_query = true
+refresh = true
+show_sub_when_single = true
+show_icon_when_single = true
+show_generic = true
+history = true
+
+[builtins.applications.actions]
+enabled = true
+hide_category = false
+hide_without_query = true
+
+[builtins.calc]
+require_number = true
+weight = 5
+name = "calc"
+icon = "accessories-calculator"
+placeholder = "Calculator"
+
+[builtins.commands]
+weight = 5
+icon = "utilities-terminal"
+name = "commands"
+placeholder = "Commands"
+
+[builtins.custom_commands]
+weight = 5
+icon = "utilities-terminal"
+name = "custom_commands"
+placeholder = "Custom Commands"
+
+[[plugins]]
+keep_sort = false
+name = "power"
+placeholder = "Power"
+recalculate_score = true
+show_icon_when_single = true
+switcher_only = false
+
+[[plugins.entries]]
+exec = "shutdown now"
+icon = "system-shutdown"
+label = "Shutdown"
+
+[[plugins.entries]]
+exec = "reboot"
+icon = "system-reboot"
+label = "Reboot"
+
+[[plugins.entries]]
+exec = "niri msg action power-off-monitors && swaylock"
+icon = "system-lock-screen"
+label = "Lock Screen"
