@@ -26,7 +26,8 @@ in
 
   config = lib.mkIf (wayland-de.enable && wayland-de.ime.enable) {
     i18n.inputMethod = {
-      enabled = "fcitx5";
+      enable = true;
+      type = "fcitx5";
 
       fcitx5 = {
         waylandFrontend = true;

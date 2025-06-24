@@ -94,7 +94,7 @@ in
           ZLE_SPACE_SUFFIX_CHARS = "&|";
         };
 
-        initExtra = with cfg.theme; ''
+        initContent = with cfg.theme; ''
           # Activate colors module in order to colourise prompt
           autoload -Uz colors
           colors
