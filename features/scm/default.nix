@@ -111,9 +111,7 @@ in
         };
 
         ui = lib.mkIf config.features.dev.enable {
-          diff = {
-            tool = [ "difft" "--color=always" "$left" "$right" ];
-          };
+          diff-formatter = [ "difft" "--color=always" "$left" "$right" ];
         };
 
         revsets = {
