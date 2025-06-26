@@ -19,6 +19,8 @@
 { config, lib, pkgs, ... }:
 let
   cfg = config.features.dev;
+
+  toml = pkgs.formats.toml { };
 in
 {
   options = {
@@ -53,6 +55,16 @@ in
             '';
           }
         ];
+      };
+    };
+
+    # home-manager puts global config to `.config/mise/config.toml`, which
+    # mise writes to on `mise settings` command.
+    xdg.configFile."mise/conf.d/immutable.toml" = lib.mkIf cfg.enable {
+      source = toml.generate "mise-settings" {
+        settings = {
+          idiomatic_version_file_enable_tools = [ "bazel" "node" ];
+        };
       };
     };
 
