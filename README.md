@@ -58,6 +58,9 @@ Due to each softwares' design limitation, the system needs to have these package
 - [`pantheon-polkit-agent`](https://archlinux.org/packages/extra/x86_64/pantheon-polkit-agent/) ... The one installed installed using Nix cannot lookup `polkit-agent-helper-1`.
 - [swaylock](https://github.com/swaywm/swaylock) ... access to PAM required, which is not possible with regular user Nix installation.
 
+A custom Swaybar module assumes Markdown file placed at `$XDG_DATA_HOME/todo.md`.
+Create a symbolic link or normal file there (module tries to read in 10s interval if the file does not exist.)
+
 ## Programs
 
 ### `hm-clean`

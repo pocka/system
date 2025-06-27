@@ -14,8 +14,13 @@
 # SPDX-License-Identifier: 0BSD
 
 { config, lib, pkgs, ... }: {
-  programs =
-    lib.mkIf config.features.wayland-de.enable {
+  config = lib.mkIf config.features.wayland-de.enable {
+    home.packages = [
+      # /programs/waybar-text
+      pkgs.my-waybar-text
+    ];
+
+    programs = {
       waybar = {
         enable = true;
 
@@ -23,7 +28,7 @@
           main = {
             layer = "top";
 
-            modules-left = [ ];
+            modules-left = [ "custom/todo" ];
             modules-right = [ "clock" "pulseaudio" "tray" ];
 
             clock = {
@@ -39,9 +44,16 @@
 
               on-click = "pavucontrol";
             };
+
+            "custom/todo" = {
+              exec = "${pkgs.my-waybar-text}/bin/,waybar-text --trim-md-list ${config.xdg.dataHome}/todo.md";
+              restart-interval = 10;
+              return-type = "json";
+            };
           };
         };
       };
     };
+  };
 }
 

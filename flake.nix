@@ -68,6 +68,7 @@
               # Local packages
               (final: prev: {
                 my-theme = prev.callPackage ./programs/theme { };
+                my-waybar-text = prev.callPackage ./programs/waybar-text { };
               })
             ];
           };
