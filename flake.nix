@@ -223,6 +223,7 @@
               value =
                 pkgs.mkShell {
                   packages = with pkgs; [
+                    sunwait
                     tzdata
                     glib
                     zig

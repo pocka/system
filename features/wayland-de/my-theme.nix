@@ -19,6 +19,12 @@
     home.packages = [
       # /programs/theme
       pkgs.my-theme
+
+      # Sunwait calculates sunrise or sunset times with civil, nautical,
+      # astronomical and custom twilights, for use with Windows Task Scheduler
+      # or 'cron' on Linux.
+      # https://github.com/risacher/sunwait
+      pkgs.sunwait
     ];
 
     systemd.user.services.my-theme = {
@@ -27,23 +33,14 @@
       };
 
       Service = {
-        Type = "oneshot";
-        ExecStart = "${pkgs.my-theme}/bin/,theme auto";
-      };
-    };
-
-    systemd.user.timers.my-theme = {
-      Unit = {
-        Description = "Apply appearance theme periodically and at start up";
+        Type = "simple";
+        Restart = "always";
+        RestartSec = 1;
+        ExecStart = "${pkgs.my-theme}/bin/,theme auto --config ${config.xdg.configHome}/my-theme/config.json --daemon --verbose";
       };
 
       Install = {
-        WantedBy = [ "timers.target" ];
-      };
-
-      Timer = {
-        OnCalendar = "hourly";
-        Persistent = true;
+        WantedBy = [ "default.target" ];
       };
     };
   };
