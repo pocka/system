@@ -90,6 +90,6 @@ pub fn main() !u8 {
     return ExitCode.ok.to_u8();
 }
 
-comptime {
+test {
     _ = @import("./variant.zig");
 }
