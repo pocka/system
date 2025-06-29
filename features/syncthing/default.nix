@@ -1,4 +1,4 @@
-# Copyright 2023 Shota FUJI <pockawoooh@gmail.com>
+# Copyright 2025 Shota FUJI <pockawoooh@gmail.com>
 #
 # Permission to use, copy, modify, and/or distribute this software for any
 # purpose with or without fee is hereby granted.
@@ -13,17 +13,23 @@
 #
 # SPDX-License-Identifier: 0BSD
 
+{ pkgs, lib, config, ... }:
+let
+  cfg = config.features.syncthing;
+in
 {
-  imports = [
-    ./home
-    ./scm
-    ./scm-server
-    ./identity
-    ./basics
-    ./gui
-    ./wayland-de
-    ./dev
-    ./data
-    ./syncthing
-  ];
+  options = {
+    features.syncthing = {
+      enable = lib.mkEnableOption "Syncthing";
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
+    services.syncthing = {
+      enable = true;
+
+      overrideDevices = false;
+      overrideFolders = false;
+    };
+  };
 }

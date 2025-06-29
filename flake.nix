@@ -102,6 +102,7 @@
 
                   data.enable = true;
                   scm.enable = true;
+                  syncthing.enable = true;
 
                   home = {
                     username = "pocka";
