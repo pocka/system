@@ -9,5 +9,6 @@
     ./wayland-de
     ./dev
     ./data
+    ./syncthing
   ];
 }
