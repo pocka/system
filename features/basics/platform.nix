@@ -24,7 +24,7 @@
     # This is a workaround for it so that I no longer need to manually edit the file.
     # https://github.com/NixOS/nix/issues/3616#issuecomment-1655785404
     programs.zsh = lib.mkIf (pkgs.stdenv.isDarwin && config.programs.zsh.enable) {
-      initExtraFirst = ''
+      initContent = lib.mkBefore ''
         if [[ ! $(command -v nix) && -e "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]]; then
           source "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
         fi
