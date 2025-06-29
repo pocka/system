@@ -169,6 +169,9 @@
             features.dev.enable = false;
 
             features.scm-server.enable = true;
+
+            # This server is only accessible via Wireguard.
+            services.syncthing.guiAddress = "[fd33::1]:8384";
           };
         };
 
