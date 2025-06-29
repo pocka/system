@@ -36,6 +36,9 @@
     home.packages = [
       # https://monaspace.githubnext.com/
       pkgs.monaspace
+
+      # https://www.brailleinstitute.org/freefont/
+      pkgs.atkinson-hyperlegible-next
     ];
 
     home.sessionVariables = {

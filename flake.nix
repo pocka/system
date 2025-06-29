@@ -65,6 +65,7 @@
             overlays = [
               nur.overlays.default
               (import ./overlays/legit.nix)
+              (import ./overlays/atkinson-hyperlegible-next.nix)
               # Local packages
               (final: prev: {
                 my-theme = prev.callPackage ./programs/theme { };
