@@ -57,6 +57,15 @@ in
       flavor = json."${cfg.flavor}";
 
       stripSharp = hex: lib.strings.removePrefix "#" hex;
+
+      darkFlavor =
+        if cfg.flavor == "latte" then
+          "mocha"
+        else
+          cfg.flavor;
+
+      dark = json."${darkFlavor}";
+      light = json.latte;
     in
     {
       features.wayland-de = lib.mkIf config.features.wayland-de.enable {
@@ -176,62 +185,70 @@ in
             position = "bottom";
           };
         };
-
-        style = ''
-          * {
-            font-family: "FontAwesome", Roboto, Helvetica, Arial, sans-serif;
-            font-size: 16px;
-          }
-
-          window#waybar {
-            padding: ${builtins.toString gap}px;
-
-            background-color: transparent;
-            color: ${flavor.text.hex};
-          }
-
-          .modules-left,
-          .modules-right {
-            margin: 4px;
-          }
-
-          #workspaces button {
-            font-size: 12px;
-            padding: 0px 2px;
-
-            background-color: transparent;
-            border-radius: 2px;;
-            color: ${flavor.overlay1.hex};
-          }
-
-          #workspaces button:hover {
-            text-decoration: underline;
-          }
-
-          #workspaces button.focused {
-            font-weight: bold;
-            background-color: rgba(${flavor.surface2.raw}, 0.4);
-            color: ${flavor.text.hex};
-          }
-
-          #workspaces button.urgent {
-            color: ${flavor.yellow.hex};
-          }
-
-          #clock,
-          #network,
-          #pulseaudio,
-          #tray {
-            padding: 0px 6px;
-
-            color: inherit;
-          }
-
-          #pulseaudio:hover {
-            background-color: rgba(${flavor.surface2.raw}, 0.4);
-          }
-        '';
       };
+
+      xdg.configFile =
+        let
+          baseStyle = ''
+            * {
+              font-family: Roboto, Helvetica, Arial, sans-serif;
+              font-size: 16px;
+            }
+
+            window#waybar {
+              font-weight: bold;
+            }
+
+            .module {
+              padding: 2px 4px;
+              margin: 4px;
+
+              border-radius: 3px;
+            }
+
+            #clock,
+            #network,
+            #pulseaudio,
+            #tray {
+              color: inherit;
+            }
+          '';
+        in
+        {
+          "waybar/style-light.css".text = ''
+            ${baseStyle}
+
+            window#waybar {
+              background-color: ${light.base.hex};
+              color: ${light.text.hex};
+            }
+
+            #tray {
+              background-color: ${light.sapphire.hex};
+            }
+
+            #pulseaudio:hover {
+              background-color: ${light.surface0.hex};
+            }
+          '';
+
+          "waybar/style-dark.css".text = ''
+            ${baseStyle}
+
+            window#waybar {
+              background-color: ${dark.base.hex};
+              color: ${dark.text.hex};
+            }
+
+            #tray {
+              background-color: transparent;
+            }
+
+            #pulseaudio:hover {
+              background-color: ${dark.surface0.hex};
+            }
+          '';
+        };
 
       programs.ghostty =
         let
