@@ -79,7 +79,8 @@ let
         else "";
     in
     ''
-      lspconfig.${c.name}.setup {
+      vim.lsp.enable('${c.name}')
+      vim.lsp.config('${c.name}', {
         ${cmd}
         ${rootDir}
         single_file_support = ${lib.trivial.boolToString c.singleFileSupport},
@@ -94,7 +95,7 @@ let
             }
           }
         }
-      }
+      })
     '';
 in
 {
