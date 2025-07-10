@@ -54,6 +54,9 @@ in
               }
             '';
           }
+          {
+            plugin = vim-fugitive;
+          }
         ];
       };
     };
