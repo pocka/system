@@ -33,7 +33,7 @@ let
         description = "Language Server Name";
       };
 
-      rootDirPattern = lib.mkOption {
+      rootMarkers = lib.mkOption {
         type = lib.types.nullOr (lib.types.listOf lib.types.nonEmptyStr);
 
         default = null;
@@ -65,9 +65,9 @@ let
         if (c.cmd != null)
         then "cmd = { ${builtins.concatStringsSep ", " (builtins.map (x: "\"${x}\"") c.cmd)} },"
         else "";
-      rootDir =
-        if (c.rootDirPattern != null)
-        then "root_dir = lspconfig.util.root_pattern(${builtins.concatStringsSep ", " (builtins.map (x: "'${x}'") c.rootDirPattern)}),"
+      rootMarkers =
+        if (c.rootMarkers != null)
+        then "root_markers = { ${builtins.concatStringsSep ", " (builtins.map (x: "'${x}'") c.rootMarkers)} },"
         else "";
       initOptions =
         if (c.initOptions != null)
@@ -79,11 +79,10 @@ let
         else "";
     in
     ''
-      vim.lsp.enable('${c.name}')
       vim.lsp.config('${c.name}', {
         ${cmd}
-        ${rootDir}
-        single_file_support = ${lib.trivial.boolToString c.singleFileSupport},
+        ${rootMarkers}
+        workspace_required = ${lib.trivial.boolToString (!c.singleFileSupport)},
         ${initOptions}
         ${settings}
         capabilities = {
@@ -96,6 +95,7 @@ let
           }
         }
       })
+      vim.lsp.enable('${c.name}')
     '';
 in
 {
@@ -122,7 +122,7 @@ in
 
         default = {
           name = "ts_ls";
-          rootDirPattern = [ "tsconfig.json" ];
+          rootMarkers = [ "tsconfig.json" ];
           initOptions = ''
             preferences = {
               includePackageJsonAutoImports = "off",
@@ -138,7 +138,7 @@ in
 
         default = {
           name = "denols";
-          rootDirPattern = [ "deno.json" "deno.jsonc" ];
+          rootMarkers = [ "deno.json" "deno.jsonc" ];
           settings = ''
             deno = {
               suggest = {
@@ -197,8 +197,8 @@ in
 
         default = {
           name = "gleam";
-          # nvim-lspconfig incorrectly have ".git" in the default root_dir.
-          rootDirPattern = [ "gleam.toml" ];
+          # nvim-lspconfig incorrectly have ".git" in the default root_markers.
+          rootMarkers = [ "gleam.toml" ];
         };
       };
 
