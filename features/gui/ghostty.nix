@@ -31,7 +31,7 @@
 
       settings = {
         # Somehow Ghostty renders Monaspace in incorrect size at either of platform.
-        font-size = if pkgs.stdenv.isDarwin then 14 else 11;
+        font-size = if pkgs.stdenv.isDarwin then 13 else 10;
         font-family = "Monaspace Neon Var";
         font-style = "Medium";
         font-style-bold = "Bold";
