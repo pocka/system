@@ -13,8 +13,7 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-final: prev:
-{
+final: prev: {
   atkinson-hyperlegible-next = prev.atkinson-hyperlegible-next.overrideAttrs (old: {
     installPhase = ''
       runHook preInstall

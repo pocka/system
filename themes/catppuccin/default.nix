@@ -13,7 +13,12 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.themes.catppuccin;
 
@@ -43,26 +48,23 @@ in
 
   config =
     let
-      json = builtins.fromJSON (builtins.readFile (
-        pkgs.fetchFromGitHub
-          {
+      json = builtins.fromJSON (
+        builtins.readFile (
+          pkgs.fetchFromGitHub {
             owner = "catppuccin";
             repo = "palette";
             rev = "205dd54c6158b7648621cf9fd00e91f03888ce7e";
             sha256 = "y14fd8lvnG9hNY6CRU0JgxWouexEw91aIEMkr1NaM/4=";
           }
-        + "/palette.json"
-      ));
+          + "/palette.json"
+        )
+      );
 
       flavor = json."${cfg.flavor}";
 
       stripSharp = hex: lib.strings.removePrefix "#" hex;
 
-      darkFlavor =
-        if cfg.flavor == "latte" then
-          "mocha"
-        else
-          cfg.flavor;
+      darkFlavor = if cfg.flavor == "latte" then "mocha" else cfg.flavor;
 
       dark = json."${darkFlavor}";
       light = json.latte;
@@ -252,11 +254,7 @@ in
 
       programs.ghostty =
         let
-          darkFlavor =
-            if cfg.flavor == "latte" then
-              "mocha"
-            else
-              cfg.flavor;
+          darkFlavor = if cfg.flavor == "latte" then "mocha" else cfg.flavor;
         in
         {
           settings = {

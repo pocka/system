@@ -50,22 +50,22 @@ slider,
 #bar,
 #sub,
 #activationlabel {
-  all: unset;
+	all: unset;
 }
 
 #cfgerr {
-  background: rgba(255, 0, 0, 0.4);
-  margin-top: 20px;
-  padding: 8px;
-  font-size: 1.2em;
+	background: rgba(255, 0, 0, 0.4);
+	margin-top: 20px;
+	padding: 8px;
+	font-size: 1.2em;
 }
 
 #box {
-  padding: var(--spacing-lg);
-  border: 1px solid var(--border-color, var(--border-color-fallback));
+	padding: var(--spacing-lg);
+	border: 1px solid var(--border-color, var(--border-color-fallback));
 
-  background: var(--background-color, var(--background-color-fallback));
-  border-radius: var(--radius-md);
+	background: var(--background-color, var(--background-color-fallback));
+	border-radius: var(--radius-md);
 	box-shadow: 0 4px 8px oklch(0% 0% 0deg / 0.1);
 	color: var(--foreground-color, var(--foreground-color-fallback));
 }
@@ -74,17 +74,25 @@ slider,
 	padding: var(--spacing-md);
 
 	background: var(--surface-background-color, var(--surface-background-color-fallback));
-  border-radius: var(--radius-sm);
+	border-radius: var(--radius-sm);
 }
 
 child {
 	padding: var(--spacing-md);
 
-  border-radius: var(--radius-sm);
+	border-radius: var(--radius-sm);
 }
 
 child:selected, child:hover {
-	background: oklch(from var(--surface-background-color) calc(l + var(--color-overlay-modifier)) c h / var(--color-overlay-opacity));
+	background: oklch(
+		from
+		var(--surface-background-color)
+		calc(l + var(--color-overlay-modifier))
+		c
+		h
+		/
+		var(--color-overlay-opacity)
+	);
 }
 
 #sub {

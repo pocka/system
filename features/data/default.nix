@@ -16,7 +16,12 @@
 # ===
 # Configurations for data-related tasks: inspect, modify, etc...
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   options = {
     features.data.enable = lib.mkEnableOption "Data";

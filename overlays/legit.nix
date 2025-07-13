@@ -13,8 +13,7 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-final: prev:
-{
+final: prev: {
   legit-web = prev.legit-web.overrideAttrs (old: {
     src = prev.fetchFromGitHub {
       owner = "pocka";
@@ -26,4 +25,3 @@ final: prev:
     vendorHash = "sha256-QxkMxO8uzBCC3oMSWjdVsbR2cluYMx5OOKTgaNOLHxc=";
   });
 }
-

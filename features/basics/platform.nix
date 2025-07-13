@@ -16,7 +16,12 @@
 # ===
 # Platform specifc configurations
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   config = {
     # https://github.com/NixOS/nix/issues/3616
@@ -31,13 +36,9 @@
       '';
     };
 
-    xdg = lib.mkIf pkgs.stdenv.isLinux {
-      enable = true;
-    };
+    xdg = lib.mkIf pkgs.stdenv.isLinux { enable = true; };
 
     # I'm not sure this changes behaviour in a meaningful way.
-    targets.genericLinux = lib.mkIf pkgs.stdenv.isLinux {
-      enable = true;
-    };
+    targets.genericLinux = lib.mkIf pkgs.stdenv.isLinux { enable = true; };
   };
 }

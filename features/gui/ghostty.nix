@@ -13,7 +13,12 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   config = lib.mkIf config.features.gui.enable {
     programs.ghostty = {
@@ -43,31 +48,36 @@
         # * "dlig" ... Discretionary Ligatures
         #              This feature fucks up Japanese text rendering.
         #              Enabled by default.
-        font-feature = [ "calt" "-dlig" ];
+        font-feature = [
+          "calt"
+          "-dlig"
+        ];
 
         copy-on-select = false;
 
         keybind =
-          if pkgs.stdenv.isDarwin then [
-            "ctrl+shift+t=new_tab"
-            "ctrl+shift+n=new_split:down"
-            "ctrl+shift+m=new_split:right"
+          if pkgs.stdenv.isDarwin then
+            [
+              "ctrl+shift+t=new_tab"
+              "ctrl+shift+n=new_split:down"
+              "ctrl+shift+m=new_split:right"
 
-            "super+shift+k=resize_split:up,20"
-            "super+shift+h=resize_split:left,20"
-            "super+shift+j=resize_split:down,20"
-            "super+shift+l=resize_split:right,20"
+              "super+shift+k=resize_split:up,20"
+              "super+shift+h=resize_split:left,20"
+              "super+shift+j=resize_split:down,20"
+              "super+shift+l=resize_split:right,20"
 
-            "ctrl+shift+k=goto_split:up"
-            "ctrl+shift+h=goto_split:left"
-            "ctrl+shift+j=goto_split:down"
-            "ctrl+shift+l=goto_split:right"
-          ]
-          else [
-            "ctrl+shift+t=new_window"
-            "ctrl+shift+n=new_window"
-            "ctrl+shift+m=new_window"
-          ];
+              "ctrl+shift+k=goto_split:up"
+              "ctrl+shift+h=goto_split:left"
+              "ctrl+shift+j=goto_split:down"
+              "ctrl+shift+l=goto_split:right"
+            ]
+          else
+            [
+              "ctrl+shift+t=new_window"
+              "ctrl+shift+n=new_window"
+              "ctrl+shift+m=new_window"
+            ];
 
       };
     };

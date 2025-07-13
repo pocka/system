@@ -13,7 +13,12 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   options = {
     features.gui.enable = lib.mkEnableOption "GUI";
@@ -26,7 +31,5 @@
     ];
   };
 
-  imports = [
-    ./ghostty.nix
-  ];
+  imports = [ ./ghostty.nix ];
 }

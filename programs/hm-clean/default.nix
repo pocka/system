@@ -14,7 +14,12 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-{ pkgs, installShellFiles, lib, buildGoModule }:
+{
+  pkgs,
+  installShellFiles,
+  lib,
+  buildGoModule,
+}:
 buildGoModule rec {
   name = "hm-clean";
 
@@ -24,9 +29,7 @@ buildGoModule rec {
 
   vendorHash = null;
 
-  ldflags = [
-    "-X main.homeManagerPath=${pkgs.home-manager}/bin/home-manager"
-  ];
+  ldflags = [ "-X main.homeManagerPath=${pkgs.home-manager}/bin/home-manager" ];
 
   postInstall = ''
     installShellCompletion --zsh --cmd ${name} <(cat << "EOF"

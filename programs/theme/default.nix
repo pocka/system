@@ -14,17 +14,30 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-{ glib, sunwait, tzdata, pkg-config, stdenvNoCC, installShellFiles, zig }:
+{
+  glib,
+  sunwait,
+  tzdata,
+  pkg-config,
+  stdenvNoCC,
+  installShellFiles,
+  zig,
+}:
 stdenvNoCC.mkDerivation rec {
   pname = "my-theme";
   version = "1.0.0";
 
-  buildInputs = [ glib tzdata ];
-  nativeBuildInputs = [ pkg-config zig.hook installShellFiles ];
-
-  zigBuildFlags = [
-    "-Dtzdir=${tzdata}/share/zoneinfo"
+  buildInputs = [
+    glib
+    tzdata
   ];
+  nativeBuildInputs = [
+    pkg-config
+    zig.hook
+    installShellFiles
+  ];
+
+  zigBuildFlags = [ "-Dtzdir=${tzdata}/share/zoneinfo" ];
 
   src = ./.;
 

@@ -13,7 +13,12 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.features.dev.lsp;
 
@@ -59,24 +64,24 @@ let
     };
   };
 
-  lsToSetupStmt = c:
+  lsToSetupStmt =
+    c:
     let
       cmd =
-        if (c.cmd != null)
-        then "cmd = { ${builtins.concatStringsSep ", " (builtins.map (x: "\"${x}\"") c.cmd)} },"
-        else "";
+        if (c.cmd != null) then
+          "cmd = { ${builtins.concatStringsSep ", " (builtins.map (x: "\"${x}\"") c.cmd)} },"
+        else
+          "";
       rootMarkers =
-        if (c.rootMarkers != null)
-        then "root_markers = { ${builtins.concatStringsSep ", " (builtins.map (x: "'${x}'") c.rootMarkers)} },"
-        else "";
+        if (c.rootMarkers != null) then
+          "root_markers = { ${
+            builtins.concatStringsSep ", " (builtins.map (x: "'${x}'") c.rootMarkers)
+          } },"
+        else
+          "";
       initOptions =
-        if (c.initOptions != null)
-        then "init_options = { ${c.initOptions} },"
-        else "";
-      settings =
-        if (c.settings != null)
-        then "settings = { ${c.settings} },"
-        else "";
+        if (c.initOptions != null) then "init_options = { ${c.initOptions} }," else "";
+      settings = if (c.settings != null) then "settings = { ${c.settings} }," else "";
     in
     ''
       vim.lsp.config('${c.name}', {
@@ -138,7 +143,10 @@ in
 
         default = {
           name = "denols";
-          rootMarkers = [ "deno.json" "deno.jsonc" ];
+          rootMarkers = [
+            "deno.json"
+            "deno.jsonc"
+          ];
           settings = ''
             deno = {
               suggest = {
@@ -187,7 +195,11 @@ in
         type = ls;
 
         default = {
-          cmd = [ "zls" "--config-path" "${config.xdg.configHome}/zls.json" ];
+          cmd = [
+            "zls"
+            "--config-path"
+            "${config.xdg.configHome}/zls.json"
+          ];
           name = "zls";
         };
       };
@@ -276,9 +288,9 @@ in
                   local lspconfig = require("lspconfig")
 
                 ''
-              ] ++
-              (builtins.map lsToSetupStmt cfg.langs) ++
-              [
+              ]
+              ++ (builtins.map lsToSetupStmt cfg.langs)
+              ++ [
                 ''
                   -- [LSP]
 
@@ -314,9 +326,7 @@ in
               ]
             );
           }
-          {
-            plugin = luasnip;
-          }
+          { plugin = luasnip; }
         ];
       };
 

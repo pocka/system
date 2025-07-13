@@ -16,7 +16,12 @@
 # ===
 # Home Manager stuffs
 
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   cfg = config.features.home;
 in
@@ -71,12 +76,10 @@ in
 
         # `sessionVariables` does not accept `null` as an attribute value.
         # Need to manually filter out `null` values.
-        sessionVariables = lib.attrsets.filterAttrs
-          (name: value: value != null)
-          {
-            TZ = cfg.timezone;
-            LC_ALL = cfg.locale;
-          };
+        sessionVariables = lib.attrsets.filterAttrs (name: value: value != null) {
+          TZ = cfg.timezone;
+          LC_ALL = cfg.locale;
+        };
       };
     };
 }

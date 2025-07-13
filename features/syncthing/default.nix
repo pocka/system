@@ -13,7 +13,12 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   cfg = config.features.syncthing;
 in

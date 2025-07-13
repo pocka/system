@@ -13,7 +13,13 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   config = lib.mkIf config.features.wayland-de.enable {
     home.packages = [
       # /programs/waybar-text
@@ -29,7 +35,11 @@
             layer = "top";
 
             modules-left = [ "custom/todo" ];
-            modules-right = [ "clock" "pulseaudio" "tray" ];
+            modules-right = [
+              "clock"
+              "pulseaudio"
+              "tray"
+            ];
 
             clock = {
               # waybar can't read $TZ. Maybe a bug with Nix environment?
@@ -56,4 +66,3 @@
     };
   };
 }
-

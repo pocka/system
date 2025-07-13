@@ -13,7 +13,8 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   config = {
     programs = {
       neovim = {

@@ -13,7 +13,8 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   programs = {
     # Replacement for a shell history which records additional commands context
     atuin = {

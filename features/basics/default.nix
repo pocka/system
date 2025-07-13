@@ -13,7 +13,12 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   imports = [
     ./atuin.nix
@@ -102,10 +107,7 @@
         let
           # Linux: xdg-open
           # macOS: open
-          openCommand =
-            if pkgs.stdenv.isLinux
-            then "xdg-open"
-            else "open";
+          openCommand = if pkgs.stdenv.isLinux then "xdg-open" else "open";
         in
         {
           enable = true;
@@ -146,9 +148,7 @@
       ripgrep = {
         enable = true;
 
-        arguments = [
-          "--sort=path"
-        ];
+        arguments = [ "--sort=path" ];
       };
     };
   };

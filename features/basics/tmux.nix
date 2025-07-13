@@ -13,7 +13,8 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   programs = {
     tmux = {
       keyMode = "vi";
@@ -63,4 +64,3 @@
     };
   };
 }
-

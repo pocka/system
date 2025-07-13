@@ -16,7 +16,12 @@
 # ===
 # Wayland Desktop Environment
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   options.features.wayland-de = {
     enable = lib.mkEnableOption "WaylandDE";
@@ -47,8 +52,6 @@
       MOZ_ENABLE_WAYLAND = "1";
     };
 
-    features.wayland-de.niri.spawn-at-startup = [
-      [ "${pkgs.waybar}/bin/waybar" ]
-    ];
+    features.wayland-de.niri.spawn-at-startup = [ [ "${pkgs.waybar}/bin/waybar" ] ];
   };
 }

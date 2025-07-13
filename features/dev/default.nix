@@ -16,7 +16,12 @@
 # ===
 # Development related configurations
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.features.dev;
 
@@ -54,9 +59,7 @@ in
               }
             '';
           }
-          {
-            plugin = vim-fugitive;
-          }
+          { plugin = vim-fugitive; }
         ];
       };
     };
@@ -66,7 +69,10 @@ in
     xdg.configFile."mise/conf.d/immutable.toml" = lib.mkIf cfg.enable {
       source = toml.generate "mise-settings" {
         settings = {
-          idiomatic_version_file_enable_tools = [ "bazel" "node" ];
+          idiomatic_version_file_enable_tools = [
+            "bazel"
+            "node"
+          ];
         };
       };
     };

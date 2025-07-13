@@ -13,10 +13,11 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }:
 let
   cfg = config.features.basics.zsh;
@@ -160,4 +161,3 @@ in
     };
   };
 }
-

@@ -13,7 +13,12 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   cfg = config.features.scm;
 in
@@ -57,10 +62,13 @@ in
         userEmail = config.features.identity.email;
 
         signing =
-          if (config.features.identity.gpgSigningKeyId != null) then {
-            key = config.features.identity.gpgSigningKeyId;
-            signByDefault = true;
-          } else null;
+          if (config.features.identity.gpgSigningKeyId != null) then
+            {
+              key = config.features.identity.gpgSigningKeyId;
+              signByDefault = true;
+            }
+          else
+            null;
 
         extraConfig = {
           core = {
@@ -83,13 +91,14 @@ in
 
             # https://github.com/github/gitignore/blob/main/Global/macOS.gitignore
             darwin =
-              if pkgs.stdenv.isDarwin
-              then [
-                ".DS_Store"
-                ".AppleDouble"
-                ".LSOverride"
-              ]
-              else [ ];
+              if pkgs.stdenv.isDarwin then
+                [
+                  ".DS_Store"
+                  ".AppleDouble"
+                  ".LSOverride"
+                ]
+              else
+                [ ];
           in
           nvim ++ darwin ++ bazel;
       };
@@ -111,7 +120,12 @@ in
         };
 
         ui = lib.mkIf config.features.dev.enable {
-          diff-formatter = [ "difft" "--color=always" "$left" "$right" ];
+          diff-formatter = [
+            "difft"
+            "--color=always"
+            "$left"
+            "$right"
+          ];
         };
 
         revsets = {
@@ -126,7 +140,11 @@ in
           # JJ by default sets incorrect author date (when "a work started" instead of "authored",)
           # because how it works internally (updating a git commit.) This command is to workaround
           # that design flaw by manually mark author date, like "git commit".
-          author = [ "desc" "--no-edit" "--reset-author" ];
+          author = [
+            "desc"
+            "--no-edit"
+            "--reset-author"
+          ];
           au = [ "author" ];
         };
       };
@@ -144,7 +162,10 @@ in
 
           src = pkgs.fossil.src;
 
-          phases = [ "unpackPhase" "installPhase" ];
+          phases = [
+            "unpackPhase"
+            "installPhase"
+          ];
 
           nativeBuildInputs = [ pkgs.installShellFiles ];
 

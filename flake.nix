@@ -41,23 +41,23 @@
   };
 
   outputs =
-    { self
-    , nixpkgs
-    , home-manager
-    , nur
-    , mac-app-util
-    , nixgl
-    ,
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      nur,
+      mac-app-util,
+      nixgl,
     }:
     let
       mkHomeConfiguration =
         {
           # Platform (e.g. x86_64-linux)
-          system
-        , # Machine specific module setting
-          module ? { }
-        , # Color theme
-          theme ? ./themes/catppuccin
+          system,
+          # Machine specific module setting
+          module ? { },
+          # Color theme
+          theme ? ./themes/catppuccin,
         }:
         home-manager.lib.homeManagerConfiguration rec {
           pkgs = import nixpkgs {
@@ -74,13 +74,14 @@
             ];
           };
 
-          modules =
-            [
-              # Fix Home-Manager on MacOS cannot register GUI applications and Spotlight
-              # won't find those applications.
-              mac-app-util.homeManagerModules.default
-              ./features
-              ({ config, ... }: rec {
+          modules = [
+            # Fix Home-Manager on MacOS cannot register GUI applications and Spotlight
+            # won't find those applications.
+            mac-app-util.homeManagerModules.default
+            ./features
+            (
+              { config, ... }:
+              rec {
                 # Turn off Home Manager news bs
                 news.display = "silent";
 
@@ -135,10 +136,11 @@
                     ime.enable = true;
                   };
                 };
-              })
-              module
-              theme
-            ];
+              }
+            )
+            module
+            theme
+          ];
         };
 
       availableSystems = [
@@ -159,7 +161,10 @@
             nixGL.installScripts = [ "mesa" ];
 
             features.wayland-de.niri.outputs = [
-              { name = "HDMI-A-1"; scale = 1.4; }
+              {
+                name = "HDMI-A-1";
+                scale = 1.4;
+              }
             ];
           };
         };
@@ -209,28 +214,26 @@
       };
 
       devShell = builtins.listToAttrs (
-        builtins.map
-          (system:
-            let
-              pkgs = nixpkgs.legacyPackages.${system};
-            in
-            {
-              name = system;
-              value =
-                pkgs.mkShell {
-                  packages = with pkgs; [
-                    sunwait
-                    tzdata
-                    glib
-                    zig
-                    go
-                    dprint
-                    nixfmt-rfc-style
-                  ];
-                };
-            }
-          )
-          availableSystems
+        builtins.map (
+          system:
+          let
+            pkgs = nixpkgs.legacyPackages.${system};
+          in
+          {
+            name = system;
+            value = pkgs.mkShell {
+              packages = with pkgs; [
+                sunwait
+                tzdata
+                glib
+                zig
+                go
+                dprint
+                nixfmt-rfc-style
+              ];
+            };
+          }
+        ) availableSystems
       );
     };
 }

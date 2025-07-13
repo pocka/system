@@ -13,7 +13,12 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   cfg = config.features.scm-server;
 in
@@ -132,7 +137,7 @@ in
         Restart = "always";
         RestartSec = 1;
         ExecStart = "${pkgs.legit-web}/bin/legit --config=${config.xdg.configHome}/legit/config.yaml";
-        Environment = "PATH=$PATH:${lib.makeBinPath [pkgs.git] }";
+        Environment = "PATH=$PATH:${lib.makeBinPath [ pkgs.git ]}";
       };
 
       Install = {

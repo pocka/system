@@ -13,7 +13,12 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.features.wayland-de.niri;
 
@@ -32,16 +37,16 @@ let
     };
   };
 
-  serializeOutput = background-color: o:
-    ''
-      output "${o.name}" {
-        scale ${builtins.toString o.scale}
-        ${if background-color == null then "//no bg" else "background-color \"${background-color}\""}
+  serializeOutput = background-color: o: ''
+    output "${o.name}" {
+      scale ${builtins.toString o.scale}
+      ${
+        if background-color == null then "//no bg" else "background-color \"${background-color}\""
       }
-    '';
+    }
+  '';
 
-  serializeSpawnArg = a:
-    builtins.concatStringsSep " " (builtins.map (s: "\"${s}\"") a);
+  serializeSpawnArg = a: builtins.concatStringsSep " " (builtins.map (s: "\"${s}\"") a);
 in
 {
   options = {
@@ -96,7 +101,11 @@ in
         };
 
         center-focused-column = lib.mkOption {
-          type = lib.types.enum [ "never" "always" "on-overflow" ];
+          type = lib.types.enum [
+            "never"
+            "always"
+            "on-overflow"
+          ];
           description = ''
             When to center a column when changing focus, options are:
             - "never", default behavior, focusing an off-screen column will keep at the left
@@ -341,12 +350,16 @@ in
           }
         }
 
-        ${lib.strings.concatStringsSep "\n" (builtins.map (serializeOutput cfg.background-color) cfg.outputs)}
+        ${lib.strings.concatStringsSep "\n" (
+          builtins.map (serializeOutput cfg.background-color) cfg.outputs
+        )}
 
         overview {
-          ${if cfg.overview.backdrop-color != null
-            then "backdrop-color \"${cfg.overview.backdrop-color}\""
-            else "// No backdrop-color"
+          ${
+            if cfg.overview.backdrop-color != null then
+              "backdrop-color \"${cfg.overview.backdrop-color}\""
+            else
+              "// No backdrop-color"
           }
 
           workspace-shadow {
@@ -439,10 +452,12 @@ in
         }
 
         hotkey-overlay {
-          ${if cfg.hotkey-overlay.skip-at-startup then "" else "//" }skip-at-startup
+          ${if cfg.hotkey-overlay.skip-at-startup then "" else "//"}skip-at-startup
         }
 
-        ${builtins.concatStringsSep "\n" (builtins.map (a: "spawn-at-startup ${serializeSpawnArg a}") cfg.spawn-at-startup)}
+        ${builtins.concatStringsSep "\n" (
+          builtins.map (a: "spawn-at-startup ${serializeSpawnArg a}") cfg.spawn-at-startup
+        )}
 
         binds {
           Mod+Shift+Slash { show-hotkey-overlay; }

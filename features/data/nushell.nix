@@ -13,7 +13,12 @@
 #
 # SPDX-License-Identifier: 0BSD
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   config = lib.mkIf config.features.data.enable {
     programs.nushell = {
@@ -26,8 +31,7 @@
         }
       '';
 
-      envFile.text = ''
-      '';
+      envFile.text = '''';
     };
   };
 }
