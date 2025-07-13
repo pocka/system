@@ -208,15 +208,6 @@
         };
       };
 
-      formatter = builtins.listToAttrs (
-        builtins.map
-          (system: {
-            name = system;
-            value = nixpkgs.legacyPackages.${system}.nixpkgs-fmt;
-          })
-          availableSystems
-      );
-
       devShell = builtins.listToAttrs (
         builtins.map
           (system:
@@ -233,6 +224,8 @@
                     glib
                     zig
                     go
+                    dprint
+                    nixfmt-rfc-style
                   ];
                 };
             }
