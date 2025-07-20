@@ -62,31 +62,6 @@
         enable = true;
       };
 
-      # A modal text editor with insane selection -> action model.
-      helix = {
-        enable = true;
-
-        settings = {
-          theme = "base16_default";
-
-          editor = {
-            auto-pairs = false;
-
-            indent-guides = {
-              render = true;
-              skip-levels = 1;
-            };
-
-            file-picker = {
-              # Prevent file picker from ignoring dotfiles.
-              hidden = false;
-            };
-
-            auto-format = false;
-          };
-        };
-      };
-
       # A modern replacement for ls (fork of exa).
       # https://eza.rocks/
       eza = {

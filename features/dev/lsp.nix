@@ -329,25 +329,6 @@ in
           { plugin = luasnip; }
         ];
       };
-
-      helix = lib.mkIf config.programs.helix.enable {
-        settings = {
-          editor = {
-            lsp = {
-              snippets = false;
-            };
-          };
-        };
-
-        languages = {
-          language = [
-            {
-              name = "typescript";
-              roots = [ "tsconfig.json" ];
-            }
-          ];
-        };
-      };
     };
 
     home.packages = [
