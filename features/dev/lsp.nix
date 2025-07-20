@@ -337,7 +337,7 @@ in
     ];
 
     # zls, the Zig Language Server does not support LSP's initializationOptions
-    # but their own zig.json.
+    # but their own JSON config file.
     xdg.configFile."zls.json" = {
       enable = builtins.elem cfg.zig cfg.langs;
 
