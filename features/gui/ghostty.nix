@@ -27,10 +27,7 @@
       enableZshIntegration = true;
 
       package =
-        if pkgs.stdenv.isDarwin then
-          pkgs.nur.repos.DimitarNestorov.ghostty
-        else
-          config.lib.nixGL.wrap pkgs.ghostty;
+        if pkgs.stdenv.isDarwin then pkgs.ghostty-bin else config.lib.nixGL.wrap pkgs.ghostty;
 
       installBatSyntax = !pkgs.stdenv.isDarwin;
 

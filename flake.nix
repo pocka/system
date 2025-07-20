@@ -24,11 +24,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nur = {
-      url = "github:nix-community/NUR";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     mac-app-util = {
       url = "github:hraban/mac-app-util";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -45,7 +40,6 @@
       self,
       nixpkgs,
       home-manager,
-      nur,
       mac-app-util,
       nixgl,
     }:
@@ -63,7 +57,6 @@
           pkgs = import nixpkgs {
             inherit system;
             overlays = [
-              nur.overlays.default
               (import ./overlays/legit.nix)
               (import ./overlays/atkinson-hyperlegible-next.nix)
               # Local packages
