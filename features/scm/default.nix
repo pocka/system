@@ -78,7 +78,8 @@ in
           init = {
             defaultBranch = "master";
           };
-        } // difftasticConfig;
+        }
+        // difftasticConfig;
 
         ignores =
           let
