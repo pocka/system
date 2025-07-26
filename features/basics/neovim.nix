@@ -144,6 +144,57 @@
         plugins = with pkgs.vimPlugins; [
           plenary-nvim
           {
+            plugin = nvim-tree-lua;
+            type = "lua";
+            config = ''
+              vim.g.loaded_netrw = 1
+              vim.g.loaded_netrwPlugin = 1
+
+              vim.api.nvim_set_keymap("n", "<C-h>", ":NvimTreeToggle<cr>", {
+                silent = true,
+                noremap = true,
+              })
+
+              local function tree_on_attach(bufnr)
+                local api = require("nvim-tree.api")
+
+                local function opts(desc)
+                  return {
+                    desc = "nvim-tree: " .. desc,
+                    buffer = bufnr,
+                    noremap = true,
+                    silent = true,
+                    nowait = true,
+                  }
+                end
+
+                vim.keymap.set("n", "h", api.node.navigate.parent_close, opts("Close"))
+                vim.keymap.set("n", "l", api.node.open.edit, opts("Edit or open"))
+                vim.keymap.set("n", "oo", api.node.open.edit, opts("Open"))
+                vim.keymap.set("n", "oh", api.node.open.horizontal, opts("Horizontal split open"))
+                vim.keymap.set("n", "ov", api.node.open.vertical, opts("Vertical split open"))
+              end
+
+              require("nvim-tree").setup({
+                sort = {
+                  sorter = "case_sensitive",
+                },
+                on_attach = tree_on_attach,
+                git = {
+                  enable = false,
+                },
+              })
+
+              vim.api.nvim_create_autocmd("VimEnter", {
+                callback = function()
+                  require("nvim-tree.api").tree.toggle({
+                    focus = false,
+                  })
+                end
+              })
+            '';
+          }
+          {
             plugin = telescope-nvim;
             type = "lua";
             config = ''
