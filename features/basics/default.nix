@@ -62,6 +62,11 @@
         enable = true;
       };
 
+      fish = {
+        enable = true;
+        interactiveShellInit = builtins.readFile ./init.fish;
+      };
+
       # A modern replacement for ls (fork of exa).
       # https://eza.rocks/
       eza = {
