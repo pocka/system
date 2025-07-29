@@ -170,9 +170,17 @@
 
                 vim.keymap.set("n", "h", api.node.navigate.parent_close, opts("Close"))
                 vim.keymap.set("n", "l", api.node.open.edit, opts("Edit or open"))
-                vim.keymap.set("n", "oo", api.node.open.edit, opts("Open"))
-                vim.keymap.set("n", "oh", api.node.open.horizontal, opts("Horizontal split open"))
-                vim.keymap.set("n", "ov", api.node.open.vertical, opts("Vertical split open"))
+                vim.keymap.set("n", "o", api.node.open.edit, opts("Open"))
+                vim.keymap.set("n", "<CR>", api.node.open.edit, opts("Open"))
+                vim.keymap.set("n", "H", api.node.open.horizontal, opts("Horizontal split open"))
+                vim.keymap.set("n", "V", api.node.open.vertical, opts("Vertical split open"))
+
+                -- Modification key bindings, similar to ones of telescope-file-browser
+                vim.keymap.set("n", "y", api.fs.copy.node, opts("Copy"))
+                vim.keymap.set("n", "p", api.fs.paste, opts("Paste"))
+                vim.keymap.set("n", "r", api.fs.rename_full, opts("Rename"))
+                vim.keymap.set("n", "d", api.fs.remove, opts("Delete"))
+                vim.keymap.set("n", "c", api.fs.create, opts("Create"))
               end
 
               require("nvim-tree").setup({
