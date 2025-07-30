@@ -21,8 +21,8 @@
       enable = true;
 
       enableBashIntegration = false;
-      enableFishIntegration = false;
 
+      enableFishIntegration = true;
       enableNushellIntegration = true;
       enableZshIntegration = true;
 
