@@ -69,6 +69,7 @@ in
     services.gpg-agent = {
       enable = cfg.gpgSigningKeyId != null && pkgs.stdenv.isLinux;
 
+      enableFishIntegration = config.programs.fish.enable;
       enableZshIntegration = config.programs.zsh.enable;
 
       # 1day
