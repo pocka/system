@@ -21,16 +21,16 @@ require("ibl").setup({
 })
 
 -- Disable stupid fake indentations
-local hooks = require "ibl.hooks"
+local hooks = require("ibl.hooks")
 hooks.register(hooks.type.VIRTUAL_TEXT, function(_, bufnr, row, virt_text)
 	local cfg = require("ibl.config").get_config(bufnr)
 	local line = vim.api.nvim_buf_get_lines(bufnr, row, row + 1, false)[1]
-		if line == "" then
-			for _, v in ipairs(virt_text) do
-				if v[1] == cfg.indent.char then
-					v[1] = ""
-				end
+	if line == "" then
+		for _, v in ipairs(virt_text) do
+			if v[1] == cfg.indent.char then
+				v[1] = ""
 			end
 		end
-		return virt_text
+	end
+	return virt_text
 end)

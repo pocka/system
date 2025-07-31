@@ -48,7 +48,11 @@ require("lualine").setup({
 				c = { bg = lualine_colors.active_bg },
 			},
 			inactive = {
-				a = { fg = lualine_colors.inactive_fg, bg = lualine_colors.inactive_bg, gui = "bold" },
+				a = {
+					fg = lualine_colors.inactive_fg,
+					bg = lualine_colors.inactive_bg,
+					gui = "bold",
+				},
 				b = { fg = lualine_colors.inactive_fg, bg = lualine_colors.inactive_bg },
 				c = { fg = lualine_colors.inactive_fg, bg = lualine_colors.inactive_bg },
 			},

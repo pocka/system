@@ -32,51 +32,42 @@ vim.o.termguicolors = false
 vim.o.cursorline = true
 
 -- Theme
-vim.cmd[[highlight! Comment ctermfg=7 cterm=italic]]
-vim.cmd[[highlight! Constant ctermfg=1 cterm=NONE]]
-vim.cmd[[highlight! Statement ctermfg=1]]
-vim.cmd[[highlight! Special ctermfg=3]]
-vim.cmd[[highlight! Function ctermfg=NONE cterm=bold]]
-vim.cmd[[highlight! NonText ctermfg=0]]
-vim.cmd[[highlight! LineNr ctermfg=8]]
-vim.cmd[[highlight! CursorLineNr ctermfg=7 cterm=bold]]
-vim.cmd[[highlight! Directory ctermfg=4]]
-vim.cmd[[highlight! Type ctermfg=6]]
-vim.cmd[[highlight! Operator ctermfg=7]]
-vim.cmd[[highlight! Identifier ctermfg=NONE]]
-vim.cmd[[highlight! Delimiter ctermfg=7]]
-vim.cmd[[highlight! @tag ctermfg=NONE cterm=italic]]
-vim.cmd[[highlight! @tag.builtin ctermfg=7 cterm=bold]]
-vim.cmd[[highlight! Pmenu ctermfg=15 ctermbg=NONE cterm=reverse]]
-vim.cmd[[highlight! PmenuSel ctermfg=0 ctermbg=15 cterm=bold]]
-vim.cmd[[highlight! PmenuSbar ctermfg=NONE ctermbg=7 cterm=NONE]]
-vim.cmd[[highlight! PmenuThumb ctermfg=NONE ctermbg=8 cterm=NONE]]
+vim.cmd([[highlight! Comment ctermfg=7 cterm=italic]])
+vim.cmd([[highlight! Constant ctermfg=1 cterm=NONE]])
+vim.cmd([[highlight! Statement ctermfg=1]])
+vim.cmd([[highlight! Special ctermfg=3]])
+vim.cmd([[highlight! Function ctermfg=NONE cterm=bold]])
+vim.cmd([[highlight! NonText ctermfg=0]])
+vim.cmd([[highlight! LineNr ctermfg=8]])
+vim.cmd([[highlight! CursorLineNr ctermfg=7 cterm=bold]])
+vim.cmd([[highlight! Directory ctermfg=4]])
+vim.cmd([[highlight! Type ctermfg=6]])
+vim.cmd([[highlight! Operator ctermfg=7]])
+vim.cmd([[highlight! Identifier ctermfg=NONE]])
+vim.cmd([[highlight! Delimiter ctermfg=7]])
+vim.cmd([[highlight! @tag ctermfg=NONE cterm=italic]])
+vim.cmd([[highlight! @tag.builtin ctermfg=7 cterm=bold]])
+vim.cmd([[highlight! Pmenu ctermfg=15 ctermbg=NONE cterm=reverse]])
+vim.cmd([[highlight! PmenuSel ctermfg=0 ctermbg=15 cterm=bold]])
+vim.cmd([[highlight! PmenuSbar ctermfg=NONE ctermbg=7 cterm=NONE]])
+vim.cmd([[highlight! PmenuThumb ctermfg=NONE ctermbg=8 cterm=NONE]])
 
 -- Prevent stupid CSS "defaults" from registering hyphen as a keyword
-vim.api.nvim_create_autocmd(
-	"Filetype",
-	{
-		pattern = { "css", "astro" },
-		command = "setlocal iskeyword-=-",
-	}
-)
+vim.api.nvim_create_autocmd("Filetype", {
+	pattern = { "css", "astro" },
+	command = "setlocal iskeyword-=-",
+})
 
 -- Prevent stupid YAML "defaults" from increasing indent level on newline
-vim.api.nvim_create_autocmd(
-	"Filetype",
-	{
-		pattern = { "yaml" },
-		command = "setlocal indentkeys=",
-	}
-)
+vim.api.nvim_create_autocmd("Filetype", {
+	pattern = { "yaml" },
+	command = "setlocal indentkeys=",
+})
 
-vim.api.nvim_create_autocmd(
-	"FileType",
-	{
-		pattern = { "xml" },
-		command = "set indentexpr=",
-	}
-)
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "xml" },
+	command = "set indentexpr=",
+})
 
 vim.filetype.add({
 	extension = {
@@ -97,7 +88,7 @@ vim.g.zig_fmt_autosave = 0
 vim.g.markdown_recommended_style = 0
 
 -- Configure Telescope and its plugins
-require("telescope").setup {
+require("telescope").setup({
 	pickers = {
 		find_files = {
 			theme = "dropdown",
@@ -126,7 +117,6 @@ require("telescope").setup {
 				file_browser = true,
 				folder_browser = true,
 			},
-		}
-	}
-}
-
+		},
+	},
+})

@@ -13,7 +13,7 @@
 --
 -- SPDX-License-Identifier: 0BSD
 
-vim.keymap.set("n", "<leader>fs", ":Telescope file_browser<CR>");
+vim.keymap.set("n", "<leader>fs", ":Telescope file_browser<CR>")
 
 -- Open file browser on startup if no arguments provided
 vim.api.nvim_create_autocmd("VimEnter", {
