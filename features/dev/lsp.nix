@@ -231,50 +231,7 @@ in
           {
             plugin = mini-completion;
             type = "lua";
-            config = ''
-              require("mini.completion").setup({
-                window = {
-                  info = { border = "single" },
-                  signature = { border = "single" },
-                },
-                lsp_completion = {
-                  snippet_insert  = vim.snippet.expand,
-                },
-                fallback_action = function()
-                end,
-              })
-
-              -- from :h mini-completion
-              local imap_expr = function(lhs, rhs)
-                vim.keymap.set("i", lhs, rhs, { expr = true })
-              end
-              imap_expr("<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]])
-              imap_expr("<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]])
-
-              local keycode = vim.keycode or function(x)
-                return vim.api.nvim_replace_termcodes(x, true, true, true)
-              end
-              local keys = {
-                ['cr']        = keycode('<CR>'),
-                ['ctrl-y']    = keycode('<C-y>'),
-                ['ctrl-y_cr'] = keycode('<C-y><CR>'),
-              }
-
-              _G.cr_action = function()
-                if vim.fn.pumvisible() ~= 0 then
-                  -- If popup is visible, confirm selected item or add new line otherwise
-                  local item_selected = vim.fn.complete_info()['selected'] ~= -1
-                  return item_selected and keys['ctrl-y'] or keys['ctrl-y_cr']
-                else
-                  -- If popup is not visible, use plain `<CR>`. You might want to customize
-                  -- according to other plugins. For example, to use 'mini.pairs', replace
-                  -- next line with `return require('mini.pairs').cr()`
-                  return keys['cr']
-                end
-              end
-
-              vim.keymap.set('i', '<CR>', 'v:lua._G.cr_action()', { expr = true })
-            '';
+            config = builtins.readFile ./neovim/mini-completion.lua;
           }
           {
             plugin = nvim-lspconfig;
@@ -290,40 +247,7 @@ in
                 ''
               ]
               ++ (builtins.map lsToSetupStmt cfg.langs)
-              ++ [
-                ''
-                  -- [LSP]
-
-                  vim.api.nvim_create_autocmd("LspAttach", {
-                    group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-                    callback = function(ev)
-                      vim.keymap.set("n", "K", function()
-                        vim.lsp.buf.hover({ border = "rounded" })
-                      end, { buffer = ev.buf })
-                    end,
-                  })
-
-                  -- Rename
-                  -- <https://neovim.io/doc/user/lsp.html#vim.lsp.buf.rename()>
-                  vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, {})
-
-                  -- Highlight a token under a cursor
-                  -- <https://neovim.io/doc/user/lsp.html#vim.lsp.buf.document_highlight()>
-                  vim.keymap.set("n", "<leader>lh", function()
-                    -- Previous highlights need to be manually cleared.
-                    vim.lsp.buf.clear_references()
-                    vim.lsp.buf.document_highlight()
-                  end, {})
-
-                  -- Go to definition
-                  -- <https://neovim.io/doc/user/lsp.html#vim.lsp.buf.definition()>
-                  vim.keymap.set("n", "<leader>ld", vim.lsp.buf.definition, {})
-
-                  -- Clear LSP highlights
-                  -- <https://neovim.io/doc/user/lsp.html#vim.lsp.buf.clear_references()>
-                  vim.keymap.set("n", "<leader>lc", vim.lsp.buf.clear_references, {})
-                ''
-              ]
+              ++ [ (builtins.readFile ./neovim/lspconfig.lua) ]
             );
           }
           { plugin = luasnip; }
