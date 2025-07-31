@@ -22,6 +22,9 @@
 
         defaultEditor = true;
 
+        withPython3 = false;
+        withRuby = false;
+
         extraLuaConfig = ''
           -- Enable fast Lua module loader
           vim.loader.enable()
