@@ -59,6 +59,7 @@
               exec = "${pkgs.my-waybar-text}/bin/,waybar-text --trim-md-list ${config.xdg.dataHome}/todo.md";
               restart-interval = 10;
               return-type = "json";
+              escape = true;
             };
           };
         };
