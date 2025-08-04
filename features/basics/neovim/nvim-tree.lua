@@ -16,7 +16,7 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-vim.api.nvim_set_keymap("n", "<C-h>", ":NvimTreeToggle<cr>", {
+vim.api.nvim_set_keymap("n", "<C-h>", ":NvimTreeFindFileToggle<cr>", {
 	silent = true,
 	noremap = true,
 })
