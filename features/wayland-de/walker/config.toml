@@ -101,3 +101,23 @@ label = "Reboot"
 exec = "niri msg action power-off-monitors && swaylock"
 icon = "system-lock-screen"
 label = "Lock Screen"
+
+# Exclude bloat binaries, which package is installed as a dependency but
+# the package places binary instead of / in addition to library file.
+[[builtins.applications.blacklist]]
+regexp = "Avahi\\s.*"
+
+[[builtins.applications.blacklist]]
+regexp = "Electron\\s+\\d+"
+
+[[builtins.applications.blacklist]]
+regexp = "lstopo"
+
+[[builtins.applications.blacklist]]
+regexp = "Vifm"
+
+[[builtins.applications.blacklist]]
+regexp = "Vim"
+
+[[builtins.applications.blacklist]]
+regexp = "Qt\\s.*[Uu]tility"
