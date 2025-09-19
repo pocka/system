@@ -42,13 +42,7 @@
 
         # * "calt" ... Contextual Alternates
         #              This feature enables Monaspace's Texture healing.
-        # * "dlig" ... Discretionary Ligatures
-        #              This feature fucks up Japanese text rendering.
-        #              Enabled by default.
-        font-feature = [
-          "calt"
-          "-dlig"
-        ];
+        font-feature = [ "calt" ];
 
         copy-on-select = false;
 
