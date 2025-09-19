@@ -57,7 +57,12 @@ pub fn apply(allocator: std.mem.Allocator, variant: Variant) ApplyError!void {
     defer allocator.free(run_result.stderr);
 
     if (run_result.stderr.len > 0) {
-        std.io.getStdErr().writeAll(run_result.stderr) catch {};
+        var stdout_writer = std.fs.File.stderr().writer(&.{});
+        const stdout = &stdout_writer.interface;
+
+        stdout.writeAll(run_result.stderr) catch |err| {
+            std.log.err("Failed to write to stderr: {t}", .{err});
+        };
     }
 
     switch (run_result.term) {

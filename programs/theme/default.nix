@@ -15,13 +15,14 @@
 # SPDX-License-Identifier: Apache-2.0
 
 {
+  lib,
   glib,
   sunwait,
   tzdata,
   pkg-config,
   stdenvNoCC,
   installShellFiles,
-  zig_0_14,
+  zig,
 }:
 stdenvNoCC.mkDerivation rec {
   pname = "my-theme";
@@ -33,13 +34,21 @@ stdenvNoCC.mkDerivation rec {
   ];
   nativeBuildInputs = [
     pkg-config
-    zig_0_14.hook
+    zig.hook
     installShellFiles
   ];
 
   zigBuildFlags = [ "-Dtzdir=${tzdata}/share/zoneinfo" ];
 
-  src = ./.;
+  src =
+    with lib.fileset;
+    toSource {
+      root = ./.;
+      fileset = unions [
+        ./src
+        ./build.zig
+      ];
+    };
 
   meta = {
     mainProgram = ",theme";

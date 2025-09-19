@@ -47,11 +47,15 @@ pub fn build(b: *std.Build) !void {
         if (tzdir) |slice| try b.allocator.dupeZ(u8, slice) else null,
     );
 
-    const exe = b.addExecutable(.{
-        .name = ",theme",
+    const main = b.createModule(.{
         .root_source_file = b.path("src/main.zig"),
         .target = target,
         .optimize = optimize,
+    });
+
+    const exe = b.addExecutable(.{
+        .name = ",theme",
+        .root_module = main,
     });
 
     exe.root_module.addOptions("config", config);
@@ -77,9 +81,7 @@ pub fn build(b: *std.Build) !void {
         const step = b.step("test", "Run unit tests");
 
         const t = b.addTest(.{
-            .root_source_file = b.path("src/main.zig"),
-            .target = target,
-            .optimize = optimize,
+            .root_module = main,
         });
 
         t.linkLibC();

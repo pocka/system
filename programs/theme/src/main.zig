@@ -150,7 +150,9 @@ pub fn main() !u8 {
                 };
                 defer file.close();
 
-                var config_reader = std.json.reader(allocator, file.reader());
+                var read_buffer: [1024]u8 = undefined;
+                var file_reader = file.reader(&read_buffer);
+                var config_reader = std.json.Reader.init(allocator, &file_reader.interface);
                 defer config_reader.deinit();
                 const config = std.json.parseFromTokenSource(Config, allocator, &config_reader, .{}) catch |err| {
                     std.log.err("Unable to parse config file at {s}: {s}", .{ config_path, @errorName(err) });
