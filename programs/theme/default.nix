@@ -21,7 +21,7 @@
   pkg-config,
   stdenvNoCC,
   installShellFiles,
-  zig,
+  zig_0_14,
 }:
 stdenvNoCC.mkDerivation rec {
   pname = "my-theme";
@@ -33,7 +33,7 @@ stdenvNoCC.mkDerivation rec {
   ];
   nativeBuildInputs = [
     pkg-config
-    zig.hook
+    zig_0_14.hook
     installShellFiles
   ];
 

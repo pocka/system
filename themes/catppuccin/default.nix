@@ -258,7 +258,7 @@ in
         in
         {
           settings = {
-            theme = "light:catppuccin-latte-corrected,dark:catppuccin-${darkFlavor}";
+            theme = "light:catppuccin-latte-corrected,dark:Catppuccin ${lib.strings.toSentenceCase darkFlavor}";
           };
 
           themes.catppuccin-latte-corrected = {
