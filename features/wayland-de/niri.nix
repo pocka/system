@@ -461,7 +461,7 @@ in
 
         binds {
           Mod+Shift+Slash { show-hotkey-overlay; }
-          Mod+T { spawn "${config.lib.nixGL.wrap pkgs.ghostty}/bin/ghostty"; }
+          Mod+T { spawn "${config.lib.nixGL.wrap pkgs.ghostty}/bin/ghostty" "--working-directory=home"; }
           Mod+X { spawn "swaylock"; }
           Mod+Q { close-window; }
           Mod+Space { spawn "${pkgs.walker}/bin/walker" "--modules" "applications,commands,calc,power"; }
