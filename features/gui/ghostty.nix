@@ -69,7 +69,6 @@
               "ctrl+shift+n=new_window"
               "ctrl+shift+m=new_window"
             ];
-
       };
     };
   };
