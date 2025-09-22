@@ -14,14 +14,26 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-{ stdenvNoCC, zig }:
+{
+  stdenvNoCC,
+  lib,
+  zig,
+}:
 stdenvNoCC.mkDerivation rec {
   pname = "my-waybar-text";
   version = "1.0.0";
 
   nativeBuildInputs = [ zig.hook ];
 
-  src = ./.;
+  src =
+    with lib.fileset;
+    toSource {
+      root = ./.;
+      fileset = unions [
+        ./src
+        ./build.zig
+      ];
+    };
 
   meta = {
     mainProgram = ",waybar-text";
