@@ -21,18 +21,12 @@ pub const ModuleOutput = struct {
     tooltip: ?[]const u8 = null,
     class: ?[]const u8 = null,
 
-    const jsonStringifyOptions = std.json.StringifyOptions{
-        .emit_null_optional_fields = false,
-        .whitespace = .minified,
-    };
+    pub fn encode(self: *const @This(), writer: *std.Io.Writer) std.Io.Writer.Error!void {
+        var json_writer = std.json.Stringify{
+            .writer = writer,
+            .options = .{ .emit_null_optional_fields = false, .whitespace = .minified },
+        };
 
-    pub fn getEncodedSize(self: *const @This()) usize {
-        var cw = std.io.countingWriter(std.io.null_writer);
-        std.json.stringify(self, jsonStringifyOptions, cw.writer()) catch return 0;
-        return cw.bytes_written;
-    }
-
-    pub fn encode(self: *const @This(), writer: anytype) @TypeOf(writer).Error!void {
-        try std.json.stringify(self, jsonStringifyOptions, writer);
+        try json_writer.write(self);
     }
 };

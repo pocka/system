@@ -43,11 +43,17 @@ pub fn main() !u8 {
 
     const options = Options.init(allocator) catch |err| switch (err) {
         error.IncorrectUsage => {
-            try std.io.getStdErr().writeAll(Options.helpText);
+            var stderr = std.fs.File.stderr().writer(&.{});
+            const writer = &stderr.interface;
+
+            try writer.writeAll(Options.helpText);
             return ExitCode.incorrect_usage.to_u8();
         },
         error.ShowHelp => {
-            try std.io.getStdOut().writeAll(Options.helpText);
+            var stdout = std.fs.File.stdout().writer(&.{});
+            const writer = &stdout.interface;
+
+            try writer.writeAll(Options.helpText);
             return ExitCode.ok.to_u8();
         },
         error.OutOfMemory => {
@@ -94,7 +100,21 @@ fn print(allocator: std.mem.Allocator, opts: *const Options) !void {
     const file = try std.fs.openFileAbsolute(opts.file_path, .{});
     defer file.close();
 
-    const line = try file.reader().readUntilDelimiterAlloc(allocator, '\n', std.math.maxInt(usize));
+    // Most of my lines falls under 100 characters and do not contain
+    // non-ASCII range.
+    var file_buffer: [128]u8 = undefined;
+    var file_reader = file.reader(&file_buffer);
+    const reader = &file_reader.interface;
+
+    var line_writer = std.Io.Writer.Allocating.init(allocator);
+    defer line_writer.deinit();
+
+    _ = reader.streamDelimiter(&line_writer.writer, '\n') catch |err| switch (err) {
+        error.EndOfStream => {},
+        else => return err,
+    };
+
+    const line = try line_writer.toOwnedSlice();
     defer allocator.free(line);
 
     const line_trimmed: []const u8 = if (opts.trim_markdown_list_prefix) line_start: {
@@ -114,15 +134,13 @@ fn print(allocator: std.mem.Allocator, opts: *const Options) !void {
         .class = opts.class,
     };
 
-    const buffer = try allocator.alloc(u8, output.getEncodedSize() + 1);
-    defer allocator.free(buffer);
+    var output_buffer: [1024]u8 = undefined;
+    var output_writer = std.fs.File.stdout().writer(&output_buffer);
+    const writer = &output_writer.interface;
 
-    var fbs = std.io.fixedBufferStream(buffer);
-    const writer = fbs.writer();
     try output.encode(writer);
     try writer.writeByte('\n');
-
-    try std.io.getStdOut().writeAll(buffer);
+    try writer.flush();
 }
 
 const watch_flags = std.os.linux.IN.MODIFY | std.os.linux.IN.DELETE_SELF;
