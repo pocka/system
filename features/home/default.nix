@@ -81,5 +81,14 @@ in
           LC_ALL = cfg.locale;
         };
       };
+
+      nix = {
+        package = pkgs.nix;
+
+        extraOptions = ''
+          experimental-features = nix-command flakes
+          warn-dirty = false
+        '';
+      };
     };
 }
