@@ -61,14 +61,10 @@ in
         userName = config.features.identity.name;
         userEmail = config.features.identity.email;
 
-        signing =
-          if (config.features.identity.gpgSigningKeyId != null) then
-            {
-              key = config.features.identity.gpgSigningKeyId;
-              signByDefault = true;
-            }
-          else
-            null;
+        signing = lib.mkIf (config.features.identity.gpgSigningKeyId != null) {
+          key = config.features.identity.gpgSigningKeyId;
+          signByDefault = true;
+        };
 
         extraConfig = {
           core = {
