@@ -30,6 +30,11 @@
         plugins = with pkgs.vimPlugins; [
           plenary-nvim
           {
+            plugin = zen-mode-nvim;
+            type = "lua";
+            config = builtins.readFile ./neovim/zen-mode.lua;
+          }
+          {
             plugin = nvim-tree-lua;
             type = "lua";
             config = builtins.readFile ./neovim/nvim-tree.lua;
