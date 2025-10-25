@@ -44,6 +44,8 @@
 
       # https://www.brailleinstitute.org/freefont/
       pkgs.atkinson-hyperlegible-next
+
+      pkgs.plac
     ];
 
     home.sessionVariables = {

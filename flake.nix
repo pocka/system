@@ -33,6 +33,11 @@
       url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    plac = {
+      url = "git+https://codeberg.org/pocka/plac-for-gtk4.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -42,6 +47,7 @@
       home-manager,
       mac-app-util,
       nixgl,
+      plac,
     }:
     let
       mkHomeConfiguration =
@@ -63,6 +69,7 @@
               (final: prev: {
                 my-theme = prev.callPackage ./programs/theme { };
                 my-waybar-text = prev.callPackage ./programs/waybar-text { };
+                plac = plac.packages."${system}".default;
               })
             ];
           };
