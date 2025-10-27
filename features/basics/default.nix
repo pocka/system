@@ -40,6 +40,14 @@
       # A tool to fix `nix-shell` and `nix develop` forcibly use bash
       # https://github.com/MercuryTechnologies/nix-your-shell
       pkgs.nix-your-shell
+
+      # Spell checker
+      (pkgs.aspellWithDicts (
+        dicts: with dicts; [
+          en
+          en-computers
+        ]
+      ))
     ];
 
     home.file = {
