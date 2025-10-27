@@ -26,6 +26,16 @@ let
   cfg = config.features.dev;
 
   toml = pkgs.formats.toml { };
+
+  tsVala = pkgs.fetchgit {
+    url = "https://codeberg.org/pocka/tree-sitter-vala";
+    rev = "12617c612ae85c57041e90aef5a5bd088b1214d3";
+    hash = "sha256-/5sLNewYO12tS5yeVnZsNTAxmAgQY2QEfepgB7vrJMg=";
+  };
+
+  allGrammars = (
+    lib.filter (d: d.pname != "vala-grammar") pkgs.vimPlugins.nvim-treesitter.allGrammars
+  );
 in
 {
   options = {
@@ -45,7 +55,29 @@ in
       neovim = lib.mkIf config.programs.neovim.enable {
         plugins = with pkgs.vimPlugins; [
           {
-            plugin = nvim-treesitter.withAllGrammars;
+            plugin = nvim-treesitter.grammarToPlugin (
+              pkgs.tree-sitter.buildGrammar {
+                language = "vala";
+                version = "0.0.0+rev=10fb4b1";
+                src = tsVala;
+                meta.homepage = "https://codeberg.org/pocka/tree-sitter-vala";
+              }
+            );
+            type = "viml";
+
+            # Either nvim, Nix, or nvim-treesitter does bad job at runtime path resolving.
+            # So it includes nvim-treesitter's **hard-coded** query directory and registers
+            # that directory before this custom grammar plugin. Because of this incorrect
+            # runtimepath order, nvim-treesitter uses parser from the above grammar but reads
+            # its forcibly included query.
+            # As ~/.config/nvim is special directory and cannot "win" in load order, an
+            # another directory is needed.
+            config = ''
+              set rtp^=~/.config/nvim-treesitter-overrides
+            '';
+          }
+          {
+            plugin = nvim-treesitter.withPlugins (_: allGrammars);
 
             type = "lua";
 
@@ -76,6 +108,12 @@ in
         };
       };
     };
+
+    # Have to explicitly disable default highlight query.
+    # https://github.com/nvim-treesitter/nvim-treesitter/issues/3146
+    xdg.configFile."nvim-treesitter-overrides/queries/vala/highlights.scm" =
+      lib.mkIf cfg.enable
+        { source = tsVala + "/queries/highlights.scm"; };
 
     home.packages = lib.mkIf cfg.enable [
       # a structural diff tool that understands syntax
