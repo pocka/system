@@ -29,8 +29,8 @@ let
 
   tsVala = pkgs.fetchgit {
     url = "https://codeberg.org/pocka/tree-sitter-vala";
-    rev = "7ecfccabd1ea238a102367b47e227ad5377ad791";
-    hash = "sha256-7sHsMApjGEw6/Lcf6AH/4cmBCzruSugbqmqroxTGXLk=";
+    rev = "093d98428caa4a6fe8b873fb508b022b33fd7f48";
+    hash = "sha256-68CFO+SRkqJH8LwTbrxMbfkO2UaHtSnZhJvjKHPRs3E=";
   };
 
   allGrammars = (
@@ -58,7 +58,7 @@ in
             plugin = nvim-treesitter.grammarToPlugin (
               pkgs.tree-sitter.buildGrammar {
                 language = "vala";
-                version = "0.1.0";
+                version = "0.1.1";
                 src = tsVala;
                 meta.homepage = "https://codeberg.org/pocka/tree-sitter-vala";
               }
